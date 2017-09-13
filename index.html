@@ -11,10 +11,15 @@
     </style>
 </head>
 <body>
-
+<div style="text-align:center">
 <script type="text/javascript">
 
-var game = new Phaser.Game(450, 500, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var windowWidth = 450;
+var windowHeight = 525;
+
+var spawnZoneHeight = windowHeight - 60; // This prevents spawning mushrooms in the area where the player spawns
+
+var game = new Phaser.Game(windowWidth, windowHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -29,11 +34,16 @@ var player;
 var numLives = 3;
 
 var mushrooms;
+var numMushrooms = 25;
+
 var centipedes;
+var numCentipedeSections = 15;
 
 var movement;
 var fire;
-var bulletTime = 0;
+var bulletTime = 0; // Keep 0, this tracks the time since we fired our last bullet.
+var fireRate = 150;
+var maxBullets = 1;
 var bullet;
 
 var score = 0;
@@ -51,11 +61,10 @@ function create()
     mushrooms.enableBody = true; 
 	mushrooms.physicBodyType = Phaser.Physics.ARCADE;
 	
-	// Make and place 25 mushrooms in our safe zone.  Safe zone being the area below the score at the top and above where our player can move.
-	for (var i = 0; i<25; i++)
+	// Make and place numMushrooms mushrooms in our safe zone.  Safe zone being the area below the score at the top and above where our player can move.
+	for (var i = 0; i < numMushrooms; i++)
 	{
-	    var mushroom = mushrooms.create(game.world.randomX, Math.random() * 500, 'mushroom')// game.rnd.integerInRange(0, 36)); This extra parameter allows us to randomize which frame to spawn our mushroom on
-        //var mushroom = mushrooms.create(i * 8, i%8 * 8, 'mushroom');
+	    var mushroom = mushrooms.create(game.world.randomX, Math.random() * (spawnZoneHeight), 'mushroom')// game.rnd.integerInRange(0, 36)); This extra parameter allows us to randomize which frame to spawn our mushroom on
 		mushroom.body.immovable = true;
 	}
 	
@@ -64,7 +73,7 @@ function create()
     bullets.enableBody = true;
     bullets.physicsBodyType = Phaser.Physics.ARCADE;
 	
-    for (var i = 0; i < 10; i++) // Right now, we're only allowing 1 bullet on the screen at a time, as is the case in Centipede.
+    for (var i = 0; i < maxBullets; i++) // Right now, we're only allowing 1 bullet on the screen at a time, as is the case in Centipede.
     {
         var b = bullets.create(0, 0, 'bullet');
         b.name = 'bullet' + i;
@@ -190,7 +199,7 @@ function damageMushroom(bullet, mushroom)
 	}
 }
 
-// This finds one of our currently retired bullets from our group of bullets and sends it up the screen
+// This finds one of our currently "retired" bullets from our group of bullets and sends it up the screen
 function fireBullet () 
 {
     if (game.time.now > bulletTime)
@@ -201,7 +210,7 @@ function fireBullet ()
         {
             bullet.reset(player.x, player.y - 8);
             bullet.body.velocity.y = -300;
-            bulletTime = game.time.now + 150;
+            bulletTime = game.time.now + fireRate;
         }
     }
 
@@ -215,6 +224,7 @@ function resetBullet (bullet)
 
 
 </script>
+</div>
 
 </body>
 </html>
