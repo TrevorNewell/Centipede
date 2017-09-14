@@ -38,14 +38,15 @@ function preload() {
 	game.load.image('centipedeHead', 'assets/centipedeHead.png');
 	game.load.image('centipedeBody', 'assets/centipedeBody.png');
 	game.load.image('bullet', 'assets/newBullet.png');
+	game.load.image('border', 'assets/borderPixel.png');
 }
 
 var player;
 var numLives = 3;
-var playerMoveSpeed = 275*windowScale;
+var playerMoveSpeed = 225*windowScale;
 
 var mushrooms;
-var numMushrooms = 25;
+var numMushrooms = 30;
 
 var centipedes;
 var numCentipedeSections = 15;
@@ -74,8 +75,23 @@ function create()
 {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-	// Mushrooms
+	// These sprites are for our centipede to collide with the borders of our game and it allows us to call a method when it does happen.
+	borders = game.add.group();
+	borders.enableBody = true;
 	
+	var leftBorder = borders.create(-1,0, 'border');
+	leftBorder.body.immovable = true;
+	leftBorder.scale.setTo(1,windowHeight);
+	
+	var rightBorder = borders.create(windowWidth,0, 'border');
+	rightBorder.body.immovable = true;
+	rightBorder.scale.setTo(1,windowHeight);
+	
+	var bottomBorder = borders.create(0,windowHeight, 'border');
+	bottomBorder.body.immovable = true;
+	bottomBorder.scale.setTo(windowWidth,1);
+	
+	// Mushrooms
     mushrooms = game.add.group();
 	
 	// Enables physics for everything in our mushrooms group
@@ -97,6 +113,7 @@ function create()
 		mushroom.scale.setTo(scale, scale);
 	}
 	
+	
 	// Bullet
 	bullets = game.add.group();
     bullets.enableBody = true;
@@ -116,28 +133,51 @@ function create()
 		bullets.add(b);
     }
 	
+	
 	// Centipedes
 	centipedes = game.add.group();
 	centipedes.enableBody = true; 
 	centipedes.physicBodyType = Phaser.Physics.ARCADE;
 	
 	// Just the head of the centipede
-	var centipedeSection = game.add.sprite(centerLaneX, actualSpriteSize, 'centipedeHead');
-	centipedeSection.scale.setTo(scale, scale);
-	SetDirection(centipedeSection, 2);
-	centipedes.anchor.setTo(0.5, 0.5);
-	centipedes.add(centipedeSection);
+	var centipedeSection = game.add.sprite(centerLaneX, -actualSpriteSize, 'centipedeHead');
 	
+	centipedeSection.direction = 0;
+	centipedeSection.lastDirection = 0;
+	
+	centipedeSection.scale.setTo(scale, scale);
+	
+	// This makes the position of our sprite stay the same when rotated
+	centipedeSection.anchor.setTo(0.5, 0.5);
+	
+	centipedes.add(centipedeSection);
+	//centipedeSection.body.immovable = true;
+    game.physics.arcade.enable(centipedeSection);
+	
+	// Point Centipede down.  Prepared to enter the screen.
+	setDirection(centipedeSection, 2);
 	
 	// The body of the centipede
 	for (var i = 1; i < numCentipedeSections; i++)
 	{
-		var centipedeSection = game.add.sprite(centerLaneX, actualSpriteSize+(i*actualSpriteSize), 'centipedeBody');
+		var centipedeSection = game.add.sprite(centerLaneX, -actualSpriteSize-(i*actualSpriteSize), 'centipedeBody');
+		
+		centipedeSection.direction = 0;
+		centipedeSection.lastDirection = 0;
+		
 		centipedeSection.scale.setTo(scale, scale);
-		SetDirection(centipedeSection, 2);
+		
+		// This makes the position of our sprite stay the same when rotated
 		centipedeSection.anchor.setTo(0.5, 0.5);
+		
 		centipedes.add(centipedeSection);
+		//centipedeSection.body.immovable = true;
+		game.physics.arcade.enable(centipedeSection);
+		
+		// Point Centipede down.  Prepared to enter the screen.
+		setDirection(centipedeSection, 2);
 	}
+	
 	
     // The player and its settings
     player = game.add.sprite(centerLaneX, game.world.height - 25, 'player');
@@ -150,39 +190,34 @@ function create()
     //player.body.gravity.y = 0;
     player.body.collideWorldBounds = true;
 	
-	// Not sure if this is doing what I intended; It's not.  TO-DO: Set top bound of player
+	// TO-DO: Set top bound of player. Same as in the original centipede
 	//player.body.world.top = game.world.height - 60;
 
     //  The score
     scoreText = game.add.text(windowWidth*0.2, 4, '', { fontSize: '24px', fill: '#d00000', align: 'right' });
 	scoreText.text = "00";
-    //  Our controls.
+	
+    //  Our controls
     movement = game.input.keyboard.createCursorKeys();
 	fire = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
 
 function update() 
 {
-	
 	// Detect collisions
     game.physics.arcade.overlap(player, centipedes, killPlayer, null, this);
 	game.physics.arcade.overlap(bullets, centipedes, killCentipede, null, this);
     game.physics.arcade.overlap(bullets, mushrooms, damageMushroom, null, this);
-    game.physics.arcade.overlap(centipedes, mushrooms, turnCentipedeSection, null, this);
+    game.physics.arcade.collide(centipedes, mushrooms, turnCentipedeSection, null, this);
     game.physics.arcade.collide(player, mushrooms, stopMovement, null, this);
-	
+	game.physics.arcade.collide(centipedes, borders, turnCentipedeSection, null, this);
+
 	if (player.body.touching.none) resetMovement();
 	
-	UpdateMovement();
-	UpdateCentipedes();
+	updateMovement();
+	//updateCentipedes();
 	
 	if (fire.isDown) fireBullet();
-}
-
-function setDirection(centiSection, dirToSet)
-{
-	centiSection.direction = dirToSet;
-	centiSection.angle = dirToSet * 90
 }
 
 function resetMovement()
@@ -242,7 +277,8 @@ function stopMovement(player, mushroom)
 	
 	return false;
 }
-function UpdateMovement()
+
+function updateMovement()
 {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0; // We only have velocity if we are still pressing one of the keys
@@ -267,9 +303,55 @@ function UpdateMovement()
 	}
 }
 
-function UpdateCentipedes()
+function updateCentipedes()
 {
+	centipedes.forEachAlive(updateCentipedeSection, this, null);
+}
+
+function updateCentipedeSection(centipedeSection)
+{
+	//  Reset the centipedes velocity (movement)
+    centipedeSection.body.velocity.x = 0; 
+	centipedeSection.body.velocity.y = 0;
 	
+	// Special case for the centipede starting initially.  Turn left once they reach the 2nd lane from the top
+    if (centipedeSection.direction == 2 && centipedeSection.lastDirection != 3 && centipedeSection.position.y <= clampSize*2 && centipedeSection.position.y >= clampSize+clampSize/2)
+    {
+		centipedeSection.position.y = clampSize*2;
+        setDirection(centipedeSection, 3);
+    }
+	
+	// Moving Right
+    if (centipedeSection.direction == 1)
+    {
+        centipedeSection.body.velocity.x = centipedeMoveSpeed;
+    }
+	// Moving Left
+    else if (centipedeSection.direction == 3)
+    {
+        centipedeSection.body.velocity.x = -centipedeMoveSpeed;
+    }
+	// Moving Down
+	else if (centipedeSection.direction == 2)
+	{
+		centipedeSection.body.velocity.y = centipedeMoveSpeed;
+	}
+	// Moving Up
+	else if (centipedeSection.direction == 0)
+	{
+		centipedeSection.body.velocity.y = -centipedeMoveSpeed;
+	}
+}
+
+// dirToSet rotates the sprite in 90 degree increments.  0 = up. 1 = right. 2 = down. 3 = left.
+function setDirection(centiSection, dirToSet)
+{
+	centiSection.body.velocity.x = 0;
+	centiSection.body.velocity.y = 0;
+	
+	centiSection.lastDirection = centiSection.direction;
+	centiSection.direction = dirToSet;
+	centiSection.angle = dirToSet * 90
 }
 
 // Called when the centipede collides with the player
@@ -303,7 +385,7 @@ function killCentipede(bullet, centipedeSection)
 	// TO DO: Split Centipede
 }
 
-// Called when a centipede collides with a mushroom.  We need to turn the one section.
+// Called when a centipede collides with a mushroom.  We need to turn the one section.  //"mushroom" can potentially be a border.  Right now I'm treating the borders as mushrooms to hopefully simplify collision detection and logic for turning the centipede
 function turnCentipedeSection(centipedeSection, mushroom)
 {
 	// TO-DO
