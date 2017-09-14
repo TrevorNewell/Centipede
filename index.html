@@ -157,6 +157,7 @@ function create()
 	// Point Centipede down.  Prepared to enter the screen.
 	setDirection(centipedeSection, 2);
 	
+	/*
 	// The body of the centipede
 	for (var i = 1; i < numCentipedeSections; i++)
 	{
@@ -177,7 +178,7 @@ function create()
 		// Point Centipede down.  Prepared to enter the screen.
 		setDirection(centipedeSection, 2);
 	}
-	
+	*/
 	
     // The player and its settings
     player = game.add.sprite(centerLaneX, game.world.height - 25, 'player');
@@ -345,18 +346,23 @@ function updateCentipedeSection(centipedeSection)
 // Called when a centipede collides with a mushroom.  We need to turn the one section.  //"mushroom" can potentially be a border.  Right now I'm treating the borders as mushrooms to hopefully simplify collision detection and logic for turning the centipede
 function turnCentipedeSection(thisCentipedeSection, mushroom)
 {
+	console.log(thisCentipedeSection.direction + " " + thisCentipedeSection.lastDirection);
+	// Headed down.  We turned left last.
 	if (thisCentipedeSection.direction == 2 && thisCentipedeSection.body.touching.bottom && thisCentipedeSection.lastDirection == 1)
 	{
 		setDirection(thisCentipedeSection, 3);
 	}
+	// Headed down.  We turned right last.
 	else if (thisCentipedeSection.direction == 2 && thisCentipedeSection.body.touching.bottom && thisCentipedeSection.lastDirection == 3)
 	{
 		setDirection(thisCentipedeSection, 1);
 	}
+	// Headed right.  We were headed down last
 	else if (thisCentipedeSection.direction == 1 && thisCentipedeSection.body.touching.right && thisCentipedeSection.lastDirection == 2)
 	{
 		setDirection(thisCentipedeSection, 2);
 	}
+	// Headed left.  We were headed down last.
 	else if (thisCentipedeSection.direction == 3 && thisCentipedeSection.body.touching.left && thisCentipedeSection.lastDirection == 2)
 	{
 		setDirection(thisCentipedeSection, 2);
