@@ -124,14 +124,19 @@ function create()
 	// Just the head of the centipede
 	var centipedeSection = game.add.sprite(centerLaneX, actualSpriteSize, 'centipedeHead');
 	centipedeSection.scale.setTo(scale, scale);
+	SetDirection(centipedeSection, 2);
+	centipedes.anchor.setTo(0.5, 0.5);
 	centipedes.add(centipedeSection);
+	
 	
 	// The body of the centipede
 	for (var i = 1; i < numCentipedeSections; i++)
 	{
 		var centipedeSection = game.add.sprite(centerLaneX, actualSpriteSize+(i*actualSpriteSize), 'centipedeBody');
-		centipedes.add(centipedeSection);
 		centipedeSection.scale.setTo(scale, scale);
+		SetDirection(centipedeSection, 2);
+		centipedeSection.anchor.setTo(0.5, 0.5);
+		centipedes.add(centipedeSection);
 	}
 	
     // The player and its settings
@@ -172,6 +177,12 @@ function update()
 	UpdateCentipedes();
 	
 	if (fire.isDown) fireBullet();
+}
+
+function setDirection(centiSection, dirToSet)
+{
+	centiSection.direction = dirToSet;
+	centiSection.angle = dirToSet * 90
 }
 
 function resetMovement()
