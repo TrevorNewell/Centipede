@@ -8,23 +8,25 @@ Centipede.Boundary = function (game) {
 	this.rightBorder = null;
 	this.bottomBorder = null;
 
+	return this;
+
 }
 
 Centipede.Boundary.prototype = {
 
 	initialize: function () {
 
-		this.leftBorder = this.boundary.create(-1,0, 'this.boundary');
-		this.leftBorder.body.immovable = true;
-		this.leftBorder.scale.setTo(1,Centipede.windowHeight);
+		//this.leftBorder = this.boundary.create(-1,0, 'border');
+		//this.leftBorder.body.immovable = true;
+		//this.leftBorder.scale.setTo(1,Centipede.windowHeight);
 		
-		this.rightBorder = this.boundary.create(Centipede.windowWidth,0, 'this.boundary');
-		this.rightBorder.body.immovable = true;
-		this.rightBorder.scale.setTo(1,Centipede.windowHeight);
+		//this.rightBorder = this.boundary.create(Centipede.windowWidth,0, 'border');
+		//this.rightBorder.body.immovable = true;
+		//this.rightBorder.scale.setTo(1,Centipede.windowHeight);
 		
-		this.bottomBorder = this.boundary.create(0,Centipede.windowHeight, 'this.boundary');
-		this.bottomBorder.body.immovable = true;
-		this.bottomBorder.scale.setTo(Centipede.windowHeight,1);
+		//this.bottomBorder = this.boundary.create(0,Centipede.windowHeight, 'border');
+		//this.bottomBorder.body.immovable = true;
+		//this.bottomBorder.scale.setTo(Centipede.windowHeight,1);
 
 	}
 

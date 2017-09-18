@@ -1,10 +1,15 @@
-Centipede.Player = function (game, movement) {
+Centipede.Player = function (game, movement, obstacles) {
 	
 	this.game = game;
+	
 	this.movement = movement;
 
 	this.player = null;
 	this.playerMoveSpeed = 225*Centipede.windowScale;
+
+	this.obstacles = obstacles;
+
+	return this;
 
 };
 
@@ -19,7 +24,7 @@ Centipede.Player.prototype = {
 
 		//  We need to enable physics on the player
     	this.game.physics.arcade.enable(this.player);
-    	
+
     	this.player.body.collideWorldBounds = true;
 	},
 
@@ -46,6 +51,8 @@ Centipede.Player.prototype = {
 		{
 			this.player.body.velocity.y = this.playerMoveSpeed;
 		}
+
+		this.game.physics.arcade.collide(this.player, this.obstacles);
 	}
 };
 
