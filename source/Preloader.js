@@ -6,8 +6,6 @@ Centipede.Preloader.prototype = {
 
 	preload: function () {
 
-	var spriteSize = 8;
-
 	this.load.image('player', 'assets/player.png'); //Player object
 	this.load.spritesheet('obstacle', 'assets/obstacle.png', Centipede.spriteSize, Centipede.spriteSize); //Obstacle Class
 	this.load.image('centipedeHead', 'assets/centipedeHead.png'); //Centipede Class
