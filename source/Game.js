@@ -34,7 +34,8 @@ Centipede.Game.prototype = {
 		this.player = new Centipede.Player(this.game, this.movement, this.obstacles.returnObstaclePositions());
 		this.player.initialize();
 
-		this.bullets = new Centipede.Bullet(this.game, this.fire, this.obstacles, this.maxBullets);
+		this.bullets = new Centipede.Bullet(this.game, this.fire, this.obstacles.returnObstaclePositions(), this.player.returnPlayer(), this.maxBullets);
+		this.bullets.initialize();
 	},
 
 	update: function () {

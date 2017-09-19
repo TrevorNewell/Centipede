@@ -53,6 +53,11 @@ Centipede.Player.prototype = {
 		}
 
 		this.game.physics.arcade.collide(this.player, this.obstacles);
+	},
+	
+	returnPlayer : function()
+	{
+		return this.player;
 	}
 };
 

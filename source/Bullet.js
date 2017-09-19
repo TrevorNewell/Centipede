@@ -1,10 +1,10 @@
-Centipede.Bullet = function (game, fire, obstacles, maxBullets) {
+Centipede.Bullet = function (game, fire, obstacles, player, maxBullets) {
 	
 	this.game = game;
 	
 	this.fire = fire;
 
-	this.player = null;
+	this.player = player;
 
 	this.obstacles = obstacles;
 
@@ -29,7 +29,7 @@ Centipede.Bullet.prototype = {
 	initialize : function () {
 	    for (var i = 0; i < this.maxBullets; i++) // Right now, we're only allowing 1 bullet on the screen at a time, as is the case in Centipede.
 	    {
-	        var b = game.add.sprite(0, 0, 'bullet');
+	        var b = this.game.add.sprite(0, 0, 'bullet');
 	        b.name = 'bullet' + i;
 	        b.exists = false;
 	        b.visible = false;
@@ -48,8 +48,6 @@ Centipede.Bullet.prototype = {
 			this.fireBullet();
 
 		this.game.physics.arcade.overlap(this.bullets, this.obstacles, this.damageObstacle, null, this);
-
-	    
 	},
 
 
@@ -72,16 +70,16 @@ Centipede.Bullet.prototype = {
 	    
 	},
 
-	resetBullet : function () {
+	resetBullet : function (b) {
 
-		this.singleBullet.kill();
+		b.kill();
 		console.log('test4');
 	    
 	},
 
-	damageObstacle : function (obstacle) {
+	damageObstacle : function (b, obstacle) {
 
-		this.singleBullet.kill();
+		b.kill();
 		var temp = obstacle.frame + 1;
 		obstacle.frame = temp;
 
@@ -94,6 +92,11 @@ Centipede.Bullet.prototype = {
 			obstacle.kill();
 		}
 	    
+	},
+	
+	returnBullets : function ()
+	{
+		return this.bullets;
 	}
 };
 
