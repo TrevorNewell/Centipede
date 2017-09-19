@@ -23,7 +23,7 @@ var numLanes = 30;  // How many "lanes" do we have on our screen? The original c
 var clampSize = windowWidth/numLanes; // How wide and how tall is a "lane"?
 var scale = clampSize/spriteSize;
 
-var centerLaneX = (windowWidth/2 - (windowWidth/2)%clampSize)
+var centerLaneX = ((windowWidth/2) - (windowWidth/2)%clampSize)
 
 var actualSpriteSize = spriteSize*scale;
 
@@ -43,14 +43,14 @@ function preload() {
 
 var player;
 var numLives = 3;
-var playerMoveSpeed = 225*windowScale;
+var playerMoveSpeed = 230*windowScale;
 
 var mushrooms;
 var numMushrooms = 30;
 
 var centipedes;
 var numCentipedeSections = 15;
-var centipedeMoveSpeed = 275*windowScale;
+var centipedeMoveSpeed = 280*windowScale;
 
 // Variables that hold events for arrow key presses and spacebar presses
 var movement;
@@ -142,9 +142,11 @@ function create()
 	// Just the head of the centipede
 	var centipedeSection = game.add.sprite(centerLaneX, -actualSpriteSize, 'centipedeHead');
 	
-	centipedeSection.direction = 0;
-	centipedeSection.lastDirection = 0;
-	
+	centipedeSection.direction = 2;
+	centipedeSection.lastDirection = 1;
+	centipedeSection.xLane = numLanes/2;
+	centipedeSection.yLane = -1;
+	centipedeSection.hasEntered = false;
 	centipedeSection.scale.setTo(scale, scale);
 	
 	// This makes the position of our sprite stay the same when rotated
@@ -162,22 +164,24 @@ function create()
 	{
 		var centipedeSection = game.add.sprite(centerLaneX, -actualSpriteSize-(i*actualSpriteSize), 'centipedeBody');
 		
-		centipedeSection.direction = 0;
-		centipedeSection.lastDirection = 0;
-		
+		centipedeSection.direction = 2;
+		centipedeSection.lastDirection = 1;
+		centipedeSection.xLane = numLanes/2;
+		centipedeSection.yLane = -1;
+		centipedeSection.hasEntered = false;
 		centipedeSection.scale.setTo(scale, scale);
 		
 		// This makes the position of our sprite stay the same when rotated
 		centipedeSection.anchor.setTo(0.5, 0.5);
 		
-		centipedes.add(centipedeSection);
 		//centipedeSection.body.immovable = true;
 		game.physics.arcade.enable(centipedeSection);
 		
 		// Point Centipede down.  Prepared to enter the screen.
 		setDirection(centipedeSection, 2);
+		
+		centipedes.add(centipedeSection);
 	}
-	
 	
     // The player and its settings
     player = game.add.sprite(centerLaneX, game.world.height - 25, 'player');
@@ -215,7 +219,7 @@ function update()
 	if (player.body.touching.none) resetMovement();
 	
 	updateMovement();
-	//updateCentipedes();
+	updateCentipedes();
 	
 	if (fire.isDown) fireBullet();
 }
@@ -315,12 +319,23 @@ function updateCentipedeSection(centipedeSection)
 	centipedeSection.body.velocity.y = 0;
 	
 	// Special case for the centipede starting initially.  Turn left once they reach the 2nd lane from the top
-    if (centipedeSection.direction == 2 && centipedeSection.lastDirection != 3 && centipedeSection.position.y <= clampSize*2 && centipedeSection.position.y >= clampSize+clampSize/2)
-    {
-		centipedeSection.position.y = clampSize*2;
-        setDirection(centipedeSection, 3);
-    }
+	if (centipedeSection.direction == 2 && centipedeSection.body.position.y >= (3) * clampSize && !centipedeSection.hasEntered)
+	{
+		centipedeSection.hasEntered = true;
+		
+		centipedeSection.yLane = 3;
+		centipedeSection.body.position.y = (centipedeSection.yLane)*clampSize;
+		setDirection(centipedeSection, 3);
+		
+		return;
+	}
+	else if (!centipedeSection.hasEntered)
+	{
+		centipedeSection.body.velocity.y = centipedeMoveSpeed;
+		return;
+	}
 	
+	console.log(centipedeSection.yLane);
 	// Moving Right
     if (centipedeSection.direction == 1)
     {
@@ -335,6 +350,13 @@ function updateCentipedeSection(centipedeSection)
 	else if (centipedeSection.direction == 2)
 	{
 		centipedeSection.body.velocity.y = centipedeMoveSpeed;
+		if (centipedeSection.body.position.y >= (centipedeSection.yLane+1) * clampSize)
+		{
+			centipedeSection.yLane += 1;
+			centipedeSection.body.position.y = (centipedeSection.yLane)*clampSize;
+			if (centipedeSection.lastDirection == 1) setDirection(centipedeSection, 3);
+			else if (centipedeSection.lastDirection == 3) setDirection(centipedeSection, 1);
+		}
 	}
 	// Moving Up
 	else if (centipedeSection.direction == 0)
@@ -351,7 +373,11 @@ function setDirection(centiSection, dirToSet)
 	
 	centiSection.lastDirection = centiSection.direction;
 	centiSection.direction = dirToSet;
-	centiSection.angle = dirToSet * 90
+	centiSection.angle = dirToSet * 90;
+	
+	if (dirToSet == 2) centiSection.xLane = (centiSection.body.position.x/clampSize) - (centiSection.body.position.x%clampSize);
+	
+	// If we set our direction to down, we need to move left or right after we get to yLane+1 depending on our lastDirection.
 }
 
 // Called when the centipede collides with the player
@@ -379,16 +405,35 @@ function killCentipede(bullet, centipedeSection)
 	bullet.kill();
 	centipedeSection.kill();
 	
+	// Add mushroom here
+	
 	score += 10;
 	scoreText.text = score;
-	
-	// TO DO: Split Centipede
 }
 
 // Called when a centipede collides with a mushroom.  We need to turn the one section.  //"mushroom" can potentially be a border.  Right now I'm treating the borders as mushrooms to hopefully simplify collision detection and logic for turning the centipede
 function turnCentipedeSection(centipedeSection, mushroom)
 {
-	// TO-DO
+	if (centipedeSection.direction == 1 && mushroom.body.touching.left && centipedeSection.lastDirection == 2)
+	{
+		setDirection(centipedeSection, 2);
+	}
+	else if (centipedeSection.direction == 3 && mushroom.body.touching.right && centipedeSection.lastDirection == 2)
+	{
+		setDirection(centipedeSection, 2);
+	}
+	else if (centipedeSection.direction == 2 && mushroom.body.touching.up && centipedeSection.lastDirection == 1)
+	{
+		setDirection(centipedeSection, 3);
+	}
+	else if (centipedeSection.direction == 2 && mushroom.body.touching.up && centipedeSection.lastDirection == 3)
+	{
+		setDirection(centipedeSection, 1);
+	}
+	else if (centipedeSection.direction == 0 && mushroom.body.touching.bottom)
+	{
+		setDirection(centipedeSection, 3);
+	}
 }
 
 // Called when a bullet collides with a mushroom
