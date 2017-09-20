@@ -3,8 +3,8 @@ Centipede = {};
 /* Here we've just got some global level vars that persist regardless of State swaps */
 
 Centipede.windowScale = 1.0;
-Centipede.windowWidth = 475.0*Centipede.windowScale;
-Centipede.windowHeight = 515.0*Centipede.windowScale;
+Centipede.windowWidth = 640.0*Centipede.windowScale;
+Centipede.windowHeight = 640.0*Centipede.windowScale;
 
 Centipede.spriteSize = 8;
 	
