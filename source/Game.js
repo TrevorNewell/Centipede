@@ -1,52 +1,50 @@
-Centipede.Game = function (game) {
-
-	this.boundary = null;
+Centipede.Game = function (game) 
+{
 
 	this.player = null;
 
-	this.obstacles = null;
 	this.numObstacles = 30;
 
-	//  Our controls
-    this.movement = null;
-
+    this.movement = null;       
     this.fire = null;
+    
     this.maxBullets = 1;
 
     this.level = null;
 
 };
 
-Centipede.Game.prototype = {
+Centipede.Game.prototype = 
+{
 
-	create: function () {
-		//this.movement = this.input.keyboard.createCursorKeys();
-		//this.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+	create: function () 
+	{
+		this.movement = this.input.keyboard.createCursorKeys();
+		this.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	    
 	    //Initializes a Phaser Physics World with Arcade Physics
-	   // this.physics.startSystem(Phaser.Physics.ARCADE);
+	    this.physics.startSystem(Phaser.Physics.ARCADE);
 
 		// //Creates the "Boundary"
 		// this.boundary = new Centipede.Boundary(this.game);
 		// this.boundary.initialize();
 
-		// this.obstacles = new Centipede.Obstacle(this.game, this.numObstacles);
-		// this.obstacles.initialize();
-
-		// this.player = new Centipede.Player(this.game, this.movement, this.obstacles.returnObstaclePositions());
-		// this.player.initialize();
-
-		// this.bullets = new Centipede.Bullet(this.game, this.fire, this.obstacles.returnObstaclePositions(), this.player.returnPlayer(), this.maxBullets);
-		// this.bullets.initialize();
-
-		this.level = new Centipede.Level(this.game);
+		this.level = new Centipede.Level(this.game, this.numObstacles);
 		this.level.initialize();
+		this.level.randomizeMap();
+
+		this.player = new Centipede.Player(this.game, this.movement, this.level.returnLevel(), this.level.returnLevelLayout());
+		this.player.initialize();
+
+		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets);
+		this.bullets.initialize();
+
 	},
 
-	update: function () {
-        
-        // this.player.update();
-        // this.bullets.update();
+	update: function () 
+	{    
+        this.player.update();
+        this.bullets.update();
 	}
 };
 

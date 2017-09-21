@@ -1,26 +1,24 @@
-Centipede.Player = function (game, movement, obstacles) {
+Centipede.Player = function (game, movement, map, layout) 
+{
 	
 	this.game = game;
-	
 	this.movement = movement;
-
+	this.map = map;
+	this.layout = layout;
+	
 	this.player = null;
-	this.playerMoveSpeed = 225*Centipede.windowScale;
-
-	this.obstacles = obstacles;
-
+	
 	return this;
-
 };
 
-Centipede.Player.prototype = {
+Centipede.Player.prototype = 
+{
 
 	initialize: function () {
 
 		// The player and its settings
-    	this.player = this.game.add.sprite(Centipede.centerLaneX, this.game.world.height - 25, 'player');
-		//this.player.scale.setTo(Centipede.scale, Centipede.scale);
-		this.player.scale.setTo(2, 2);
+    	this.player = this.game.add.sprite(0, 0, 'player');
+    	this.player.anchor.set(0.5);
 
 		//  We need to enable physics on the player
     	this.game.physics.arcade.enable(this.player);
@@ -29,30 +27,34 @@ Centipede.Player.prototype = {
 	},
 
 
-	update: function () {
+	update: function () 
+	{
 	    //  Reset the players velocity (movement)
 	    this.player.body.velocity.x = 0; // We only have velocity if we are still pressing one of the keys
 		this.player.body.velocity.y = 0;
 		
 	    if (this.movement.left.isDown)
 	    {
-	        this.player.body.velocity.x = -this.playerMoveSpeed;
+	        this.player.body.velocity.x = -Centipede.playerMoveSpeed;
+	        this.player.angle = 180;
 	    }
 	    else if (this.movement.right.isDown)
 	    {
-	        this.player.body.velocity.x = this.playerMoveSpeed;
+	        this.player.body.velocity.x = Centipede.playerMoveSpeed;
+	        this.player.angle = 0;
 	    }
-		
-		if (this.movement.up.isDown)
+		else if (this.movement.up.isDown)
 		{
-			this.player.body.velocity.y = -this.playerMoveSpeed;
+			this.player.body.velocity.y = -Centipede.playerMoveSpeed;
+			this.player.angle = 270;
 		}
 		else if (this.movement.down.isDown)
 		{
-			this.player.body.velocity.y = this.playerMoveSpeed;
+			this.player.body.velocity.y = Centipede.playerMoveSpeed;
+			this.player.angle = 90;
 		}
 
-		this.game.physics.arcade.collide(this.player, this.obstacles);
+		this.game.physics.arcade.collide(this.player, this.layout);
 	},
 	
 	returnPlayer : function()

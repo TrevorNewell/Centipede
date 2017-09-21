@@ -1,4 +1,5 @@
-Centipede.Boundary = function (game) {
+Centipede.Boundary = function (game) 
+{
 	
 	this.game = game;
 	this.boundary = this.game.add.group();
@@ -12,9 +13,11 @@ Centipede.Boundary = function (game) {
 
 }
 
-Centipede.Boundary.prototype = {
+Centipede.Boundary.prototype = 
+{
 
-	initialize: function () {
+	initialize: function () 
+	{
 
 		//this.leftBorder = this.boundary.create(-1,0, 'border');
 		//this.leftBorder.body.immovable = true;

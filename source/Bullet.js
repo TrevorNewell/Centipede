@@ -1,17 +1,12 @@
-Centipede.Bullet = function (game, fire, obstacles, player, maxBullets) {
+
+Centipede.Bullet = function (game, fire, map, layout, player, maxBullets) 
+{
 	
 	this.game = game;
-	
 	this.fire = fire;
-
 	this.player = player;
-
-	this.obstacles = obstacles;
-
-	this.bullets = this.game.add.group();
-	this.bullets.enableBody = true;
-    this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-
+	this.map = map;
+	this.layout = layout;
     this.maxBullets = maxBullets;
 
     this.bulletSpeed = 600;
@@ -20,83 +15,67 @@ Centipede.Bullet = function (game, fire, obstacles, player, maxBullets) {
 
 	this.singleBullet = null;
 
+	this.weapon = null;
+
 	return this;
 
 };
 
-Centipede.Bullet.prototype = {
+Centipede.Bullet.prototype = 
+{
 
-	initialize : function () {
-	    for (var i = 0; i < this.maxBullets; i++) // Right now, we're only allowing 1 bullet on the screen at a time, as is the case in Centipede.
-	    {
-	        var b = this.game.add.sprite(0, 0, 'bullet');
-	        b.name = 'bullet' + i;
-	        b.exists = false;
-	        b.visible = false;
-	        b.checkWorldBounds = true;
-	        b.events.onOutOfBounds.add(this.resetBullet, this);
-			
-			b.scale.setTo(Centipede.scale, Centipede.scale);
-			
-			this.bullets.add(b);
-	    }
+	initialize : function () 
+	{
+	  
+	    //   Init weapon group and fill it with maxBullets
+	    this.weapon = this.game.add.weapon(this.maxBullets, 'bullet');
+
+	     //  The bullet will be automatically killed when it leaves the world bounds
+        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+
+        //  Because our bullet is drawn facing up, we need to offset its rotation:
+        this.weapon.bulletAngleOffset = 90;
+
+        //Scaling the bullet size
+        this.weapon.bullets.forEach((bullet) => {
+		  bullet.body.updateBounds(); //To avoid scaling bug with physics
+		  }, this);
+
+        //  The speed at which the bullet is fired
+        this.weapon.bulletSpeed = this.bulletSpeed;
+
+        //  Tell the Weapon to track the 'player' Sprite
+        this.weapon.trackSprite(this.player, 15, 0, true);
+
 	},
 
-	update : function () {
+	update : function () 
+	{
 
-		if(this.fire.isDown)
-			this.fireBullet();
+		if(this.fire.isDown)     
+			this.weapon.fire();
 
-		this.game.physics.arcade.overlap(this.bullets, this.obstacles, this.damageObstacle, null, this);
+		this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);
 	},
 
+	damageObstacle : function (bullet, tile) 
+	{
 
-	fireBullet : function () {
-		
-		console.log('test1');
-		if (this.game.time.now > this.bulletTime)
-    	{
-        	console.log('test2');
-        	this.singleBullet = this.bullets.getFirstExists(false);
-        	
-        	if (this.singleBullet)
-        	{
-            	console.log('test3');
-            	this.singleBullet.reset(this.player.x+(Centipede.actualSpriteSize/2), this.player.y - 8);
-            	this.singleBullet.body.velocity.y = -this.bulletSpeed;
-            	bulletTime = this.game.time.now + this.fireRate;
-        	}
-    	}
-	    
-	},
+		bullet.kill();
 
-	resetBullet : function (b) {
+		var posX = tile.x;
+		var posY = tile.y;
+		var index = tile.index
+		var layer = tile.layer
 
-		b.kill();
-		console.log('test4');
-	    
-	},
+		tile.destroy();
 
-	damageObstacle : function (b, obstacle) {
-
-		b.kill();
-		var temp = obstacle.frame + 1;
-		obstacle.frame = temp;
-
-		console.log('test5');
-
-		if (temp > 3)
-		{
-			//score += 1;
-			//scoreText.text = score;
-			obstacle.kill();
-		}
-	    
+		this.map.putTile(index+1,posX,posY,this.layer);	    
 	},
 	
 	returnBullets : function ()
 	{
-		return this.bullets;
+		return this.weapon.bullets;
 	}
 };
 
