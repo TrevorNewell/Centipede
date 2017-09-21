@@ -21,7 +21,6 @@ Centipede.Level.prototype =
 		this.map = this.game.add.tilemap();
 		this.map.addTilesetImage('obstacle');
 		this.obstacleLayer = this.map.create('obstacleLayer', 20, 20, 32, 32);
-		//this.obstacleLayer = this.map.create('obstacleLayer', 20, 20, 32, 32)
 		this.obstacleLayer.resizeWorld();
 		this.map.setCollision([0,1,2,3], true, this.layer);
 	},

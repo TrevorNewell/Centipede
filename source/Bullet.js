@@ -70,7 +70,12 @@ Centipede.Bullet.prototype =
 
 		tile.destroy();
 
-		this.map.putTile(index+1,posX,posY,this.layer);	    
+		if (index <= 3)
+			this.map.putTile(index+1,posX,posY,this.layer);
+
+		else
+			this.map.putTile(4,posX,posY,this.layer);
+
 	},
 	
 	returnBullets : function ()

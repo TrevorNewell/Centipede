@@ -12,6 +12,7 @@ Centipede.Game = function (game)
 
     this.level = null;
 
+    this.spider = null;
 };
 
 Centipede.Game.prototype = 
@@ -39,12 +40,17 @@ Centipede.Game.prototype =
 		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets);
 		this.bullets.initialize();
 
+		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets());
+		this.spider.initialize();
+
 	},
 
 	update: function () 
 	{    
         this.player.update();
         this.bullets.update();
+        this.spider.update();
+
 	}
 };
 
