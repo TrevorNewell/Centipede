@@ -11,6 +11,7 @@ Centipede.Game = function (game)
     this.maxBullets = 1;
 
     this.level = null;
+    this.score = null;
 
 };
 
@@ -33,10 +34,13 @@ Centipede.Game.prototype =
 		this.level.initialize();
 		this.level.randomizeMap();
 
+		this.score = new Centipede.Score(this.game);
+		this.score.initialize();
+
 		this.player = new Centipede.Player(this.game, this.movement, this.level.returnLevel(), this.level.returnLevelLayout());
 		this.player.initialize();
 
-		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets);
+		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets, this.score);
 		this.bullets.initialize();
 
 	},
@@ -45,6 +49,7 @@ Centipede.Game.prototype =
 	{    
         this.player.update();
         this.bullets.update();
+        this.score.update();
 	}
 };
 

@@ -4,6 +4,8 @@ Centipede = {};
 Centipede.gridsizeX = 20;
 Centipede.gridsizeY = 20;
 
+Centipede.score = 0;
+
 Centipede.spriteSize = 32;
 
 Centipede.playerMoveSpeed = 300;
