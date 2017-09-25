@@ -155,7 +155,6 @@ Centipede.Spider.prototype = {
 
 	endMovementTimer : function() {
 
-		//console.log(this.movementTimer.getType());
 		this.movementTimer.stop();
 		this.moveTimerStarted = false;
 		
@@ -196,7 +195,6 @@ Centipede.Spider.prototype = {
 
 	endRespawnTimer : function() {
 
-		console.log(typeof(this.timer));
 		this.timer.stop();
 
 		this.initialize();

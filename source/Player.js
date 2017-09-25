@@ -17,13 +17,13 @@ Centipede.Player.prototype =
 	initialize: function () {
 
 		// The player and its settings
-    	this.player = this.game.add.sprite(0, 0, 'player');
+    	this.player = this.game.add.sprite(48, 48, 'player');
     	this.player.anchor.set(0.5);
 
 		//  We need to enable physics on the player
     	this.game.physics.arcade.enable(this.player);
 
-    	this.player.body.collideWorldBounds = true;
+    	//this.player.body.collideWorldBounds = true;
 	},
 
 

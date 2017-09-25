@@ -20,9 +20,23 @@ Centipede.Level.prototype =
 		
 		this.map = this.game.add.tilemap();
 		this.map.addTilesetImage('obstacle');
-		this.obstacleLayer = this.map.create('obstacleLayer', 20, 20, 32, 32);
-		this.obstacleLayer.resizeWorld();
+		this.obstacleLayer = this.map.create('obstacleLayer', 22, 22, 32, 32);
 		this.map.setCollision([0,1,2,3], true, this.layer);
+
+		var i;
+		var j;
+
+		for (i = 0; i < Centipede.gridsizeX; i++) 
+		{ 
+    		for (j = 0; j < Centipede.gridsizeY; j++)
+    		{
+    			if (i==0 || i==21)
+    				this.map.putTile(0,i,j,this.obstacleLayer);
+    			
+    			if (j==0 || j==21)
+    				this.map.putTile(0,i,j,this.obstacleLayer);
+    		}
+    	}
 	},
 
 	returnLevel : function () 
@@ -39,8 +53,8 @@ Centipede.Level.prototype =
 	{	
 		for (var i = 0; i < this.numObstacles; i++)
 		{	
-			var randX = this.game.rnd.integerInRange(0,19);
-			var randY = this.game.rnd.integerInRange(0,16)
+			var randX = this.game.rnd.integerInRange(2,21);
+			var randY = this.game.rnd.integerInRange(2,21)
 			this.map.putTile(0,randX,randY,this.obstacleLayer);
 		}  
 	}
