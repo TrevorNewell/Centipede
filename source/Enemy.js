@@ -1,10 +1,11 @@
-Centipede.Enemy = function (x, y,game, map, layout, type) 
+Centipede.Enemy = function (x, y,game, map, layout, player, type) 
 {
 	this.x = x;
 	this.y = y;
 	//this.sprite = sprite;
 	
 	this.type = type;
+	this.player = player;
 	
 	this.game = game;
 	this.map = map;
@@ -12,6 +13,7 @@ Centipede.Enemy = function (x, y,game, map, layout, type)
 	
 	this.enemy = null;
 	this.turret = null;
+	this.weapon = null;
 	
     this.speed = 250;
     this.marker = new Phaser.Point();
@@ -46,6 +48,27 @@ Centipede.Enemy.prototype =
 			this.turret = this.enemy.addChild(this.game.make.sprite(8, 0, 'enemyTurret'));
 			this.turret.anchor.set(0.5,0.5);
 			this.turret.scale.setTo(0.9,0.9);
+
+			//   Init weapon group and fill it with maxBullets
+		    this.weapon = this.game.add.weapon(1, 'bullet');
+
+		     //  The bullet will be automatically killed when it leaves the world bounds
+	        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+
+	        //  Because our bullet is drawn facing up, we need to offset its rotation:
+	        this.weapon.bulletAngleOffset = 90;
+
+	        //Scaling the bullet size
+	        this.weapon.bullets.forEach((bullet) => {
+			  bullet.body.updateBounds(); //To avoid scaling bug with physics
+			  }, this);
+
+	        //  The speed at which the bullet is fired
+	        this.weapon.bulletSpeed = 300;
+
+	        //  Tell the Weapon to track the 'player' Sprite
+	        this.weapon.trackSprite(this.turret, 15, 0, true);
+
 		}
 		else
 		{
@@ -85,6 +108,15 @@ Centipede.Enemy.prototype =
 		else
 		{			
 			this.game.physics.arcade.overlap(this.enemy, this.layout, this.turn, null, this);
+		}
+
+
+		//Code for turret to track player
+		if (this.type == 2)
+		{
+
+			this.weapon.fireAtSprite(this.player);
+			this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.player.killPlayer, null, this);
 		}
 	},
 	

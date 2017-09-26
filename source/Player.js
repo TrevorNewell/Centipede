@@ -61,6 +61,14 @@ Centipede.Player.prototype =
 		this.game.physics.arcade.collide(this.player, this.boundary);
 	},
 	
+	killPlayer : function (bullet, player)
+	{
+
+		player.kill();
+		bullet.kill();
+
+	},
+
 	returnPlayer : function()
 	{
 		return this.player;

@@ -17,30 +17,6 @@ Centipede.Game = function (game)
     this.spider = null;
 };
 	
-	CentipedeGroup = function (x, y, game, level, levelLayout, numSections)
-	{
-		Phaser.Group.call(this, game);
-		
-		for (i = 0; i < numSections; i++)
-		{
-			if (i == 0)
-			{
-				//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
-				var b = new Centipede.Enemy(x, y, game, level, levelLayout(), 0);
-				b.initialize();
-				
-				this.add(b);
-			}
-			else
-			{
-				var b = new Centipede.Enemy(x, y, game, level, levelLayout(), 1);
-				b.initialize();
-				
-				this.add(b);
-			}
-		}
-	};
-	
 Centipede.Game.prototype = 
 {	
 	create: function () 
@@ -72,19 +48,19 @@ Centipede.Game.prototype =
 		this.spider.initialize();
 
 		
-		this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
+		this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 0);
 		this.enemyHead.initialize();
 
-		this.enemyBody1 = new Centipede.Enemy(48+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 1);
+		this.enemyBody1 = new Centipede.Enemy(48+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 1);
 		this.enemyBody1.initialize();
 
-		this.enemyBody2 = new Centipede.Enemy(48+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 1);
+		this.enemyBody2 = new Centipede.Enemy(48+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 1);
 		this.enemyBody2.initialize();
 
-		this.enemyBody3 = new Centipede.Enemy(48+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 2);
+		this.enemyBody3 = new Centipede.Enemy(48+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 2);
 		this.enemyBody3.initialize();
 
-		this.enemyBody4 = new Centipede.Enemy(48, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 1);
+		this.enemyBody4 = new Centipede.Enemy(48, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 1);
 		this.enemyBody4.initialize();
 
 	},
