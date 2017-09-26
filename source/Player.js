@@ -17,7 +17,7 @@ Centipede.Player.prototype =
 	initialize: function () {
 
 		// The player and its settings
-    	this.player = this.game.add.sprite(0, 0, 'player');
+    	this.player = this.game.add.sprite(this.game.width/2, this.game.height/2, 'player');
     	this.player.anchor.set(0.5);
 
 		//  We need to enable physics on the player
@@ -36,21 +36,21 @@ Centipede.Player.prototype =
 	    if (this.movement.left.isDown)
 	    {
 	        this.player.body.velocity.x = -Centipede.playerMoveSpeed;
-	        this.player.angle = 180;
+	        //this.player.angle = 180;
 	    }
 	    else if (this.movement.right.isDown)
 	    {
 	        this.player.body.velocity.x = Centipede.playerMoveSpeed;
-	        this.player.angle = 0;
+	        //this.player.angle = 0;
 	    }
 		else if (this.movement.up.isDown)
 		{
-			this.player.body.velocity.y = -Centipede.playerMoveSpeed;
+			//this.player.body.velocity.y = -Centipede.playerMoveSpeed;
 			this.player.angle = 270;
 		}
 		else if (this.movement.down.isDown)
 		{
-			this.player.body.velocity.y = Centipede.playerMoveSpeed;
+			//this.player.body.velocity.y = Centipede.playerMoveSpeed;
 			this.player.angle = 90;
 		}
 

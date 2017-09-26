@@ -40,8 +40,10 @@ Centipede.Level.prototype =
 		for (var i = 0; i < this.numObstacles; i++)
 		{	
 			var randX = this.game.rnd.integerInRange(0,19);
-			var randY = this.game.rnd.integerInRange(0,16)
-			this.map.putTile(0,randX,randY,this.obstacleLayer);
+			var randY1 = this.game.rnd.integerInRange(0,7);
+			var randY2 = this.game.rnd.integerInRange(12,16);
+			this.map.putTile(0,randX,randY1,this.obstacleLayer);
+			this.map.putTile(0,randX,randY2,this.obstacleLayer);
 		}  
 	}
 };
