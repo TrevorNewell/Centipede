@@ -15,6 +15,9 @@ Centipede.Preloader.prototype =
 		this.load.image('enemy', 'assets/enemy.png');
 		this.load.image('enemyBlue', 'assets/enemyBlue.png');
 		this.load.image('enemyRed', 'assets/enemyRed.png');
+		this.load.image('enemyTurretHull', 'assets/enemyTurretHull.png');
+		this.load.image('enemyTurret', 'assets/turret.png');
+
 		this.load.image('spider', 'assets/spider.png');
 		this.load.image('bullet', 'assets/bullet.png'); //Projectile Class
 	},

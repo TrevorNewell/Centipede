@@ -1,15 +1,18 @@
-Centipede.Enemy = function (x, y,game, map, layout, sprite) 
+Centipede.Enemy = function (x, y,game, map, layout, type) 
 {
 	this.x = x;
 	this.y = y;
-	this.sprite = sprite;
+	//this.sprite = sprite;
+	
+	this.type = type;
 	
 	this.game = game;
 	this.map = map;
 	this.layout = layout;
 	
 	this.enemy = null;
-
+	this.turret = null;
+	
     this.speed = 250;
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
@@ -29,8 +32,28 @@ Centipede.Enemy.prototype =
 
 	initialize: function () {
 
+		if (this.type == 0) // Head of Centipede
+		{
+			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyRed');
+		}
+		else  if (this.type == 1) // Regular section
+		{
+			this.enemy = this.game.add.sprite(this.x, this.y, 'enemy');
+		}
+		else if (this.type == 2) // Sentry section
+		{
+			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyTurretHull');
+			this.turret = this.enemy.addChild(this.game.make.sprite(8, 0, 'enemyTurret'));
+			this.turret.anchor.set(0.5,0.5);
+			this.turret.scale.setTo(0.9,0.9);
+		}
+		else
+		{
+			console.log("Invalid type: " + type)
+		}
+		
 		// The player and its settings
-    	this.enemy = this.game.add.sprite(this.x, this.y, this.sprite);
+    	//this.enemy = this.game.add.sprite(this.x, this.y, this.sprite);
     	this.enemy.anchor.set(0.5,0.5);
 
 		this.enemy.scale.setTo(0.9,0.9);
@@ -45,7 +68,7 @@ Centipede.Enemy.prototype =
 
 
 	update: function () 
-	{
+	{		
 	    this.marker.x = this.game.math.snapToFloor(Math.floor(this.enemy.x), this.gridsize) / this.gridsize;
         this.marker.y = this.game.math.snapToFloor(Math.floor(this.enemy.y), this.gridsize) / this.gridsize;
         
