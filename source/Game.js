@@ -11,6 +11,7 @@ Centipede.Game = function (game)
     this.maxBullets = 1;
 
     this.level = null;
+    this.boundary = null;
     this.score = null;
 
     this.spider = null;
@@ -50,24 +51,24 @@ Centipede.Game.prototype =
 	    //Initializes a Phaser Physics World with Arcade Physics
 	    this.physics.startSystem(Phaser.Physics.ARCADE);
 
-		// //Creates the "Boundary"
-		// this.boundary = new Centipede.Boundary(this.game);
-		// this.boundary.initialize();
-
 		this.level = new Centipede.Level(this.game, this.numObstacles);
 		this.level.initialize();
 		this.level.randomizeMap();
 
+		// Creates the "Boundary"
+		this.boundary = new Centipede.Boundary(this.game);
+		this.boundary.initialize();
+
 		this.score = new Centipede.Score(this.game);
 		this.score.initialize();
 
-		this.player = new Centipede.Player(this.game, this.movement, this.level.returnLevel(), this.level.returnLevelLayout());
+		this.player = new Centipede.Player(this.game, this.movement, this.level.returnLevel(), this.level.returnLevelLayout(), this.boundary.returnBoundary());
 		this.player.initialize();
 
 		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets, this.score);
 		this.bullets.initialize();
 
-		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets());
+		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets(), this.score);
 		this.spider.initialize();
 
 		

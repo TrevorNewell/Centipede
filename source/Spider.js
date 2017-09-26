@@ -1,9 +1,10 @@
-Centipede.Spider = function (game, player, obstacles, bullets) {
+Centipede.Spider = function (game, player, obstacles, bullets, score) {
 	
 	this.game = game;
 	this.player = player;
 	this.bullets = bullets;
 	this.obstacles = obstacles;
+	this.score = score;
 	this.spider = null;
 
 	this.isSpiderPresent = false;
@@ -113,6 +114,7 @@ Centipede.Spider.prototype = {
 
 		bullet.kill();
 		spider.kill();
+		this.score.createScoreAnimation(bullet.x, bullet.y, "+100", 100);
 		this.isSpiderPresent = false;
 		this.moveDirection = 1;
 		
