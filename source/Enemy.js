@@ -33,6 +33,8 @@ Centipede.Enemy.prototype =
     	this.enemy = this.game.add.sprite(this.x, this.y, this.sprite);
     	this.enemy.anchor.set(0.5,0.5);
 
+		this.enemy.scale.setTo(0.9,0.9);
+		
 		//  We need to enable physics on the player
     	this.game.physics.arcade.enable(this.enemy);
 
@@ -57,12 +59,10 @@ Centipede.Enemy.prototype =
 		{
 			this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLane, null, this);
 		}
-
 		else
 		{			
 			this.game.physics.arcade.overlap(this.enemy, this.layout, this.turn, null, this);
 		}
-
 	},
 	
 	returnEnemy : function()

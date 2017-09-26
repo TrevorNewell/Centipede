@@ -47,19 +47,19 @@ Centipede.Game.prototype =
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets());
 		this.spider.initialize();
 
-		this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeHead');
+		this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'enemyRed');
 		this.enemyHead.initialize();
 
-		this.enemyBody1 = new Centipede.Enemy(48+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody1 = new Centipede.Enemy(48+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'enemy');
 		this.enemyBody1.initialize();
 
-		this.enemyBody2 = new Centipede.Enemy(48+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody2 = new Centipede.Enemy(48+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'enemy');
 		this.enemyBody2.initialize();
 
-		this.enemyBody3 = new Centipede.Enemy(48+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody3 = new Centipede.Enemy(48+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'enemy');
 		this.enemyBody3.initialize();
 
-		this.enemyBody4 = new Centipede.Enemy(48, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody4 = new Centipede.Enemy(48, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'enemy');
 		this.enemyBody4.initialize();
 
 	},

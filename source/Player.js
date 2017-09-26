@@ -20,6 +20,7 @@ Centipede.Player.prototype =
     	this.player = this.game.add.sprite(48, 48, 'player');
     	this.player.anchor.set(0.5);
 
+		this.player.scale.setTo(0.9,0.9);
 		//  We need to enable physics on the player
     	this.game.physics.arcade.enable(this.player);
 
