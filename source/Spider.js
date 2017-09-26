@@ -15,7 +15,6 @@ Centipede.Spider = function (game, player, obstacles, bullets, score) {
 	this.moveDirection = 1; //Possible values 1, 2, 3, 4 
 
 	return this;
-
 }
 
 
