@@ -14,31 +14,37 @@ Centipede.Game = function (game)
     this.score = null;
 
     this.spider = null;
+	this.centipedes = null;
 };
 	
-	CentipedeGroup = function (x, y, game, level, levelLayout, numSections)
+CentipedeGroup = function (x, y, game, level, levelLayout, numSections)
+{
+	Phaser.Group.call(this, game, null);
+	
+	for (i = 0; i < numSections; i++)
 	{
-		Phaser.Group.call(this, game);
-		
-		for (i = 0; i < numSections; i++)
+		if (i <=0)
 		{
-			if (i == 0)
-			{
-				//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
-				var b = new Centipede.Enemy(x, y, game, level, levelLayout(), 0);
-				b.initialize();
-				
-				this.add(b);
-			}
-			else
-			{
-				var b = new Centipede.Enemy(x, y, game, level, levelLayout(), 1);
-				b.initialize();
-				
-				this.add(b);
-			}
+			//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
+			var b = new Centipede.Enemy(x, y, game, level, levelLayout, 0);
+			b.initialize();
+			
+			this.add(b);
 		}
-	};
+		else
+		{
+			var b = new Centipede.Enemy(x-(32*i), y, game, level, levelLayout, 1);
+			b.initialize();
+			
+			this.add(b);
+		}
+	}
+	
+	//return this;
+};
+
+CentipedeGroup.prototype = Object.create(Phaser.Group.prototype);
+CentipedeGroup.prototype.constructor = CentipedeGroup;
 	
 Centipede.Game.prototype = 
 {	
@@ -70,8 +76,10 @@ Centipede.Game.prototype =
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets());
 		this.spider.initialize();
 
+		this.centipedes = new CentipedeGroup(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 8);
+		console.log(this.centipedes.length);
 		
-		this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
+		/*this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
 		this.enemyHead.initialize();
 
 		this.enemyBody1 = new Centipede.Enemy(48+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 1);
@@ -85,7 +93,7 @@ Centipede.Game.prototype =
 
 		this.enemyBody4 = new Centipede.Enemy(48, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 1);
 		this.enemyBody4.initialize();
-
+		*/
 	},
 
 	update: function () 
@@ -94,11 +102,17 @@ Centipede.Game.prototype =
         this.bullets.update();
         this.spider.update();
         this.score.update();
+		for (i = 0; i < this.centipedes.length; i++) 
+		{
+			this.centipedes.getAt(i).update();
+		}
+		/*
         this.enemyHead.update();
         this.enemyBody1.update();
         this.enemyBody2.update();
         this.enemyBody3.update();
         this.enemyBody4.update();
+		*/
 	}
 
 	// render: function ()
