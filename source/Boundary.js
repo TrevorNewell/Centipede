@@ -18,7 +18,6 @@ Centipede.Boundary.prototype =
 
 	initialize: function () 
 	{
-
 		//this.leftBorder = this.boundary.create(-1,0, 'border');
 		//this.leftBorder.body.immovable = true;
 		//this.leftBorder.scale.setTo(1,Centipede.windowHeight);

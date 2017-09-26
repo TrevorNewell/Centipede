@@ -24,7 +24,7 @@ Centipede.Player.prototype =
 		//  We need to enable physics on the player
     	this.game.physics.arcade.enable(this.player);
 
-    	//this.player.body.collideWorldBounds = true;
+    	this.player.body.collideWorldBounds = true;
 	},
 
 
@@ -37,14 +37,14 @@ Centipede.Player.prototype =
 	    if (this.movement.left.isDown)
 	    {
 	        this.player.body.velocity.x = -Centipede.playerMoveSpeed;
-	        this.player.angle = 180;
+	        //this.player.angle = 180;
 	    }
 	    else if (this.movement.right.isDown)
 	    {
 	        this.player.body.velocity.x = Centipede.playerMoveSpeed;
-	        this.player.angle = 0;
+	        //this.player.angle = 0;
 	    }
-		else if (this.movement.up.isDown)
+		if (this.movement.up.isDown)
 		{
 			this.player.body.velocity.y = -Centipede.playerMoveSpeed;
 			this.player.angle = 270;

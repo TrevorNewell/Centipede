@@ -37,6 +37,7 @@ Centipede.Level.prototype =
     				this.map.putTile(0,i,j,this.obstacleLayer);
     		}
     	}
+	
 	},
 
 	returnLevel : function () 
