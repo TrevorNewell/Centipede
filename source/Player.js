@@ -8,6 +8,7 @@ Centipede.Player = function (game, movement, map, layout, boundary)
 	this.boundary = boundary;
 
 	this.player = null;
+	this.facing = 1; //Represents where the player is facing
 	
 	return this;
 };
@@ -46,12 +47,12 @@ Centipede.Player.prototype =
 	    }
 		else if (this.movement.up.isDown)
 		{
-			//this.player.body.velocity.y = -Centipede.playerMoveSpeed;
+			this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
 			this.player.angle = 270;
 		}
 		else if (this.movement.down.isDown)
 		{
-			//this.player.body.velocity.y = Centipede.playerMoveSpeed;
+			this.player.body.y = (this.game.width/Centipede.gridsizeY) * 11;
 			this.player.angle = 90;
 		}
 
