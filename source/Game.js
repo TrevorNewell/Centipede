@@ -47,6 +47,21 @@ Centipede.Game.prototype =
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets(), this.score);
 		this.spider.initialize();
 
+		this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeHead');
+		this.enemyHead.initialize();
+
+		this.enemyBody1 = new Centipede.Enemy(48+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody1.initialize();
+
+		this.enemyBody2 = new Centipede.Enemy(48+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody2.initialize();
+
+		this.enemyBody3 = new Centipede.Enemy(48+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody3.initialize();
+
+		this.enemyBody4 = new Centipede.Enemy(48, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 'centipedeBody');
+		this.enemyBody4.initialize();
+
 	},
 
 	update: function () 
@@ -55,7 +70,18 @@ Centipede.Game.prototype =
         this.bullets.update();
         this.spider.update();
         this.score.update();
+        this.enemyHead.update();
+        this.enemyBody1.update();
+        this.enemyBody2.update();
+        this.enemyBody3.update();
+        this.enemyBody4.update();
 	}
+
+	// render: function ()
+	// {
+	// 	this.enemyHead.render();
+	// }
+
 };
 
 
