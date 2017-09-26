@@ -130,9 +130,6 @@ Centipede.Enemy.prototype =
 
 			this.move();
 		}
-
-
-
 	},
 
 	turn : function()

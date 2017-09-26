@@ -19,6 +19,30 @@ Centipede.Game = function (game)
 Centipede.Game.prototype = 
 {
 
+	CentipedeGroup = function (x, y, game, level, levelLayout, numSections)
+	{
+		Phaser.Group.call(this, game);
+		
+		for (i = 0; i < numSections; i++)
+		{
+			if (i == 0)
+			{
+				//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
+				var b = new Centipede.Enemy(x, y, game, level, levelLayout(), 0);
+				b.initialize();
+				
+				this.add(b);
+			}
+			else
+			{
+				var b = new Centipede.Enemy(x, y, game, level, levelLayout(), 1);
+				b.initialize();
+				
+				this.add(b);
+			}
+		}
+	}
+	
 	create: function () 
 	{
 		this.movement = this.input.keyboard.createCursorKeys();
@@ -47,6 +71,7 @@ Centipede.Game.prototype =
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets());
 		this.spider.initialize();
 
+		
 		this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
 		this.enemyHead.initialize();
 
