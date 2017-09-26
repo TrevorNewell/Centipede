@@ -1,11 +1,12 @@
-Centipede.Player = function (game, movement, map, layout) 
+Centipede.Player = function (game, movement, map, layout, boundary) 
 {
 	
 	this.game = game;
 	this.movement = movement;
 	this.map = map;
 	this.layout = layout;
-	
+	this.boundary = boundary;
+
 	this.player = null;
 	
 	return this;
@@ -55,6 +56,7 @@ Centipede.Player.prototype =
 		}
 
 		this.game.physics.arcade.collide(this.player, this.layout);
+		this.game.physics.arcade.collide(this.player, this.boundary);
 	},
 	
 	returnPlayer : function()
