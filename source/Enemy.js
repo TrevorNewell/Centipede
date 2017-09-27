@@ -118,10 +118,15 @@ Centipede.Enemy.prototype =
 		{
 
 			this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player);
-			this.weapon.fireAtSprite(this.player);
-			//this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.player.killPlayer, null, this);
-			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
-				this.playerObject.killPlayer(this.weapon.bullets, this.player);
+			if(this.player.alive == true)
+				this.weapon.fireAtSprite(this.player);
+			
+			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player)){
+				this.playerObject.killPlayer(this.player);
+				this.weapon.forEach(function(bullet){
+					bullet.kill();
+				})
+			}
 		}
 	},
 	

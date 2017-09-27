@@ -8,7 +8,7 @@ Centipede.Player = function (game, movement, map, layout, boundary)
 	this.boundary = boundary;
 
 	this.player = null;
-	this.facing = 1; //Represents where the player is facing
+	this.timer = null; //For Respawning the player
 	
 	return this;
 };
@@ -61,12 +61,52 @@ Centipede.Player.prototype =
 		this.game.physics.arcade.collide(this.player, this.boundary);
 	},
 	
-	killPlayer : function (bullet, player)
+	killPlayer : function (player)
 	{
 
 		player.kill();
-		bullet.destroy();
+		if (player.alive == false) {
 
+			//this.game.paused = true;
+			this.startRespawnTimer();
+			console.log("PLAYER IS DEAD");
+		}
+	},
+
+	startRespawnTimer : function()
+	{
+
+		var timerEvent;
+		
+		this.isSpiderPresent = true;
+		
+		// Create a custom timer
+		this.timer = this.game.time.create();
+		
+		// Create a delayed event 3s from now
+		timerEvent = this.timer.add(Phaser.Timer.SECOND * 3, this.endRespawnTimer, this);
+		
+		// Start the timer
+		this.timer.start();
+
+	},
+
+	endRespawnTimer : function() {
+
+		this.timer.stop();
+		console.log("TIMER CHECK");
+		if (Centipede.playerLives > 1){
+			Centipede.playerLives--;
+			this.game.paused = false;
+			this.reset();
+		}
+
+	},
+
+	reset : function(){
+		this.player.revive();
+		this.player.x = this.game.width/2;
+		this.player.y = this.game.height/2;
 	},
 
 	returnPlayer : function()
