@@ -67,7 +67,7 @@ Centipede.Player.prototype =
 		player.kill();
 		if (player.alive == false) {
 
-			//this.game.paused = true;
+			this.game.physics.arcade.isPaused = true;
 			this.startRespawnTimer();
 			console.log("PLAYER IS DEAD");
 		}
@@ -89,6 +89,8 @@ Centipede.Player.prototype =
 		// Start the timer
 		this.timer.start();
 
+		//Pause the game
+
 	},
 
 	endRespawnTimer : function() {
@@ -107,6 +109,7 @@ Centipede.Player.prototype =
 		this.player.revive();
 		this.player.x = this.game.width/2;
 		this.player.y = this.game.height/2;
+		this.game.physics.arcade.isPaused = false;
 	},
 
 	returnPlayer : function()
