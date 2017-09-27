@@ -31,10 +31,15 @@ Centipede.Level.prototype =
     		for (j = 0; j < Centipede.gridsizeY; j++)
     		{
     			if (i==0 || i==21)
-    				this.map.putTile(0,i,j,this.obstacleLayer);
-    			
+				{
+    				var t = this.map.putTile(0,i,j,this.obstacleLayer);
+					t.rotation = this.game.rnd.integerInRange(0,359);
+    			}
     			if (j==0 || j==21)
-    				this.map.putTile(0,i,j,this.obstacleLayer);
+				{
+    				var t = this.map.putTile(0,i,j,this.obstacleLayer);
+					t.rotation = this.game.rnd.integerInRange(0,359);
+				}
     		}
     	}
 	
@@ -56,7 +61,8 @@ Centipede.Level.prototype =
 		{	
 			var randX = this.game.rnd.integerInRange(2,21);
 			var randY = this.game.rnd.integerInRange(2,21)
-			this.map.putTile(0,randX,randY,this.obstacleLayer);
+			var t = this.map.putTile(0,randX,randY,this.obstacleLayer);
+			t.rotation = this.game.rnd.integerInRange(0,359);
 		}  
 	}
 };

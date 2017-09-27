@@ -3,7 +3,7 @@ Centipede.Game = function (game)
 
 	this.player = null;
 
-	this.numObstacles = 30;
+	this.numObstacles = 100;
 
     this.movement = null;       
     this.fire = null;
@@ -30,7 +30,7 @@ Centipede.CentipedeGroup = function (x, y, game, level, levelLayout, numSections
 			//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
 			var b = new Centipede.Enemy(x, y, game, level, levelLayout, 0, goalDirection);
 			b.initialize();
-			
+
 			this.add(b);
 		}
 		else
@@ -39,7 +39,7 @@ Centipede.CentipedeGroup = function (x, y, game, level, levelLayout, numSections
 			{
 				var b = new Centipede.Enemy(x-(32*i), y, game, level, levelLayout, 1, goalDirection);
 				b.initialize();
-			
+
 				this.add(b);
 			}				
 			else if (goalDirection == Phaser.UP)
@@ -70,6 +70,8 @@ Centipede.Game.prototype =
 				//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
 				var b = new Centipede.Enemy(x, y, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0, goalDirection);
 				b.initialize();
+				
+				this.enemyHead = b;
 				
 				this.centipedes.add(b);
 			}
@@ -122,8 +124,8 @@ Centipede.Game.prototype =
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets());
 		this.spider.initialize();
 
-		this.centipedes = new Centipede.CentipedeGroup(356, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 4, Phaser.DOWN);
-		//this.spawnNewCentipede(356, 702-48, 4, Phaser.UP);
+		this.centipedes = new Centipede.CentipedeGroup(702+48, 702-48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0, Phaser.UP);
+		this.spawnNewCentipede(-48, 48, 4, Phaser.DOWN);
 
 		console.log(this.centipedes.length);
 		
@@ -161,12 +163,12 @@ Centipede.Game.prototype =
         this.enemyBody3.update();
         this.enemyBody4.update();
 		*/
-	}
+	},
 
-	// render: function ()
-	// {
-	// 	this.enemyHead.render();
-	// }
+	render: function ()
+	{
+		this.enemyHead.render();
+	}
 
 };
 

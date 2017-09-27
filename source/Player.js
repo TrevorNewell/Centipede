@@ -17,7 +17,7 @@ Centipede.Player.prototype =
 	initialize: function () {
 
 		// The player and its settings
-    	this.player = this.game.add.sprite(48, 48, 'player');
+    	this.player = this.game.add.sprite(48, 356, 'player');
     	this.player.anchor.set(0.5);
 
 		this.player.scale.setTo(0.9,0.9);

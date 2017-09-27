@@ -24,7 +24,7 @@ Centipede.Enemy = function (x, y,game, map, layout, type, goalDirection)
     this.directions = [ null, null, null, null, null ];
 
     this.gridsize = 32;
-    this.threshold = 3;
+    this.threshold = 5;
 
 	this.goalDirection = goalDirection;
 	
@@ -65,19 +65,20 @@ Centipede.Enemy.prototype =
 			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyTurretHull');
 			this.turret = this.enemy.addChild(this.game.make.sprite(8, 0, 'enemyTurret'));
 			this.turret.anchor.set(0.5,0.5);
-			this.turret.scale.setTo(0.9,0.9);
+			this.turret.scale.setTo(1,1);
 		}
 		else console.log("Invalid type: " + type);
-		
 		
 		// The player and its settings
     	//this.enemy = this.game.add.sprite(this.x, this.y, this.sprite);
     	this.enemy.anchor.set(0.5,0.5);
 
-		this.enemy.scale.setTo(0.9,0.9);
+		this.enemy.scale.setTo(1,1);
 		
 		//  We need to enable physics on the player
     	this.game.physics.arcade.enable(this.enemy);
+
+		this.enemy.body.setSize(24, 24, 4, 4);
 
     	//this.enemy.body.collideWorldBounds = true;
 	},
@@ -157,7 +158,7 @@ Centipede.Enemy.prototype =
 			this.direction = Phaser.UP;
 
 			this.turnPoint.x = (this.marker.x * this.gridsize) - (this.gridsize / 2);
-       		this.turnPoint.y = (this.marker.y * this.gridsize) - (this.gridsize / 2) + 32;
+       		this.turnPoint.y = (this.marker.y * this.gridsize) - (this.gridsize / 2) - 32;
 
        		//console.log("Supposed to Turn at:");
 			//console.log(this.turnPoint.x);
@@ -310,10 +311,12 @@ Centipede.Enemy.prototype =
         else if (this.direction === Phaser.UP)
         {
             this.enemy.angle = 270;
+			this.enemy.body.angle = 270;
         }
         else if (this.direction === Phaser.DOWN)
         {
             this.enemy.angle = 90;
+			this.enemy.body.angle = 90;
         }
 	},
 
