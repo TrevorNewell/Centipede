@@ -18,7 +18,7 @@ Centipede.Game = function (game)
 	this.centipedes = null;
 };
 	
-CentipedeGroup = function (x, y, game, level, levelLayout, numSections, player)
+CentipedeGroup = function (x, y, game, level, levelLayout, player, numSections)
 {
 	Phaser.Group.call(this, game, null);
 	
@@ -85,7 +85,7 @@ Centipede.Game.prototype =
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets(), this.score);
 		this.spider.initialize();
 
-		this.centipedes = new CentipedeGroup(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 8);
+		this.centipedes = new CentipedeGroup(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 5);
 		console.log(this.centipedes.length);
 		
 		/*this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
@@ -123,13 +123,15 @@ Centipede.Game.prototype =
         this.enemyBody3.update();
         this.enemyBody4.update();
 		*/
+	},
+
+	/*
+	render: function ()
+	{
+	 	//this.enemyHead.render();
+		this.player.render();
 	}
-
-	// render: function ()
-	// {
-	// 	this.enemyHead.render();
-	// }
-
+	*/
 };
 
 

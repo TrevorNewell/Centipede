@@ -15,7 +15,7 @@ Centipede.Enemy = function (x, y,game, map, layout, player, type)
 	this.turret = null;
 	this.weapon = null;
 	
-    this.speed = 250;
+    this.speed = 100;
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
     this.directions = [ null, null, null, null, null ];
@@ -46,8 +46,9 @@ Centipede.Enemy.prototype =
 		{
 			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyTurretHull');
 			this.turret = this.enemy.addChild(this.game.make.sprite(8, 0, 'enemyTurret'));
-			this.turret.anchor.set(0.5,0.5);
+			this.turret.anchor.set(0.25, 0.5);
 			this.turret.scale.setTo(0.9,0.9);
+			//this.turret.angle = 270;
 
 			//   Init weapon group and fill it with maxBullets
 		    this.weapon = this.game.add.weapon(1, 'bullet');
@@ -115,6 +116,7 @@ Centipede.Enemy.prototype =
 		if (this.type == 2)
 		{
 
+			this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player);
 			this.weapon.fireAtSprite(this.player);
 			this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.player.killPlayer, null, this);
 		}

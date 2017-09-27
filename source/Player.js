@@ -72,6 +72,11 @@ Centipede.Player.prototype =
 	returnPlayer : function()
 	{
 		return this.player;
+	},
+
+	render : function ()
+	{
+		this.game.debug.body(this.player);
 	}
 };
 
