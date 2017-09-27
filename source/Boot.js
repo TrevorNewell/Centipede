@@ -5,6 +5,7 @@ Centipede.gridsizeX = 22;
 Centipede.gridsizeY = 22;
 
 Centipede.score = 0;
+Centipede.playerLives = 3;
 
 Centipede.spriteSize = 32;
 

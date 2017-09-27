@@ -1,11 +1,12 @@
-Centipede.Enemy = function (x, y,game, map, layout, player, type) 
+Centipede.Enemy = function (x, y,game, map, layout, playerObject, type) 
 {
 	this.x = x;
 	this.y = y;
 	//this.sprite = sprite;
 	
 	this.type = type;
-	this.player = player;
+	this.playerObject = playerObject;
+	this.player = this.playerObject.returnPlayer();
 	
 	this.game = game;
 	this.map = map;
@@ -67,7 +68,7 @@ Centipede.Enemy.prototype =
 	        //  The speed at which the bullet is fired
 	        this.weapon.bulletSpeed = 300;
 
-	        //  Tell the Weapon to track the 'player' Sprite
+	        //  Tell the Weapon to track the 'turret' Sprite
 	        this.weapon.trackSprite(this.turret, 15, 0, true);
 
 		}
@@ -118,7 +119,9 @@ Centipede.Enemy.prototype =
 
 			this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player);
 			this.weapon.fireAtSprite(this.player);
-			this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.player.killPlayer, null, this);
+			//this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.player.killPlayer, null, this);
+			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
+				this.playerObject.killPlayer(this.weapon.bullets, this.player);
 		}
 	},
 	

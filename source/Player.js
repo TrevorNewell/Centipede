@@ -65,7 +65,7 @@ Centipede.Player.prototype =
 	{
 
 		player.kill();
-		bullet.kill();
+		bullet.destroy();
 
 	},
 

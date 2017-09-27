@@ -85,7 +85,7 @@ Centipede.Game.prototype =
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets(), this.score);
 		this.spider.initialize();
 
-		this.centipedes = new CentipedeGroup(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), 5);
+		this.centipedes = new CentipedeGroup(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 5);
 		console.log(this.centipedes.length);
 		
 		/*this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
