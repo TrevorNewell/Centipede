@@ -9,7 +9,7 @@ Centipede.Bullet = function (game, fire, sound, map, layout, player, maxBullets,
 	this.layout = layout;
     this.maxBullets = maxBullets;
     this.score = score;
-
+	
 	this.sound = sound;
 	
     this.bulletSpeed = 600;
@@ -29,7 +29,6 @@ Centipede.Bullet.prototype =
 
 	initialize : function () 
 	{
-	  
 	    //   Init weapon group and fill it with maxBullets
 	    this.weapon = this.game.add.weapon(this.maxBullets, 'bullet');
 
@@ -51,18 +50,17 @@ Centipede.Bullet.prototype =
 		this.weapon.onFire.add(this.sound.playPlayerShoot, this.sound);
 		
         //  Tell the Weapon to track the 'player' Sprite
-        this.weapon.trackSprite(this.player, 15, 0, true);
+        this.weapon.trackSprite(this.player, 10, 0, true);
 
 	},
 
 	update : function () 
 	{
-
 		if(this.fire.isDown)  
 		{		
 			this.weapon.fire();
 		}
-
+ 
 		this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);
 	},
 
@@ -96,7 +94,7 @@ Centipede.Bullet.prototype =
 	returnBullets : function ()
 	{
 		return this.weapon.bullets;
-	}
+	},
 };
 
 Centipede.Bullet.prototype.constructor = Centipede.Bullet;

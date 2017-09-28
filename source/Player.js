@@ -1,5 +1,6 @@
 Centipede.Player = function (game, movement, map, layout, boundary) 
-{
+{	
+	this.movementType = 1;
 	
 	this.game = game;
 	this.movement = movement;
@@ -15,11 +16,10 @@ Centipede.Player = function (game, movement, map, layout, boundary)
 
 Centipede.Player.prototype = 
 {
-
 	initialize: function () {
 
 		// The player and its settings
-    	this.player = this.game.add.sprite(this.game.width/2, this.game.height/2, 'player');
+    	this.player = this.game.add.sprite(this.game.width/2, (this.game.width/Centipede.gridsizeY) * 10 + 16, 'player');
 
     	this.player.anchor.set(0.5);
 
@@ -28,46 +28,80 @@ Centipede.Player.prototype =
     	this.game.physics.arcade.enable(this.player);
 
     	this.player.body.collideWorldBounds = true;
+		
+		this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
+		this.player.angle = 270;
 	},
-
 
 	update: function () 
 	{
-	    //  Reset the players velocity (movement)
-	    this.player.body.velocity.x = 0; // We only have velocity if we are still pressing one of the keys
-		this.player.body.velocity.y = 0;
+		if (this.movementType == 1)
+		{
+			var moveSpeed = Centipede.playerMoveSpeed;
+			
+			//  Reset the players velocity (movement)
+			this.player.body.velocity.x = 0; // We only have velocity if we are still pressing one of the keys
+			this.player.body.velocity.y = 0;
+			
+			if (this.movement.left.isDown)
+			{
+				this.player.body.velocity.x = -Centipede.playerMoveSpeed;
+				//this.player.angle = 180;
+			}
+			else if (this.movement.right.isDown)
+			{
+				this.player.body.velocity.x = Centipede.playerMoveSpeed;
+				//this.player.angle = 0;
+			}
+			
+			if (this.movement.up.isDown)
+			{
+				this.player.body.velocity.y -= moveSpeed;
+				this.player.angle = 270;
+			}
+			else if (this.movement.down.isDown)
+			{
+				this.player.body.velocity.y += moveSpeed;
+				this.player.angle = 90;
+			}
+		}
+		else
+		{
+			//  Reset the players velocity (movement)
+			this.player.body.velocity.x = 0; // We only have velocity if we are still pressing one of the keys
+			this.player.body.velocity.y = 0;
+			
+			if (this.movement.left.isDown)
+			{
+				this.player.body.velocity.x = -Centipede.playerMoveSpeed;
+				//this.player.angle = 180;
+			}
+			else if (this.movement.right.isDown)
+			{
+				this.player.body.velocity.x = Centipede.playerMoveSpeed;
+				//this.player.angle = 0;
+			}
+			if (this.movement.up.isDown)
+			{
+				this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
+				this.player.angle = 270;
+			}
+			else if (this.movement.down.isDown)
+			{
+				this.player.body.y = (this.game.width/Centipede.gridsizeY) * 11;
+				this.player.angle = 90;
+			}
+		}
 		
-	    if (this.movement.left.isDown)
-	    {
-	        this.player.body.velocity.x = -Centipede.playerMoveSpeed;
-	        //this.player.angle = 180;
-	    }
-	    else if (this.movement.right.isDown)
-	    {
-	        this.player.body.velocity.x = Centipede.playerMoveSpeed;
-	        //this.player.angle = 0;
-	    }
-		if (this.movement.up.isDown)
-		{
-			this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
-			this.player.angle = 270;
-		}
-		else if (this.movement.down.isDown)
-		{
-			this.player.body.y = (this.game.width/Centipede.gridsizeY) * 11;
-			this.player.angle = 90;
-		}
-
 		this.game.physics.arcade.collide(this.player, this.layout);
 		this.game.physics.arcade.collide(this.player, this.boundary);
 	},
 	
-	killPlayer : function (player)
+	killPlayer : function ()
 	{
-
-		player.kill();
-		if (player.alive == false) {
-
+		this.player.kill();
+		if (this.player.alive == false) 
+		{
 			this.game.physics.arcade.isPaused = true;
 			this.startRespawnTimer();
 			console.log("PLAYER IS DEAD");
@@ -108,8 +142,8 @@ Centipede.Player.prototype =
 
 	reset : function(){
 		this.player.revive();
-		this.player.x = this.game.width/2;
-		this.player.y = this.game.height/2;
+		this.player.body.x = this.game.width/2;
+		this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
 		this.game.physics.arcade.isPaused = false;
 	},
 

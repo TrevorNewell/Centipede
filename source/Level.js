@@ -14,10 +14,8 @@ Centipede.Level = function (game, numObstacles)
 
 Centipede.Level.prototype = 
 {
-
 	initialize: function () 
 	{
-		
 		this.map = this.game.add.tilemap();
 		this.map.addTilesetImage('obstacle');
 		this.obstacleLayer = this.map.create('obstacleLayer', 22, 22, 32, 32);
@@ -45,6 +43,13 @@ Centipede.Level.prototype =
 	
 	},
 
+	placeAt : function (x, y)
+	{
+		console.log(x + " " + y);
+		var t = this.map.putTile(0,x,y,this.obstacleLayer);
+		t.rotation = this.game.rnd.integerInRange(0,359);
+	},
+	
 	returnLevel : function () 
 	{	
 		return this.map;

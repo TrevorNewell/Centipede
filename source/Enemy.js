@@ -1,21 +1,19 @@
-Centipede.Enemy = function (x, y,game, map, layout, playerObject, type, goalDirection) 
+Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObject, type, goalDirection) 
 {
 	this.x = x;
 	this.y = y;
 	//this.sprite = sprite;
-	
-	this.up = null;
-	this.down = null;
-	this.left = null;
-	this.right = null;
 		
 	this.type = type;
 	this.playerObject = playerObject;
 	this.player = this.playerObject.returnPlayer();
 	
 	this.game = game;
+	this.level = level;
 	this.map = map;
 	this.layout = layout;
+	
+	this.bullets = bullets;
 	
 	this.enemy = null;
 	this.turret = null;
@@ -69,11 +67,11 @@ Centipede.Enemy.prototype =
 			
 			this.turret = this.enemy.addChild(this.game.make.sprite(8, 0, 'enemyTurret'));
 			
-			this.turret.anchor.set(0.25, 0.5);
 			this.turret.scale.setTo(0.9,0.9);
-
+			this.turret.anchor.set(0.25, 0.5);
+			
 			//   Init weapon group and fill it with maxBullets
-		    this.weapon = this.game.add.weapon(1, 'bullet');
+		    this.weapon = this.game.add.weapon(2, 'bullet');
 
 		     //  The bullet will be automatically killed when it leaves the world bounds
 	        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -86,8 +84,10 @@ Centipede.Enemy.prototype =
 			  bullet.body.updateBounds(); //To avoid scaling bug with physics
 			  }, this);
 
+			this.weapon.fireRate = 2000; // Measured in milliseconds.
+			
 	        //  The speed at which the bullet is fired
-	        this.weapon.bulletSpeed = 300;
+	        this.weapon.bulletSpeed = 250;
 
 	        //  Tell the Weapon to track the 'turret' Sprite
 	        this.weapon.trackSprite(this.turret, 15, 0, true);
@@ -114,6 +114,9 @@ Centipede.Enemy.prototype =
 	
 	update: function () 
 	{	
+		//if (this.enemy.alive) this.game.physics.arcade.collide(this.player, this.enemy, this.centipedeKillPlayer, null, this); // Disabled rn.  Player dies repeatedly in same spot.
+		if (this.enemy.alive) this.game.physics.arcade.collide(this.bullets, this.enemy, this.killSection, null, this);
+
 		//console.log(this.enemy.body.touching.left);
         
         //  Update our grid sensors
@@ -169,21 +172,62 @@ Centipede.Enemy.prototype =
 		}
 
 		//Code for turret to track player
-		if (this.type == 2)
+		if (this.type == 2 && this.enemy.alive)
 		{
 			this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player);
 			if(this.player.alive == true)
 				this.weapon.fireAtSprite(this.player);
 			
-			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player)){
-				this.playerObject.killPlayer(this.player);
-				this.weapon.forEach(function(bullet){
-					bullet.kill();
-				})
-			}
+			// Doing it this way, allows us to kill just the bullet that collided with the player.  Which we need to be able to do if we decide to be able to shoot more than one bullet at a time.
+			//this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.turretKillPlayer)
+			
+			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
+			{
+				this.playerObject.killPlayer();
+				this.weapon.forEach(function(bullet){bullet.kill();});
+			}	
 		}
 		
 		this.move();
+	},
+	
+	killSection : function(bullet, centipede)
+	{
+		Centipede.count--;
+		console.log("Killing that bitch");
+		
+		bullet.kill();
+		
+		// Spawn Wreckage at the centipedes current tile.
+		var x  = this.game.math.snapToFloor(Math.floor(centipede.x), this.gridsize) / this.gridsize;
+        var y = this.game.math.snapToFloor(Math.floor(centipede.y), this.gridsize) / this.gridsize;
+		
+		this.level.placeAt(x, y);
+		
+		centipede.kill();
+		
+		//console.log(this.centipedes.length);
+	},
+	
+	centipedeKillPlayer : function (player, enemy)
+	{
+		Centipede.count--;
+		
+		console.log("CENTIPEDE DIE");
+		
+		enemy.kill();
+		
+		if (enemy.type == 2) this.turret.alive = false;
+		
+		// Kill Player
+		this.playerObject.killPlayer();
+	},
+	
+	turretKillPlayer : function (bullet, player)
+	{
+		console.log("HELK");
+		bullet.kill();
+		this.playerObject.killPlayer();
 	},
 	
 	returnEnemy : function()
@@ -201,9 +245,11 @@ Centipede.Enemy.prototype =
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = ((this.marker.y) * this.gridsize) - (this.gridsize / 2);
 
+			/*
 			console.log("Supposed to Turn at:");
 			console.log(this.turnPoint.x);
 			console.log(this.turnPoint.y);
+			*/
 		}
 
 		else if (this.directions[1].index === 0 && this.direction === Phaser.LEFT)
@@ -214,9 +260,11 @@ Centipede.Enemy.prototype =
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = ((this.marker.y) * this.gridsize) - (this.gridsize / 2);
 
+			/*
 			console.log("Supposed to Turn at:");
 			console.log(this.turnPoint.x);
 			console.log(this.turnPoint.y);
+			*/
 		}
 	},
 	
@@ -230,9 +278,11 @@ Centipede.Enemy.prototype =
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = (this.marker.y * this.gridsize) + (this.gridsize / 2) + 32;
 
+			/*
        		console.log("Supposed to Turn at:");
 			console.log(this.turnPoint.x);
 			console.log(this.turnPoint.y);
+			*/
 		}
 
 		else if (this.directions[1].index === 0 && this.direction === Phaser.LEFT)
@@ -243,9 +293,11 @@ Centipede.Enemy.prototype =
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = (this.marker.y * this.gridsize) + (this.gridsize / 2) + 32;
 
+			/*
        		console.log("Supposed to Turn at:");
 			console.log(this.turnPoint.x);
 			console.log(this.turnPoint.y);
+			*/
 		}
 	},
 
@@ -275,10 +327,12 @@ Centipede.Enemy.prototype =
 			this.enemy.position.x = this.turnPoint.x;
 			this.enemy.position.y = this.turnPoint.y;
 
+			/*
 			console.log("Actually Turned at:");
 	    	console.log(this.enemy.x);
 	    	console.log(this.enemy.y);
 	    	console.log("**************");
+			*/
         }
 	},
 	
@@ -306,11 +360,14 @@ Centipede.Enemy.prototype =
 			}
 
 			this.enemy.position.x = this.turnPoint.x;
-			this.enemy.position.y = this.turnPoint.y;		
+			this.enemy.position.y = this.turnPoint.y;	
+
+			/*
 			console.log("Actually Turned at:");
 	    	console.log(this.enemy.x);
 	    	console.log(this.enemy.y);
 	    	console.log("**************");
+			*/
         }
 	},
 
@@ -342,25 +399,27 @@ Centipede.Enemy.prototype =
         {
             this.enemy.body.velocity.y = speed;
         }
+		
         //  Reset the scale and angle (Pacman is facing to the right in the sprite sheet)
-        this.enemy.scale.x = 1;
-        this.enemy.angle = 0;
-        
-        if (this.direction === Phaser.LEFT)
+        //this.enemy.scale.x = 1;
+       
+        if (this.direction === Phaser.RIGHT)
         {
-            this.enemy.scale.x = -1;
+            this.enemy.angle = 0;
         }
-        
+        else if (this.direction === Phaser.LEFT)
+        {
+            this.enemy.angle = 180;
+        }
         else if (this.direction === Phaser.UP)
         {
-            this.enemy.angle = 270;
-			this.enemy.body.angle = 270;
+            this.enemy.angle = -90;
+			//this.enemy.body.angle = 270;
         }
-        
         else if (this.direction === Phaser.DOWN)
         {
             this.enemy.angle = 90;
-			this.enemy.body.angle = 90;
+			//this.enemy.body.angle = 90;
         }
 	},
 
