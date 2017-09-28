@@ -140,7 +140,7 @@ Centipede.Enemy.prototype =
 				if(this.direction != Phaser.DOWN)	
 				{
 					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLane, null, this);
-					this.game.physics.arcade.collide(this.enemy, this.enemy, this.changeLane, null, this);
+					this.game.physics.arcade.overlap(this.enemy, this.enemy, this.changeLane, null, this);
 				}
 				else
 				{			
@@ -159,7 +159,7 @@ Centipede.Enemy.prototype =
 				{
 					//console.log("Debug!");
 					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLaneUp, null, this);
-					this.game.physics.arcade.collide(this.enemy, this.enemy, this.changeLaneUp, null, this);
+					this.game.physics.arcade.overlap(this.enemy, this.enemy, this.changeLaneUp, null, this);
 
 					//console.log(this.directions[2].index)
 				}
@@ -183,7 +183,7 @@ Centipede.Enemy.prototype =
 			
 			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
 			{
-				this.playerObject.killPlayer();
+				//this.playerObject.killPlayer();
 				this.weapon.forEach(function(bullet){bullet.kill();});
 			}	
 		}
@@ -191,10 +191,10 @@ Centipede.Enemy.prototype =
 		this.move();
 	},
 	
-	killSection : function(bullet, centipede)
+	killSection : function(centipede, bullet)
 	{
 		Centipede.count--;
-		console.log("Killing that bitch");
+		console.log("Killing that <insert politically correct term here>");
 		
 		bullet.kill();
 		
