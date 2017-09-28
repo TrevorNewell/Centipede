@@ -1,5 +1,5 @@
 
-Centipede.Bullet = function (game, fire, sound, map, layout, player, maxBullets, score) 
+Centipede.Bullet = function (game, fire, map, layout, player, maxBullets, score) 
 {
 	
 	this.game = game;
@@ -10,7 +10,7 @@ Centipede.Bullet = function (game, fire, sound, map, layout, player, maxBullets,
     this.maxBullets = maxBullets;
     this.score = score;
 	
-	this.sound = sound;
+	//this.sound = sound;
 	
     this.bulletSpeed = 600;
 	this.bulletTime = 0; // Keep 0, this tracks the time since we fired our last bullet.
@@ -46,8 +46,9 @@ Centipede.Bullet.prototype =
         //  The speed at which the bullet is fired
         this.weapon.bulletSpeed = this.bulletSpeed;
 
+		// Only play a sound when we successfully fire.
 		this.weapon.onFire = new Phaser.Signal();
-		this.weapon.onFire.add(this.sound.playPlayerShoot, this.sound);
+		this.weapon.onFire.add(Centipede.OurSound.playPlayerShoot, Centipede.OurSound);
 		
         //  Tell the Weapon to track the 'player' Sprite
         this.weapon.trackSprite(this.player, 10, 0, true);

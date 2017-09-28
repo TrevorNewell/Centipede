@@ -114,7 +114,7 @@ Centipede.Enemy.prototype =
 	
 	update: function () 
 	{	
-		//if (this.enemy.alive) this.game.physics.arcade.collide(this.player, this.enemy, this.centipedeKillPlayer, null, this); // Disabled rn.  Player dies repeatedly in same spot.
+		if (this.enemy.alive) this.game.physics.arcade.collide(this.player, this.enemy, this.centipedeKillPlayer, null, this); // Disabled rn.  Player dies repeatedly in same spot.
 		if (this.enemy.alive) this.game.physics.arcade.collide(this.bullets, this.enemy, this.killSection, null, this);
 
 		//console.log(this.enemy.body.touching.left);

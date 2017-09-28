@@ -13,6 +13,8 @@ Centipede.playerLives = 3;
 Centipede.spriteSize = 32;
 
 Centipede.playerMoveSpeed = 300;
+
+Centipede.OurSound;
 	
 Centipede.Boot = function (game) {
 

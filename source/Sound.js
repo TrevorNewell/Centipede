@@ -62,6 +62,7 @@ Centipede.Sound.prototype =
 	playPlayerShoot: function ()
 	{
 		this.playerShoot.play();
+		this.game.camera.shake(0.0005, 200);
 	}
 	
 };

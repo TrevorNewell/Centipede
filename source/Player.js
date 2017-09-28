@@ -99,6 +99,7 @@ Centipede.Player.prototype =
 	
 	killPlayer : function ()
 	{
+		this.game.camera.shake(0.03, 500);
 		this.player.kill();
 		if (this.player.alive == false) 
 		{

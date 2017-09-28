@@ -137,14 +137,16 @@ Centipede.Game.prototype =
 	
 	create: function () 
 	{
+		this.sound = new Centipede.Sound(this.game);
+		this.sound.initialize();
+		
+		Centipede.OurSound = this.sound;
+		
 		this.movement = this.input.keyboard.createCursorKeys();
 		this.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	    
 	    //Initializes a Phaser Physics World with Arcade Physics
 	    this.physics.startSystem(Phaser.Physics.ARCADE);
-
-		this.sound = new Centipede.Sound(this.game);
-		this.sound.initialize();
 		
 		this.level = new Centipede.Level(this.game, this.numObstacles);
 		this.level.initialize();
@@ -160,7 +162,7 @@ Centipede.Game.prototype =
 		this.score = new Centipede.Score(this.game);
 		this.score.initialize();
 
-		this.bullets = new Centipede.Bullet(this.game, this.fire, this.sound, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets, this.score);
+		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets, this.score);
 		this.bullets.initialize();
 		
 		this.centipedes = new Centipede.CentipedeGroup(704+48, 704-48, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, Phaser.UP, true, this.score);
@@ -184,7 +186,7 @@ Centipede.Game.prototype =
 			this.spawnNewCentipede(-48, 48, this.player, 8, Phaser.DOWN, true);
 		}
 		
-		console.log(Centipede.count);
+		//console.log(Centipede.count);
 	},
 	
 	// render: function ()
