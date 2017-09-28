@@ -23,15 +23,6 @@ Centipede.Boundary.prototype =
 		this.boundary.enableBody = true;
 		this.game.physics.arcade.enable(this.boundary);
 
-		/*
-		this.leftBorder = this.boundary.create(-1, 0, 'border');
-		this.leftBorder.body.immovable = true;
-		this.leftBorder.scale.setTo(1, Centipede.windowHeight);
-		
-		this.rightBorder = this.boundary.create(Centipede.windowWidth, 0, 'border');
-		this.rightBorder.body.immovable = true;
-		this.rightBorder.scale.setTo(1, Centipede.windowHeight);
-		*/
 		this.bottomBorder = this.boundary.create(0, 415 , null);
 		this.bottomBorder.body.immovable = true;
 		this.bottomBorder.body.setSize(this.game.width, 1);

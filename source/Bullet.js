@@ -1,5 +1,5 @@
 
-Centipede.Bullet = function (game, fire, map, layout, player, maxBullets, score) 
+Centipede.Bullet = function (game, fire, sound, map, layout, player, maxBullets, score) 
 {
 	
 	this.game = game;
@@ -10,6 +10,8 @@ Centipede.Bullet = function (game, fire, map, layout, player, maxBullets, score)
     this.maxBullets = maxBullets;
     this.score = score;
 
+	this.sound = sound;
+	
     this.bulletSpeed = 600;
 	this.bulletTime = 0; // Keep 0, this tracks the time since we fired our last bullet.
 	this.fireRate = 50;
@@ -45,6 +47,9 @@ Centipede.Bullet.prototype =
         //  The speed at which the bullet is fired
         this.weapon.bulletSpeed = this.bulletSpeed;
 
+		this.weapon.onFire = new Phaser.Signal();
+		this.weapon.onFire.add(this.sound.playPlayerShoot, this.sound);
+		
         //  Tell the Weapon to track the 'player' Sprite
         this.weapon.trackSprite(this.player, 15, 0, true);
 
@@ -53,12 +58,19 @@ Centipede.Bullet.prototype =
 	update : function () 
 	{
 
-		if(this.fire.isDown)     
+		if(this.fire.isDown)  
+		{		
 			this.weapon.fire();
+		}
 
 		this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);
 	},
 
+	playFireSound: function()
+	{
+		this.sound.playPlayerShoot();
+	},
+	
 	damageObstacle : function (bullet, tile) 
 	{
 

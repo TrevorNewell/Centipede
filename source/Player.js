@@ -20,6 +20,7 @@ Centipede.Player.prototype =
 
 		// The player and its settings
     	this.player = this.game.add.sprite(this.game.width/2, this.game.height/2, 'player');
+
     	this.player.anchor.set(0.5);
 
 		this.player.scale.setTo(0.9,0.9);
@@ -46,7 +47,7 @@ Centipede.Player.prototype =
 	        this.player.body.velocity.x = Centipede.playerMoveSpeed;
 	        //this.player.angle = 0;
 	    }
-		else if (this.movement.up.isDown)
+		if (this.movement.up.isDown)
 		{
 			this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
 			this.player.angle = 270;

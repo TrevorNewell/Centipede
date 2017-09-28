@@ -19,7 +19,20 @@ Centipede.Preloader.prototype =
 		this.load.image('enemyTurret', 'assets/turret.png');
 
 		this.load.image('spider', 'assets/spider.png');
+		
 		this.load.image('bullet', 'assets/bullet.png'); //Projectile Class
+		
+		// Sounds
+		this.load.audio('hit', 'assets/Sounds/hit.wav');
+		this.load.audio('hit1', 'assets/Sounds/hit1.wav');
+		this.load.audio('hit2', 'assets/Sounds/hit2.wav');
+		this.load.audio('hit3', 'assets/Sounds/hit3.wav');
+		this.load.audio('shoot', 'assets/Sounds/shoot.wav');
+		this.load.audio('shoot1', 'assets/Sounds/shoot1.wav');
+		this.load.audio('shoot2', 'assets/Sounds/shoot2.wav');
+		this.load.audio('shoot3', 'assets/Sounds/shoot3.wav');
+		this.load.audio('background', 'assets/Sounds/background.mp3');
+
 	},
 
 	create: function () 
