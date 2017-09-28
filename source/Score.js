@@ -35,7 +35,7 @@ Centipede.Score.prototype =
 
 	createScore : function() {
 
-		var scoreFont = "50px Arial";
+		var scoreFont = "50px Racer";
 
 		//Create the score label
 		this.scoreLabel = this.game.add.text(this.game.world.centerX, 50, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
@@ -57,7 +57,7 @@ Centipede.Score.prototype =
 
 	createScoreAnimation: function(x, y, message, score){
 	 
-	    var scoreFont = "30px Arial";
+	    var scoreFont = "30px Racer";
 	 
 	    //Create a new label for the score
 	    var scoreAnimation = this.game.add.text(x, y, message, {font: scoreFont, fill: "#39d179", stroke: "#ffffff", strokeThickness: 15}); 
