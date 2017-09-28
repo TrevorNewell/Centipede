@@ -174,7 +174,15 @@ Centipede.Enemy.prototype =
 		//Code for turret to track player
 		if (this.type == 2 && this.enemy.alive)
 		{
-			this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player);
+			if (this.direction == Phaser.LEFT)
+				this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player) + 3.14;
+			else if (this.direction == Phaser.UP)
+				this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player) + 1.57;
+			else if (this.direction == Phaser.DOWN)
+				this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player) - 1.57;
+			else
+				this.turret.rotation = this.game.physics.arcade.angleBetween(this.enemy, this.player);
+
 			if(this.player.alive == true)
 				this.weapon.fireAtSprite(this.player);
 			
