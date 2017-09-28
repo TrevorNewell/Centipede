@@ -60,7 +60,7 @@ Centipede.Level.prototype =
 		for (var i = 0; i < this.numObstacles; i++)
 		{	
 			var randX = this.game.rnd.integerInRange(2,21);
-			var randY = this.game.rnd.integerInRange(2,21)
+			var randY = this.game.rnd.integerInRange(2,19)
 			var t = this.map.putTile(0,randX,randY,this.obstacleLayer);
 			t.rotation = this.game.rnd.integerInRange(0,359);
 		}  

@@ -3,7 +3,7 @@ Centipede.Game = function (game)
 
 	this.player = null;
 
-	this.numObstacles = 100;
+	this.numObstacles = 50;
 
     this.movement = null;       
     this.fire = null;
@@ -114,6 +114,9 @@ Centipede.Game.prototype =
 		this.level.initialize();
 		this.level.randomizeMap();
 
+		this.centipedes = new Centipede.CentipedeGroup(704+48, 704-48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 1, Phaser.UP);
+		this.spawnNewCentipede(-48, 48, 0, Phaser.DOWN);
+
 		this.score = new Centipede.Score(this.game);
 		this.score.initialize();
 
@@ -128,9 +131,6 @@ Centipede.Game.prototype =
 
 		this.spider = new Centipede.Spider(this.game, this.player.returnPlayer(), this.obstacles, this.bullets.returnBullets());
 		this.spider.initialize();
-
-		this.centipedes = new Centipede.CentipedeGroup(702+48, 702-48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 8, Phaser.UP);
-		this.spawnNewCentipede(-48, 48, 8, Phaser.DOWN);
 
 		//console.log(this.centipedes.length);
 		
@@ -170,11 +170,14 @@ Centipede.Game.prototype =
 		*/
 	},
 
-	/*render: function ()
+	render: function ()
 	{
-		this.enemyHead.render();
+		for (i = 0; i < this.centipedes.length; i++) 
+		{
+			this.centipedes.getAt(i).render();
+		}
 	}
-	*/
+	
 
 };
 
