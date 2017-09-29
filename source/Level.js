@@ -28,6 +28,13 @@ Centipede.Level.prototype =
 		{ 
     		for (j = 0; j < Centipede.gridsizeY; j++)
     		{
+
+    			if((j == 13 || j == 9) && i != 1 && i != 20)
+    			{
+    				var t = this.map.putTile(0,i,j,this.obstacleLayer);
+					t.rotation = this.game.rnd.integerInRange(0,359);
+    			}
+
     			if (i==0 || i==21)
 				{
     				var t = this.map.putTile(0,i,j,this.obstacleLayer);
