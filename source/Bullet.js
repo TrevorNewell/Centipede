@@ -72,7 +72,8 @@ Centipede.Bullet.prototype =
 	
 	damageObstacle : function (bullet, tile) 
 	{
-
+		Centipede.OurSound.playObstacleShot();
+		
 		bullet.kill();
 
 		var posX = tile.x;

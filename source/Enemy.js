@@ -91,6 +91,9 @@ Centipede.Enemy.prototype =
 
 	        //  Tell the Weapon to track the 'turret' Sprite
 	        this.weapon.trackSprite(this.turret, 15, 0, true);
+			
+			this.weapon.onFire = new Phaser.Signal();
+			this.weapon.onFire.add(Centipede.OurSound.playCentipedeShoot, Centipede.OurSound);
 
 		}
 		else
@@ -201,6 +204,8 @@ Centipede.Enemy.prototype =
 	
 	killSection : function(centipede, bullet)
 	{
+		Centipede.OurSound.playCentipedeDeath();
+		
 		Centipede.count--;
 		console.log("Killing that <insert politically correct term here>");
 		

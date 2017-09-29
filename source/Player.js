@@ -107,6 +107,8 @@ Centipede.Player.prototype =
 			this.startRespawnTimer();
 			console.log("PLAYER IS DEAD");
 		}
+		
+		Centipede.OurSound.playPlayerDeath();
 	},
 
 	startRespawnTimer : function()
