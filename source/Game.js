@@ -84,6 +84,8 @@ Centipede.Game.prototype =
 {	
 	spawnNewCentipede: function (x, y, player, numSections, goalDirection, spawn)
 	{
+		Centipede.OurSound.playCentipedeSpawn();
+		
 		Centipede.count = Centipede.count + numSections;
 		for (i = 0; i < numSections; i++)
 		{
