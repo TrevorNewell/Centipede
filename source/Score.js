@@ -5,6 +5,8 @@ Centipede.Score = function (game) {
 	this.scoreBuffer = null;
 	this.scoreLabel = null;
 	this.scoreLabelTween = null;
+
+	this.liveGroup = this.game.add.group();
 }
 
 
@@ -20,6 +22,8 @@ Centipede.Score.prototype =
 
 		this.createScore();
 
+		this.createLives();
+
 	},
 
 
@@ -30,15 +34,36 @@ Centipede.Score.prototype =
 	        this.incrementScore();
 	        this.scoreBuffer--;
     	}
+
+    	if (Centipede.playerUpdate == true)
+    		this.updateLives();
 	},
 
+	createLives : function() {
+
+		for (var i = 0; i < Centipede.playerLives - 1; i++) {
+
+			this.liveGroup.add(this.game.add.sprite(30 + 40*i, 30, 'player'));
+		}
+	},
+
+	updateLives : function() {
+
+		Centipede.playerUpdate = false;
+		this.liveGroup.removeAll(true);
+
+		for (var i = 0; i < Centipede.playerLives - 1; i++) {
+
+			this.liveGroup.add(this.game.add.sprite(30 + 40*i, 30, 'player'));
+		}
+	},
 
 	createScore : function() {
 
 		var scoreFont = "50px Racer";
 
 		//Create the score label
-		this.scoreLabel = this.game.add.text(this.game.world.centerX, 50, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
+		this.scoreLabel = this.game.add.text(this.game.world.width - 70, 20, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
 		this.scoreLabel.anchor.setTo(0.5, 0);
 		this.scoreLabel.align = 'center';
 
