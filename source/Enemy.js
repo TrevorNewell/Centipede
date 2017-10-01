@@ -1,4 +1,4 @@
-Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObject, type, goalDirection) 
+Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObject, type, goalDirection, homingSection) 
 {
 	this.x = x;
 	this.y = y;
@@ -7,6 +7,7 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	this.type = type;
 	this.playerObject = playerObject;
 	this.player = this.playerObject.returnPlayer();
+	this.homingSection = homingSection;
 	
 	this.game = game;
 	this.level = level;
@@ -19,7 +20,7 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	this.turret = null;
 	this.weapon = null;
 	
-    this.speed = 250;
+    this.speed = 50;
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
     this.directions = [ null, null, null, null, null ];
@@ -96,6 +97,10 @@ Centipede.Enemy.prototype =
 			this.weapon.onFire.add(Centipede.OurSound.playCentipedeShoot, Centipede.OurSound);
 
 		}
+		else if (this.type == 3) // Homing section
+		{
+			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyRed');
+		}	
 		else
 		{
 			console.log("Invalid type: " + type);
@@ -217,6 +222,14 @@ Centipede.Enemy.prototype =
 		
 		this.level.placeAt(x, y);
 		
+		if (this.type == 3)
+		{
+
+			this.homingSection.launchMissile(centipede.x, centipede.y);
+			//this.homingSection.launchMissile(x, y);
+
+		}
+
 		centipede.kill();
 		
 		//console.log(this.centipedes.length);
