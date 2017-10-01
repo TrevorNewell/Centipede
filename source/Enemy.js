@@ -19,13 +19,15 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	this.turret = null;
 	this.weapon = null;
 	
-    this.speed = 250;
+    this.speed = 400;
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
     this.directions = [ null, null, null, null, null ];
 
     this.gridsize = 32;
     this.threshold = 5;
+
+    this.walk = null; //stores animation
 
 	this.goalDirection = goalDirection;
 	
@@ -55,11 +57,31 @@ Centipede.Enemy.prototype =
 
 		if (this.type == 0) // Head of Centipede
 		{
-			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyRed');
-		}
+			this.enemy = this.game.add.sprite(this.x, this.y, 'enemy1');
+
+    		this.walk = this.enemy.animations.add('walk');
+
+    		this.enemy.animations.play('walk', 30, true);
+    	}		
 		else  if (this.type == 1) // Regular section
 		{
-			this.enemy = this.game.add.sprite(this.x, this.y, 'enemy');
+			var rand = this.game.rnd.integerInRange(0,3);
+
+			if (rand == 0)
+				this.enemy = this.game.add.sprite(this.x, this.y, 'enemy1');
+			
+			else if (rand==1)
+				this.enemy = this.game.add.sprite(this.x, this.y, 'enemy2');
+
+			else if (rand==2)
+				this.enemy = this.game.add.sprite(this.x, this.y, 'enemy3');
+			
+			else
+				this.enemy = this.game.add.sprite(this.x, this.y, 'enemy4');
+
+    		this.walk = this.enemy.animations.add('walk');
+
+    		this.enemy.animations.play('walk', 30, true);
 		}
 		else if (this.type == 2) // Sentry section
 		{
@@ -137,15 +159,15 @@ Centipede.Enemy.prototype =
 				this.marker.x = this.game.math.snapToFloor(Math.floor(this.enemy.x), this.gridsize) / this.gridsize;
         		this.marker.y = this.game.math.snapToFloor(Math.floor(this.enemy.y), this.gridsize) / this.gridsize;
 
-        		if (this.marker.y == 20 && this.marker.x == 10)
-        			this.goalDirection = Phaser.UP;
-
 				if(this.direction != Phaser.DOWN)	
 				{
 					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLane, null, this);
-					this.game.physics.arcade.overlap(this.enemy, this.enemy, this.changeLane, null, this);
+					//this.game.physics.arcade.collide(this.enemy, this.enemy, this.flipDirection, null, this);
+					
+					// if (this.marker.y > this.game.rnd.integerInRange(18,20))
+     //    				this.goalDirection = Phaser.UP;
 				}
-				else
+				else if (this.goalDirection == Phaser.DOWN)
 				{			
 					this.game.physics.arcade.overlap(this.enemy, this.layout, this.turn, null, this);
 				}
@@ -155,18 +177,18 @@ Centipede.Enemy.prototype =
 				this.marker.x = this.game.math.snapToFloor(Math.floor(this.enemy.x), this.gridsize) / this.gridsize;
         		this.marker.y = this.game.math.snapToFloor(Math.floor(this.enemy.y), this.gridsize) / this.gridsize;
 				
-				if (this.marker.y == 1 && this.marker.x == 10)
-        			this.goalDirection = Phaser.DOWN;
-				
 				if(this.direction != Phaser.UP)	
 				{
 					//console.log("Debug!");
 					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLaneUp, null, this);
-					this.game.physics.arcade.overlap(this.enemy, this.enemy, this.changeLaneUp, null, this);
+					//this.game.physics.arcade.collide(this.enemy, this.enemy, this.flipDirection, null, this);
+
+					// if (this.marker.y < this.game.rnd.integerInRange(1,3))
+     //    				this.goalDirection = Phaser.DOWN;
 
 					//console.log(this.directions[2].index)
 				}
-				else
+				else if(this.goalDirection == Phaser.UP)
 				{			
 					this.game.physics.arcade.overlap(this.enemy, this.layout, this.turnUp, null, this);
 				}
@@ -221,6 +243,13 @@ Centipede.Enemy.prototype =
 		
 		//console.log(this.centipedes.length);
 	},
+
+	killSectionManually : function() //This is called from Game to Kill a Centipede
+	{	
+		Centipede.count--;
+		this.enemy.kill();
+		//console.log(this.centipedes.length);
+	},
 	
 	centipedeKillPlayer : function (player, enemy)
 	{
@@ -250,8 +279,15 @@ Centipede.Enemy.prototype =
 
 	changeLaneUp : function()
 	{
-		if (this.directions[2].index === 0 && this.direction === Phaser.RIGHT)
+		if ((this.directions[2].index >= 0) && this.direction === Phaser.RIGHT)
 		{
+			if(this.directions[3].index >= 0 && this.directions[3].index != 5)
+			{
+				this.direction = Phaser.LEFT;
+				this.goalDirection = Phaser.DOWN;
+				return;
+			}
+
 			this.prevDirection = this.direction;
 			this.direction = Phaser.UP;	
 
@@ -265,8 +301,15 @@ Centipede.Enemy.prototype =
 			*/
 		}
 
-		else if (this.directions[1].index === 0 && this.direction === Phaser.LEFT)
+		else if (this.directions[1].index >= 0 && this.direction === Phaser.LEFT)
 		{
+			if(this.directions[3].index >= 0 && this.directions[3].index != 5)
+			{
+				this.direction = Phaser.RIGHT;
+				this.goalDirection = Phaser.DOWN;
+				return;
+			}
+
 			this.prevDirection = this.direction;
 			this.direction = Phaser.UP;
 
@@ -283,8 +326,15 @@ Centipede.Enemy.prototype =
 	
 	changeLane : function()
 	{
-		if (this.directions[2].index === 0 && this.direction === Phaser.RIGHT)
+		if (this.directions[2].index >= 0 && this.direction === Phaser.RIGHT)
 		{
+			if(this.directions[4].index >= 0 && this.directions[4].index != 5)
+			{
+				this.direction = Phaser.LEFT;
+				this.goalDirection = Phaser.UP;
+				return;
+			}
+
 			this.prevDirection = this.direction;
 			this.direction = Phaser.DOWN;	
 
@@ -298,8 +348,15 @@ Centipede.Enemy.prototype =
 			*/
 		}
 
-		else if (this.directions[1].index === 0 && this.direction === Phaser.LEFT)
+		else if (this.directions[1].index >= 0 && this.direction === Phaser.LEFT)
 		{
+			if(this.directions[4].index >= 0 && this.directions[4].index != 5)
+			{
+				this.direction = Phaser.RIGHT;
+				this.goalDirection = Phaser.UP;
+				return;
+			}
+
 			this.prevDirection = this.direction;
 			this.direction = Phaser.DOWN;
 
@@ -434,6 +491,15 @@ Centipede.Enemy.prototype =
             this.enemy.angle = 90;
 			//this.enemy.body.angle = 90;
         }
+	},
+
+	flipDirection : function()
+	{
+		if (this.direction === Phaser.LEFT)
+			this.direction = Phaser.RIGHT;
+
+		else if (this.direction === Phaser.RIGHT)
+			this.direction = Phaser.LEFT;
 	},
 
 	render : function ()

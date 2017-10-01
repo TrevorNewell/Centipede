@@ -11,17 +11,20 @@ Centipede.Preloader.prototype =
 		// Sprites
 		this.load.image('player', 'assets/enemyBlue.png'); //Player object
 		this.load.spritesheet('obstacle', 'assets/obstacle.png', Centipede.spriteSize, Centipede.spriteSize); //Obstacle Class
-		this.load.image('centipedeHead', 'assets/centipedeHead.png'); //Centipede Class
-		this.load.image('centipedeBody', 'assets/centipedeBody.png');
-		this.load.image('enemy', 'assets/enemy.png');
+		
+		this.load.spritesheet('enemy1', 'assets/enemy01AnimationSpreadsheet.png', Centipede.spriteSize, Centipede.spriteSize, 4);
+		this.load.spritesheet('enemy2', 'assets/enemy02AnimationSpreadsheet.png', Centipede.spriteSize, Centipede.spriteSize, 4);
+		this.load.spritesheet('enemy3', 'assets/enemy03AnimationSpreadsheet.png', Centipede.spriteSize, Centipede.spriteSize, 4);
+		this.load.spritesheet('enemy4', 'assets/enemy04AnimationSpreadsheet.png', Centipede.spriteSize, Centipede.spriteSize, 4);
+
 		this.load.image('enemyBlue', 'assets/enemyBlue.png');
 		this.load.image('enemyRed', 'assets/enemyRed.png');
 		this.load.image('enemyTurretHull', 'assets/enemyTurretHull.png');
 		this.load.image('enemyTurret', 'assets/turret.png');
-
-		this.load.image('spider', 'assets/spider.png');
 		
 		this.load.image('bullet', 'assets/bullet.png'); //Projectile Class
+
+		this.load.image("background", "assets/background.png");
 		
 		
 		// Fonts

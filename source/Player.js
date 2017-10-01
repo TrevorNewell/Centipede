@@ -10,7 +10,9 @@ Centipede.Player = function (game, movement, map, layout, boundary)
 
 	this.player = null;
 	this.timer = null; //For Respawning the player
-	
+
+	this.respawn = 0; //This is retuned by update, to determine when the game needs to kill and respawn all Centipedes
+
 	return this;
 };
 
@@ -95,6 +97,8 @@ Centipede.Player.prototype =
 		
 		this.game.physics.arcade.collide(this.player, this.layout);
 		this.game.physics.arcade.collide(this.player, this.boundary);
+
+		return this.respawn;
 	},
 	
 	killPlayer : function ()
@@ -114,9 +118,9 @@ Centipede.Player.prototype =
 	startRespawnTimer : function()
 	{
 
+		this.respawn = 1;
+
 		var timerEvent;
-		
-		this.isSpiderPresent = true;
 		
 		// Create a custom timer
 		this.timer = this.game.time.create();
@@ -131,11 +135,14 @@ Centipede.Player.prototype =
 
 	},
 
-	endRespawnTimer : function() {
-
+	endRespawnTimer : function() 
+	{
+		this.respawn = 0;
+		
 		this.timer.stop();
 		console.log("TIMER CHECK");
-		if (Centipede.playerLives > 1){
+		if (Centipede.playerLives > 1)
+		{
 			Centipede.playerLives--;
 			this.game.paused = false;
 			this.reset();
@@ -143,7 +150,8 @@ Centipede.Player.prototype =
 
 	},
 
-	reset : function(){
+	reset : function()
+	{
 		this.player.revive();
 		this.player.body.x = this.game.width/2;
 		this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;

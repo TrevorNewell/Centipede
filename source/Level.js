@@ -19,7 +19,7 @@ Centipede.Level.prototype =
 		this.map = this.game.add.tilemap();
 		this.map.addTilesetImage('obstacle');
 		this.obstacleLayer = this.map.create('obstacleLayer', 22, 22, 32, 32);
-		this.map.setCollision([0,1,2,3], true, this.layer);
+		this.map.setCollision([0,1,2,3,4], true, this.layer);
 
 		var i;
 		var j;
@@ -29,20 +29,20 @@ Centipede.Level.prototype =
     		for (j = 0; j < Centipede.gridsizeY; j++)
     		{
 
-    			if((j == 13 || j == 9) && i != 1 && i != 20)
+    			if((j == 13 || j == 9) && (i != 0) && (i != 1) && (i != 20) && (i != 21))
     			{
     				var t = this.map.putTile(0,i,j,this.obstacleLayer);
 					t.rotation = this.game.rnd.integerInRange(0,359);
     			}
 
-    			if (i==0 || i==21)
+    			if (i==1 || i==20)
 				{
-    				var t = this.map.putTile(0,i,j,this.obstacleLayer);
+    				var t = this.map.putTile(4,i,j,this.obstacleLayer);
 					t.rotation = this.game.rnd.integerInRange(0,359);
     			}
-    			if (j==0 || j==21)
+    			if (j==1 || j==20)
 				{
-    				var t = this.map.putTile(0,i,j,this.obstacleLayer);
+    				var t = this.map.putTile(4,i,j,this.obstacleLayer);
 					t.rotation = this.game.rnd.integerInRange(0,359);
 				}
     		}
@@ -71,9 +71,9 @@ Centipede.Level.prototype =
 	{	
 		for (var i = 0; i < this.numObstacles; i++)
 		{	
-			var randX = this.game.rnd.integerInRange(2,21);
+			var randX = this.game.rnd.integerInRange(2,19);
 			var randY1 = this.game.rnd.integerInRange(2,7);
-			var randY2 = this.game.rnd.integerInRange(15,21);
+			var randY2 = this.game.rnd.integerInRange(15,19);
 			var t1 = this.map.putTile(0,randX,randY1,this.obstacleLayer);
 			var t2 = this.map.putTile(0,randX,randY2,this.obstacleLayer);
 

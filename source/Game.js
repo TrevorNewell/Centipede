@@ -2,7 +2,7 @@ Centipede.Game = function (game)
 {
 	this.player = null;
 
-	this.numObstacles = 25;
+	this.numObstacles = 10;
 
     this.movement = null;       
     this.fire = null;
@@ -19,6 +19,11 @@ Centipede.Game = function (game)
 	this.centipedes = null;
 	
 	this.bullets = null;
+
+	this.respawnCentipedes = 0;
+
+	this.background = null;
+
 };
 	
 Centipede.CentipedeGroup = function (x, y, game, bullets, t, level, levelLayout, player, numSections, goalDirection, spawn)
@@ -139,6 +144,8 @@ Centipede.Game.prototype =
 	
 	create: function () 
 	{
+		this.background = this.add.tileSprite(0, 0, 704, 704, "background");
+
 		this.sound = new Centipede.Sound(this.game);
 		this.sound.initialize();
 		
@@ -167,13 +174,13 @@ Centipede.Game.prototype =
 		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets, this.score);
 		this.bullets.initialize();
 		
-		this.centipedes = new Centipede.CentipedeGroup(704+48, 704-48, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, Phaser.UP, true, this.score);
-		this.spawnNewCentipede(-48, 48, this.player, 8, Phaser.DOWN, false);
+		this.centipedes = new Centipede.CentipedeGroup(704+48, 672-48, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, Phaser.UP, true, this.score);
+		this.spawnNewCentipede(-48, 80, this.player, 8, Phaser.DOWN, false);
 	},
 
 	update: function () 
 	{    
-        this.player.update();
+        this.respawnCentipedes = this.player.update();
         this.bullets.update();
         this.score.update();
 
@@ -181,11 +188,20 @@ Centipede.Game.prototype =
 		{
 			this.centipedes.getAt(i).update();
 		}
-		
-		if (Centipede.count == 0)
+
+		if (this.respawnCentipedes==1)
 		{
-			this.spawnNewCentipede(704+48, 704-48, this.player, 8, Phaser.UP, true);
-			this.spawnNewCentipede(-48, 48, this.player, 8, Phaser.DOWN, true);
+			for (i = 0; i < this.centipedes.length; i++) 
+			{
+				this.centipedes.getAt(i).killSectionManually();
+			}
+			this.player.respawn = 0;
+		}
+		
+		if (Centipede.count <= 0)
+		{
+			this.spawnNewCentipede(704+48, 672-48, this.player, 8, Phaser.UP, true);
+			this.spawnNewCentipede(-48, 80, this.player, 8, Phaser.DOWN, true);
 		}
 		
 		//console.log(Centipede.count);

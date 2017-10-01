@@ -81,13 +81,18 @@ Centipede.Bullet.prototype =
 		var index = tile.index
 		var layer = tile.layer
 
+		if (index == 4)
+		{	
+			return;
+		}
+
 		tile.destroy();
 
-		if (index <= 3)
+		if (index <= 2)
 			this.map.putTile(index+1,posX,posY,this.layer);
 
 		else
-			this.map.putTile(4,posX,posY,this.layer);
+			this.map.putTile(5,posX,posY,this.layer);
 
 		if(index == 3) 
 			this.score.createScoreAnimation(bullet.x, bullet.y, "+10", 10);
