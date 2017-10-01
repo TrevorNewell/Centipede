@@ -84,10 +84,10 @@ Centipede.Enemy.prototype =
 			  bullet.body.updateBounds(); //To avoid scaling bug with physics
 			  }, this);
 
-			this.weapon.fireRate = 2000; // Measured in milliseconds.
+			this.weapon.fireRate = 3000; // Measured in milliseconds.
 			
 	        //  The speed at which the bullet is fired
-	        this.weapon.bulletSpeed = 250;
+	        this.weapon.bulletSpeed = 200;
 
 	        //  Tell the Weapon to track the 'turret' Sprite
 	        this.weapon.trackSprite(this.turret, 15, 0, true);
