@@ -6,6 +6,7 @@ Centipede.Game = function (game)
 
     this.movement = null;       
     this.fire = null;
+    this.restart = null;
     
     this.maxBullets = 1;
 
@@ -153,7 +154,8 @@ Centipede.Game.prototype =
 		
 		this.movement = this.input.keyboard.createCursorKeys();
 		this.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	    
+		this.restart = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
+
 	    //Initializes a Phaser Physics World with Arcade Physics
 	    this.physics.startSystem(Phaser.Physics.ARCADE);
 		
@@ -203,6 +205,9 @@ Centipede.Game.prototype =
 			this.spawnNewCentipede(704+48, 672-48, this.player, 8, Phaser.UP, true);
 			this.spawnNewCentipede(-48, 80, this.player, 8, Phaser.DOWN, true);
 		}
+
+		if(this.restart.isDown)
+			this.state.start('Game');
 		
 		//console.log(Centipede.count);
 	},

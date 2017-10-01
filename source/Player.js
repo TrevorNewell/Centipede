@@ -148,6 +148,11 @@ Centipede.Player.prototype =
 			this.reset();
 		}
 
+		else
+		{
+			this.game.state.start('GameOver');
+		}
+
 	},
 
 	reset : function()

@@ -25,6 +25,8 @@ Centipede.Preloader.prototype =
 		this.load.image('bullet', 'assets/bullet.png'); //Projectile Class
 
 		this.load.image("background", "assets/background.png");
+
+		this.load.image("splashscreen", "assets/splashscreen.png");
 		
 		
 		// Fonts
@@ -68,7 +70,7 @@ Centipede.Preloader.prototype =
 
 	create: function () 
 	{
-		this.state.start('Game');
+		this.state.start('Splashscreen');
 	},
 
 	update: function () 
