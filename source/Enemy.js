@@ -1,4 +1,4 @@
-Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObject, type, goalDirection) 
+Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObject, type, score, goalDirection) 
 {
 	this.x = x;
 	this.y = y;
@@ -28,6 +28,8 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
     this.threshold = 5;
 
     this.walk = null; //stores animation
+
+    this.score = score;
 
 	this.goalDirection = goalDirection;
 	
@@ -163,12 +165,9 @@ Centipede.Enemy.prototype =
 				{
 					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLane, null, this);
 					//this.game.physics.arcade.collide(this.enemy, this.enemy, this.flipDirection, null, this);
-					
-					// if (this.marker.y > this.game.rnd.integerInRange(18,20))
-     //    				this.goalDirection = Phaser.UP;
 				}
 				else if (this.goalDirection == Phaser.DOWN)
-				{			
+				{		
 					this.game.physics.arcade.overlap(this.enemy, this.layout, this.turn, null, this);
 				}
 			}
@@ -182,11 +181,6 @@ Centipede.Enemy.prototype =
 					//console.log("Debug!");
 					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLaneUp, null, this);
 					//this.game.physics.arcade.collide(this.enemy, this.enemy, this.flipDirection, null, this);
-
-					// if (this.marker.y < this.game.rnd.integerInRange(1,3))
-     //    				this.goalDirection = Phaser.DOWN;
-
-					//console.log(this.directions[2].index)
 				}
 				else if(this.goalDirection == Phaser.UP)
 				{			
@@ -230,6 +224,8 @@ Centipede.Enemy.prototype =
 		
 		Centipede.count--;
 		console.log("Killing that <insert politically correct term here>");
+
+		this.score.createScoreAnimation(bullet.x, bullet.y, "+50", 50);
 		
 		bullet.kill();
 		
