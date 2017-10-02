@@ -197,6 +197,8 @@ Centipede.Enemy.prototype =
 			// Doing it this way, allows us to kill just the bullet that collided with the player.  Which we need to be able to do if we decide to be able to shoot more than one bullet at a time.
 			//this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.turretKillPlayer)
 			
+			this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);
+
 			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
 			{
 				//this.playerObject.killPlayer();
@@ -207,6 +209,26 @@ Centipede.Enemy.prototype =
 		this.move();
 	},
 	
+	damageObstacle : function (bullet, tile)
+	{
+
+		bullet.kill();
+
+		var posX = tile.x;
+		var posY = tile.y;
+		var index = tile.index
+		var layer = tile.layer
+
+		tile.destroy();
+
+		if (index <= 3)
+			this.map.putTile(index+1,posX,posY,this.layer);
+
+		else
+			this.map.putTile(4,posX,posY,this.layer);
+
+	},
+
 	killSection : function(centipede, bullet)
 	{
 		Centipede.OurSound.playCentipedeDeath();
