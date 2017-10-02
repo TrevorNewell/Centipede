@@ -59,7 +59,13 @@ Centipede.Bullet.prototype =
 	{
 		if(this.fire.isDown)  
 		{		
+    		this.player.animations.play('shoot', 30, true);
 			this.weapon.fire();
+		}
+		else
+		{
+			this.player.animations.stop();
+			this.player.frame = 0;
 		}
  
 		this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);

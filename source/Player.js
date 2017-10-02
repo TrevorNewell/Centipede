@@ -11,6 +11,8 @@ Centipede.Player = function (game, movement, map, layout, boundary)
 	this.player = null;
 	this.timer = null; //For Respawning the player
 
+	this.shoot = null;
+
 	this.respawn = 0; //This is retuned by update, to determine when the game needs to kill and respawn all Centipedes
 
 	return this;
@@ -33,6 +35,11 @@ Centipede.Player.prototype =
 		
 		this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
 		this.player.angle = 270;
+
+		this.shoot = this.player.animations.add('shoot');
+
+		this.player.frame = 0;
+
 	},
 
 	update: function () 
