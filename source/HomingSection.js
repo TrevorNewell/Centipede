@@ -8,12 +8,12 @@ Centipede.HomingSection = function (game, playerObject, map, layout, bullets) {
 	this.bullets = bullets;
 
 	this.missileGroup = null;
+	this.missile = null;
 	this.explosionGroup = null;
+	this.explosion = null;
 
 	this.explosionTimer = null;
-	this.explode = false;
-	this.x = null;
-	this.y = null;
+	this.isAlive = false;
 
 	// Define constants that affect motion
     this.SPEED = 50; // missile speed pixels/second
@@ -38,23 +38,23 @@ Centipede.HomingSection.prototype =
 	update : function ()
 	{
 
-		this.game.physics.arcade.collide(this.bullets, this.missileGroup, this.killSection, null, this);
+		if (this.isAlive) {
 
-		// If any missile is within a certain distance of the mouse pointer, blow it up
-    	this.missileGroup.forEachAlive(function(m) {
+			this.game.physics.arcade.collide(this.bullets, this.missile, this.killSection, null, this);
 
-	        this.startExplosionTimer(m);
+			// If any missile is within a certain distance of the player, blow it up
+	        //this.startExplosionTimer();
 
-	        var distance = this.game.math.distance(m.x, m.y, this.player.x, this.player.y);
-        	if (distance < 50) {
-        		this.explode = false;
-            	m.kill();
-            	this.getExplosion(m.x, m.y);
-        	}
+	        var distance = this.game.math.distance(this.missile.x, this.missile.y, this.player.x, this.player.y);
+	    	if (distance < 50) {
+	    		//this.explosionTimer.stop(true);
+	        	this.missile.kill();
+	        	this.getExplosion(this.missile.x, this.missile.y);
+	    	}
 
-        	// Calculate the angle from the missile to the player
+	    	// Calculate the angle from the missile to the player
 		    var targetAngle = this.game.math.angleBetween(
-		        m.x, m.y,
+		        this.missile.x, this.missile.y,
 		        this.player.x, this.player.y
 		    );
 
@@ -63,9 +63,9 @@ Centipede.HomingSection.prototype =
 		    targetAngle += this.game.math.degToRad(this.wobble);
 
 		    // Gradually (this.TURN_RATE) aim the missile towards the target angle
-		    if (m.rotation !== targetAngle) {
+		    if (this.missile.rotation !== targetAngle) {
 		        // Calculate difference between the current angle and targetAngle
-		        var delta = targetAngle - m.rotation;
+		        var delta = targetAngle - this.missile.rotation;
 
 		        // Keep it in range from -180 to 180 to make the most efficient turns.
 		        if (delta > Math.PI) delta -= Math.PI * 2;
@@ -73,23 +73,22 @@ Centipede.HomingSection.prototype =
 
 		        if (delta > 0) {
 		            // Turn clockwise
-		            m.angle += this.TURN_RATE;
+		            this.missile.angle += this.TURN_RATE;
 		        } else {
 		            // Turn counter-clockwise
-		            m.angle -= this.TURN_RATE;
+		            this.missile.angle -= this.TURN_RATE;
 		        }
 
 		        // Just set angle to target angle if they are close
 		        if (Math.abs(delta) < this.game.math.degToRad(this.TURN_RATE)) {
-		            m.rotation = targetAngle;
+		            this.missile.rotation = targetAngle;
 		        }
 		    }
 
 		    // Calculate velocity vector based on this.rotation and this.SPEED
-		    m.body.velocity.x = Math.cos(m.rotation) * this.SPEED;
-		    m.body.velocity.y = Math.sin(m.rotation) * this.SPEED;
-
-    	}, this);
+		    this.missile.body.velocity.x = Math.cos(this.missile.rotation) * this.SPEED;
+		    this.missile.body.velocity.y = Math.sin(this.missile.rotation) * this.SPEED;
+		}
 
 	},
 
@@ -98,11 +97,12 @@ Centipede.HomingSection.prototype =
 
 		bullet.kill();
 		missile.kill();
+		this.isAlive = false;
         this.getExplosion(missile.x, missile.y);
 
 	},
 
-	startExplosionTimer : function (missile)
+	startExplosionTimer : function ()
 	{
 		var timerEvent;
 		
@@ -110,7 +110,7 @@ Centipede.HomingSection.prototype =
 		this.explosionTimer = this.game.time.create();
 		
 		// Create a delayed event 3s from now
-		timerEvent = this.explosionTimer.add(Phaser.Timer.SECOND * 3, this.getExplosion, this);
+		timerEvent = this.explosionTimer.add(Phaser.Timer.SECOND * 3, this.endExplosionTimer, this);
 		
 		// Start the timer
 		this.explosionTimer.start();
@@ -120,67 +120,55 @@ Centipede.HomingSection.prototype =
 	{
 		//stop the explosion timer
 		this.explosionTimer.stop();
-
-		this.explode = true;
+		this.missile.kill();
+		this.getExplosion(this.missile.x, this.missile.y);
 
 	},
 
 	getExplosion : function(x, y)
 	{
 
-		// Get the first dead explosion from the explosionGroup
-	    var explosion = this.explosionGroup.getFirstDead();
+		//kill the homing section
+		this.isAlive = false;
 
-	    // If there aren't any available, create a new one
-	    if (explosion === null) {
-	        explosion = this.game.add.sprite(0, 0, 'explosion');
-	        explosion.anchor.setTo(0.5, 0.5);
-	        this.game.physics.arcade.enable(explosion);
-	        // Add an animation for the explosion that kills the sprite when the
-	        // animation is complete
-	        var animation = explosion.animations.add('boom', [0,1,2,3], 60, false);
-	        animation.killOnComplete = true;
+		
+        this.explosion = this.game.add.sprite(0, 0, 'explosion');
+        this.explosion.anchor.setTo(0.5, 0.5);
+        this.game.physics.arcade.enable(this.explosion);
+        // Add an animation for the explosion that kills the sprite when the
+        // animation is complete
+        var animation = this.explosion.animations.add('boom', [0,1,2,3], 15, false);
+        animation.killOnComplete = true;
 
-	        // Add the explosion sprite to the group
-	        this.explosionGroup.add(explosion);
-	    }
-
-	    explosion.revive();
+	    this.explosion.revive();
 
 	    // Move the explosion to the given coordinates
-	    explosion.x = x;
-	    explosion.y = y;
+	    this.explosion.x = x;
+	    this.explosion.y = y;
 
 	    // Set rotation of the explosion at random for a little variety
-	    explosion.angle = this.game.rnd.integerInRange(0, 360);
+	    this.explosion.angle = this.game.rnd.integerInRange(0, 360);
 
 	    // Play the animation
-	    explosion.animations.play('boom');
+	    this.explosion.animations.play('boom');
 
 	    // Return the explosion itself in case we want to do anything else with it
-	    return explosion;
+	    return this.explosion;
 
 	},
 
 	launchMissile : function (x, y)
 	{
 
-		var missile = this.missileGroup.getFirstDead();
+		this.missile = this.createMissile(x, y);
 
-		// If there aren't any available, create a new one
-	    if (missile === null) {
-	        missile = this.createMissile(x, y);
-	        this.missileGroup.add(missile);
-	    }
+	    this.missile.revive();
+	    this.isAlive = true;
 
-	    missile.revive();
+	    this.missile.x = x;
+	    this.missile.y = y;
 
-	    this.x = x;
-	    this.y = y;
-	    missile.x = x;
-	    missile.y = y;
-
-	    return missile;
+	    return this.missile;
 
 	},
 
