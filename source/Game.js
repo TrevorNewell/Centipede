@@ -191,7 +191,7 @@ Centipede.Game.prototype =
 		this.homingSection.initialize();
 
 		this.centipedes = new Centipede.CentipedeGroup(704+48, 672-48, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, this.score, Phaser.UP, true, this.homingSection);
-		this.spawnNewCentipede(-48, 80, this.player, 8, Phaser.DOWN, false, this.homingSection);
+		this.spawnNewCentipede(-48, 80, this.player, 8, Phaser.DOWN, true, this.homingSection);
 	},
 
 	update: function () 

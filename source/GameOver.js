@@ -16,7 +16,7 @@ Centipede.GameOver.prototype =
 		
 		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-		var scoreFont = "50px Racer";
+		var scoreFont = "30px Racer";
 
 		this.scoreLabel = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 100, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
 		this.scoreLabel.anchor.setTo(0.5, 0.5);
