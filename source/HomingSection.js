@@ -10,6 +10,7 @@ Centipede.HomingSection = function (game, playerObject, level, map, layout, bull
 
 	this.missile = null;
 	this.explosion = null;
+	this.animation = null;
 
 	this.explosionTimer = null;
 	this.isAlive = false;
@@ -38,7 +39,7 @@ Centipede.HomingSection.prototype =
 	update : function ()
 	{
 
-		if (this.explosion != null && this.explosion.alive){
+		if (this.animation != null && this.animat){
 
 			this.game.physics.arcade.overlap(this.explosion, this.layout, this.damageSurroundings, null, this);
 		}
@@ -79,13 +80,30 @@ Centipede.HomingSection.prototype =
 	damageSurroundings : function(explosion, tile)
 	{
 
-		//Do STUFF!
+		var posX = tile.x;
+		var posY = tile.y;
+		var index = tile.index
+		var layer = tile.layer
+
+		if (index == 4)
+		{	
+			return;
+		}
+
+		tile.destroy();
+
+		if (index <= 2)
+			this.map.putTile(index+1,posX,posY,this.layer);
+
+		else
+			this.map.putTile(5,posX,posY,this.layer);
 
 	},
 
 	killSection : function (bullet, missile)
 	{
 
+		this.explosionTimer.stop(true);
 		bullet.kill();
 		missile.kill();
 		this.isAlive = false;
@@ -131,8 +149,8 @@ Centipede.HomingSection.prototype =
 
         // Add an animation for the explosion that kills the sprite when the
         // animation is complete
-        var animation = this.explosion.animations.add('boom', [0,1,2,3], 15, false);
-        animation.killOnComplete = true;
+        this.animation = this.explosion.animations.add('boom', [0,1,2,3], 15, false);
+        this.animation.killOnComplete = true;
 
 	    this.explosion.revive();
 
