@@ -11,7 +11,7 @@ Centipede.Sound = function (game) {
 	this.centipedeMove2 = null;
 	this.centipedeMove3 = null;
 	this.centipedeSpawn = null;
-	this.centipedeShooting1 = null;
+	this.centipedeShooting = null;
 	this.centipedeShooting2 = null;
 	this.centipedeShooting3 = null;
 	this.centipedeShooting4 = null;
@@ -50,14 +50,15 @@ Centipede.Sound.prototype =
 			this.centipedeMove2 = this.game.add.audio("centipedeMove2");
 			this.centipedeMove3 = this.game.add.audio("centipedeMove3");
 			this.centipedeSpawn = this.game.add.audio("centipedeSpawn");
-			
+			this.centipedeShooting = this.game.add.audio("centipedeShooting");
+
 			this.playerKilled = this.game.add.audio("playerKilled");
 			this.playerMove1 = this.game.add.audio("playerMove1");
 			this.playerMove2 = this.game.add.audio("playerMove2");
-			this.playerShooting1 = this.game.add.audio("playerShooting1");
-			this.playerShooting2 = this.game.add.audio("playerShooting2");
-			this.playerShooting3 = this.game.add.audio("playerShooting3");
-			this.playerShooting4 = this.game.add.audio("playerShooting4");
+			this.playerShooting1 = this.game.add.audio("playerShooting");
+			this.playerShooting2 = this.game.add.audio("playerShooting");
+			this.playerShooting3 = this.game.add.audio("playerShooting");
+			this.playerShooting4 = this.game.add.audio("playerShooting");
 		
 			/* 		this.playerShoot = this.game.add.audio("shoot1");
 					this.playerHit = this.game.add.audio("hit");
@@ -77,7 +78,8 @@ Centipede.Sound.prototype =
 			this.centipedeMove2.allowMultiple = true;
 			this.centipedeMove3.allowMultiple = true;
 			this.centipedeSpawn.allowMultiple = true;
-			
+			this.centipedeShooting.allowMultiple = true;
+
 			this.playerKilled.allowMultiple = true;
 			this.playerMove1.allowMultiple = true;
 			this.playerMove2.allowMultiple = true;
@@ -96,20 +98,21 @@ Centipede.Sound.prototype =
 		
 		// Control Volume (0 to 1)
 		{
-			this.backgroundMusic.volume = 0.5;
+			this.backgroundMusic.volume = 0.35;
 			
 			this.obstacleShot.volume = 0.6;
-			this.centipedeDie.volume = 0.7;
+			this.centipedeDie.volume = 0.2;
 			this.centipedeHitsWall.volume = 0.6;
 			this.centipedeMove1.volume = 0.6;
 			this.centipedeMove2.volume = 0.6;
 			this.centipedeMove3.volume = 0.6;
 			this.centipedeSpawn.volume = 0.5;
-			
-			this.playerKilled.volume = 0.9;
+			this.centipedeShooting.volume = 0.5;
+
+			this.playerKilled.volume = 0.7;
 			this.playerMove1.volume = 0.6;
 			this.playerMove2.volume = 0.6;
-			this.playerShooting1.volume = 0.5;
+			this.playerShooting1.volume = 0.6;
 			this.playerShooting2.volume = 0.5;
 			this.playerShooting3.volume = 0.5;
 			this.playerShooting4.volume = 0.5;
@@ -121,27 +124,17 @@ Centipede.Sound.prototype =
 			this.obstacleHit.volume = 1; */
 		}
 		
-		{
-			this.centipedeShooting1 = this.playerShooting1;
-			this.centipedeShooting2 = this.playerShooting2;
-			this.centipedeShooting3 = this.playerShooting3;
-			this.centipedeShooting4 = this.playerShooting4;
-		}
-		
-		//this.backgroundMusic.play();
+		this.backgroundMusic.play();
 	},
 	
 	playPlayerShoot: function ()
 	{
 		//if (this.playerShooting1.isPlaying == false && this.playerShooting2.isPlaying == false && this.playerShooting3.isPlaying == false && this.playerShooting4.isPlaying == false)
-		{
-			var r = 1; // this.game.rnd.integerInRange(1,3); // should be 0 to 3 but first player shooting sound file is .flac right now, eh
-			if (r == 1) this.playerShooting2.play();
-			else if (r == 2) this.playerShooting3.play();
-			else if (r == 3) this.playerShooting4.play();
+		//{
+			this.playerShooting1.play();
 			
-			this.game.camera.shake(0.0005, 200);
-		}
+			//this.game.camera.shake(0.00025, 200);
+		//}
 	},
 	
 	playPlayerMove: function ()
@@ -173,14 +166,11 @@ Centipede.Sound.prototype =
 	playCentipedeShoot: function ()
 	{
 		//if (this.centipedeShooting2.isPlaying == false && this.centipedeShooting3.isPlaying == false && this.centipedeShooting4.isPlaying == false)
-		{
-			var r = 2; // this.game.rnd.integerInRange(1,3); // should be 0 to 3 but first player shooting sound file is .flac right now, eh
-			if (r == 1) this.centipedeShooting2.play();
-			else if (r == 2) this.centipedeShooting3.play();
-			else if (r == 3) this.centipedeShooting4.play();
-			
+		//{
+			this.centipedeShooting.play();
+	
 			this.game.camera.shake(0.00025, 200);
-		}
+		//}
 	},
 	
 	playCentipedeSpawn : function()
@@ -191,6 +181,7 @@ Centipede.Sound.prototype =
 	playCentipedeDeath : function()
 	{
 		this.centipedeDie.play();
+		this.game.camera.shake(0.00025, 200);
 	},
 	
 	playObstacleShot : function()

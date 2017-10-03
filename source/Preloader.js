@@ -53,21 +53,18 @@ Centipede.Preloader.prototype =
 		
 		this.load.audio('obstacleShot', 'assets/Sounds/New/ObstacleShooted.wav');
 
-		this.load.audio('centipedeDie', 'assets/Sounds/New/CentipedeDie.wav');
-		this.load.audio('centipedeHitsWall', 'assets/Sounds/Old/hit2.wav'); //this.load.audio('centipedeHitsWall', 'assets/Sounds/New/CentipedeHitTheWall.aif'); // aif, eff
-		this.load.audio('centipedeMove1', 'assets/Sounds/New/CentipedeMovement01.wav');
+		this.load.audio('centipedeDie', 'assets/Sounds/New/CentipedeSectionDie.wav');
+		this.load.audio('centipedeHitsWall', 'assets/Sounds/New/CentipedeHitTheWall.wav'); //this.load.audio('centipedeHitsWall', 'assets/Sounds/New/CentipedeHitTheWall.aif'); // aif, eff
+		this.load.audio('centipedeMove1', 'assets/Sounds/New/CentipedeMovement.wav');
 		this.load.audio('centipedeMove2', 'assets/Sounds/New/CentipedeMovement02.wav');
 		this.load.audio('centipedeMove3', 'assets/Sounds/New/CentipedeMovement03.wav');
-		this.load.audio('centipedeSpawn', 'assets/Sounds/New/CentipedeSpawn.wav');
-				
-		this.load.audio('playerKilled', 'assets/Sounds/New/PlayerDie.wav');
-		this.load.audio('playerMove1', 'assets/Sounds/New/PlayerMovement01.wav');
-		this.load.audio('playerMove2', 'assets/Sounds/New/PlayerMovement02.wav');
-		this.load.audio('playerShooting1', 'assets/Sounds/New/PlayerShooting02.wav');//this.load.audio('playerShooting1', 'assets/Sounds/New/PlayerShooting01.flac');  // AFLAC
-		this.load.audio('playerShooting2', 'assets/Sounds/New/PlayerShooting02.wav');
-		this.load.audio('playerShooting3', 'assets/Sounds/New/PlayerShooting03.wav');
-		this.load.audio('playerShooting4', 'assets/Sounds/New/PlayerShooting04.wav');
+		this.load.audio('centipedeSpawn', 'assets/Sounds/New/CentipedeSpawned.wav');
+		this.load.audio('centipedeShooting', 'assets/Sounds/New/CentipedeShooting.wav');//this.load.audio('playerShooting1', 'assets/Sounds/New/PlayerShooting01.flac');  // AFLAC
 
+		this.load.audio('playerKilled', 'assets/Sounds/New/PlayerDie.wav');
+		this.load.audio('playerMove1', 'assets/Sounds/New/PlayerMovement.wav');
+		this.load.audio('playerMove2', 'assets/Sounds/New/PlayerMovement02.wav');
+		this.load.audio('playerShooting', 'assets/Sounds/New/PlayerShooting.wav');//this.load.audio('playerShooting1', 'assets/Sounds/New/PlayerShooting01.flac');  // AFLAC
 	},
 
 	create: function () 
