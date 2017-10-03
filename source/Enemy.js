@@ -22,6 +22,7 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	
     this.speed = 250;
 
+
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
     this.directions = [ null, null, null, null, null ];
