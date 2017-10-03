@@ -38,6 +38,11 @@ Centipede.HomingSection.prototype =
 	update : function ()
 	{
 
+		if (this.explosion != null && this.explosion.alive){
+
+			this.game.physics.arcade.overlap(this.explosion, this.layout, this.damageSurroundings, null, this);
+		}
+
 		if (this.isAlive) {
 
 			this.marker.x  = this.game.math.snapToFloor(Math.floor(this.missile.x), this.gridsize) / this.gridsize;
@@ -45,6 +50,14 @@ Centipede.HomingSection.prototype =
 
 	        this.directions[3] = this.map.getTileAbove(this.layout.index, this.marker.x, this.marker.y);
 	        this.directions[4] = this.map.getTileBelow(this.layout.index, this.marker.x, this.marker.y);
+
+	        if (this.marker.x <= 1 || this.marker.y >= 20 || this.marker.y <= 1 || this.marker.y >= 20){
+	        	this.explosionTimer.stop(true);
+	        	this.missile.kill();
+				this.getExplosion(this.missile.x, this.missile.y);
+
+	        }
+
 
 	        if (this.direction == -1){
 	        	if (this.directions[4].index == -1 || this.directions[4].index == 5)
@@ -60,6 +73,13 @@ Centipede.HomingSection.prototype =
 		    this.missile.body.velocity.y = this.direction*this.SPEED;
 
 		}
+
+	},
+
+	damageSurroundings : function(explosion, tile)
+	{
+
+		//Do STUFF!
 
 	},
 
@@ -105,7 +125,10 @@ Centipede.HomingSection.prototype =
 		
         this.explosion = this.game.add.sprite(0, 0, 'explosion');
         this.explosion.anchor.setTo(0.5, 0.5);
+        
         this.game.physics.arcade.enable(this.explosion);
+        this.explosion.body.setSize(Centipede.spriteSize*3, Centipede.spriteSize*3, this.explosion.x - 32, this.explosion.y - 32);
+
         // Add an animation for the explosion that kills the sprite when the
         // animation is complete
         var animation = this.explosion.animations.add('boom', [0,1,2,3], 15, false);
@@ -160,6 +183,14 @@ Centipede.HomingSection.prototype =
 		this.game.physics.arcade.enable(missileSprite);
 
 		return missileSprite;
+	},
+
+	render : function()
+	{
+
+		if (this.explosion != null)
+			this.game.debug.body(this.explosion);
+
 	}
 };
 
