@@ -20,7 +20,7 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	this.turret = null;
 	this.weapon = null;
 	
-    this.speed = 50;
+    this.speed = 250;
 
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
@@ -236,7 +236,7 @@ Centipede.Enemy.prototype =
 			
 			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
 			{
-				//this.playerObject.killPlayer();
+				this.playerObject.killPlayer();
 				this.weapon.forEach(function(bullet){bullet.kill();});
 			}	
 		}
