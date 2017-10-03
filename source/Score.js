@@ -60,7 +60,7 @@ Centipede.Score.prototype =
 
 	createScore : function() {
 
-		var scoreFont = "50px Racer";
+		var scoreFont = "30px Racer";
 
 		//Create the score label
 		this.scoreLabel = this.game.add.text(this.game.world.width - 70, 20, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
@@ -82,10 +82,10 @@ Centipede.Score.prototype =
 
 	createScoreAnimation: function(x, y, message, score){
 	 
-	    var scoreFont = "30px Racer";
+	    var scoreFont = "15px Racer";
 	 
 	    //Create a new label for the score
-	    var scoreAnimation = this.game.add.text(x, y, message, {font: scoreFont, fill: "#39d179", stroke: "#ffffff", strokeThickness: 15}); 
+	    var scoreAnimation = this.game.add.text(x, y, message, {font: scoreFont, fill: "#39d179", stroke: "#ffffff", strokeThickness: 5}); 
 	    scoreAnimation.anchor.setTo(0.5, 0);
 	    scoreAnimation.align = 'center';
 	 

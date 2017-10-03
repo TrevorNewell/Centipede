@@ -124,7 +124,7 @@ Centipede.Sound.prototype =
 			this.obstacleHit.volume = 1; */
 		}
 		
-		this.backgroundMusic.play();
+		if (this.backgroundMusic.isPlaying == false) this.backgroundMusic.play();
 	},
 	
 	playPlayerShoot: function ()

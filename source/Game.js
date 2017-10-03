@@ -213,6 +213,7 @@ Centipede.Game.prototype =
 				this.centipedes.getAt(i).killSectionManually();
 			}
 			this.player.respawn = 0;
+			Centipede.count = 0;
 		}
 		
 		if (Centipede.count <= 0)

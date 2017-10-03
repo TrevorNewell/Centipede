@@ -67,7 +67,7 @@ Centipede.Enemy.prototype =
 
 		if (this.type == 0) // Head of Centipede
 		{
-			this.enemy = this.game.add.sprite(this.x, this.y, 'enemy1');
+			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyBlue');
 
     		this.walk = this.enemy.animations.add('walk');
 
@@ -103,7 +103,7 @@ Centipede.Enemy.prototype =
 			this.turret.anchor.set(0.25, 0.5);
 			
 			//   Init weapon group and fill it with maxBullets
-		    this.weapon = this.game.add.weapon(1000, 'bullet');
+		    this.weapon = this.game.add.weapon(1, 'bullet');
 
 		     //  The bullet will be automatically killed when it leaves the world bounds
 	        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
