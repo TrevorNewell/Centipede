@@ -46,15 +46,15 @@ Centipede.Sound.prototype =
 			this.obstacleShot = this.game.add.audio("obstacleShot");
 			this.centipedeDie = this.game.add.audio("centipedeDie");
 			this.centipedeHitsWall = this.game.add.audio("centipedeHitsWall");
-			this.centipedeMove1 = this.game.add.audio("centipedeMove1");
-			this.centipedeMove2 = this.game.add.audio("centipedeMove2");
-			this.centipedeMove3 = this.game.add.audio("centipedeMove3");
+			//this.centipedeMove1 = this.game.add.audio("centipedeMove1");
+			//this.centipedeMove2 = this.game.add.audio("centipedeMove2");
+			//this.centipedeMove3 = this.game.add.audio("centipedeMove3");
 			this.centipedeSpawn = this.game.add.audio("centipedeSpawn");
 			this.centipedeShooting = this.game.add.audio("centipedeShooting");
 
 			this.playerKilled = this.game.add.audio("playerKilled");
-			this.playerMove1 = this.game.add.audio("playerMove1");
-			this.playerMove2 = this.game.add.audio("playerMove2");
+			//this.playerMove1 = this.game.add.audio("playerMove1");
+			//this.playerMove2 = this.game.add.audio("playerMove2");
 			this.playerShooting1 = this.game.add.audio("playerShooting");
 			this.playerShooting2 = this.game.add.audio("playerShooting");
 			this.playerShooting3 = this.game.add.audio("playerShooting");
@@ -74,15 +74,15 @@ Centipede.Sound.prototype =
 			this.obstacleShot.allowMultiple = true;
 			this.centipedeDie.allowMultiple = true;
 			this.centipedeHitsWall.allowMultiple = true;
-			this.centipedeMove1.allowMultiple = true;
-			this.centipedeMove2.allowMultiple = true;
-			this.centipedeMove3.allowMultiple = true;
+			//this.centipedeMove1.allowMultiple = true;
+			//this.centipedeMove2.allowMultiple = true;
+			//this.centipedeMove3.allowMultiple = true;
 			this.centipedeSpawn.allowMultiple = true;
 			this.centipedeShooting.allowMultiple = true;
 
 			this.playerKilled.allowMultiple = true;
-			this.playerMove1.allowMultiple = true;
-			this.playerMove2.allowMultiple = true;
+			//this.playerMove1.allowMultiple = true;
+			//this.playerMove2.allowMultiple = true;
 			this.playerShooting1.allowMultiple = true;
 			this.playerShooting2.allowMultiple = true;
 			this.playerShooting3.allowMultiple = true;
@@ -103,15 +103,15 @@ Centipede.Sound.prototype =
 			this.obstacleShot.volume = 0.6;
 			this.centipedeDie.volume = 0.2;
 			this.centipedeHitsWall.volume = 0.6;
-			this.centipedeMove1.volume = 0.6;
-			this.centipedeMove2.volume = 0.6;
-			this.centipedeMove3.volume = 0.6;
+			//this.centipedeMove1.volume = 0.6;
+			//this.centipedeMove2.volume = 0.6;
+			//this.centipedeMove3.volume = 0.6;
 			this.centipedeSpawn.volume = 0.5;
 			this.centipedeShooting.volume = 0.5;
 
 			this.playerKilled.volume = 0.7;
-			this.playerMove1.volume = 0.6;
-			this.playerMove2.volume = 0.6;
+			//this.playerMove1.volume = 0.6;
+			//this.playerMove2.volume = 0.6;
 			this.playerShooting1.volume = 0.6;
 			this.playerShooting2.volume = 0.5;
 			this.playerShooting3.volume = 0.5;
@@ -137,26 +137,26 @@ Centipede.Sound.prototype =
 		//}
 	},
 	
-	playPlayerMove: function ()
-	{
-		if (this.playerMove1.isPlaying == false && this.playerMove2.isPlaying == false)
-		{
-			var r = this.game.rnd.integerInRange(0,1); 
-			if (r == 0) this.playerMove1.play();
-			else if (r == 1) this.playerMove2.play();
-		}
-	},
+	// playPlayerMove: function ()
+	// {
+	// 	if (this.playerMove1.isPlaying == false && this.playerMove2.isPlaying == false)
+	// 	{
+	// 		var r = this.game.rnd.integerInRange(0,1); 
+	// 		if (r == 0) this.playerMove1.play();
+	// 		else if (r == 1) this.playerMove2.play();
+	// 	}
+	// },
 	
-	playCentipedeMove: function ()
-	{
-		if (this.centipedeMove1.isPlaying == false && this.centipedeMove2.isPlaying == false && this.centipedeMove3.isPlaying == false)
-		{
-			var r = this.game.rnd.integerInRange(0,2);
-			if (r == 0) this.centipedeMove1.play();
-			else if (r == 1) this.centipedeMove2.play();
-			else if (r == 2) this.centipedeMove3.play();
-		}
-	},
+	// playCentipedeMove: function ()
+	// {
+	// 	if (this.centipedeMove1.isPlaying == false && this.centipedeMove2.isPlaying == false && this.centipedeMove3.isPlaying == false)
+	// 	{
+	// 		var r = this.game.rnd.integerInRange(0,2);
+	// 		if (r == 0) this.centipedeMove1.play();
+	// 		else if (r == 1) this.centipedeMove2.play();
+	// 		else if (r == 2) this.centipedeMove3.play();
+	// 	}
+	// },
 	
 	playPlayerDeath : function()
 	{

@@ -90,7 +90,7 @@ Centipede.Score.prototype =
 	    scoreAnimation.align = 'center';
 	 
 	    //Tween this score label to the total score label
-	    var scoreTween = this.game.add.tween(scoreAnimation).to({x:this.game.world.centerX, y: 50}, 800, Phaser.Easing.Exponential.In, true);
+	    var scoreTween = this.game.add.tween(scoreAnimation).to({x:this.game.world.width - 70, y: 20}, 800, Phaser.Easing.Exponential.In, true);
 	 
 	    //When the animation finishes, destroy this score label, trigger the total score labels animation and add the score
 	    scoreTween.onComplete.add(function(){

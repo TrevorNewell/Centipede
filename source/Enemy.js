@@ -162,9 +162,22 @@ Centipede.Enemy.prototype =
 		// Start the timer
 		this.disableTimer.start(false);
 
+		this.enemy.checkWorldBounds = true;
+		this.enemy.events.onOutOfBounds.add(this.centipedeOutOfBounds, this);
     	//this.enemy.body.collideWorldBounds = true;
 	},
 	
+	centipedeOutOfBounds : function ()
+	{
+		if (this.hasEntered)
+		{
+			Centipede.count--;
+			console.log("Killing that <insert politically correct term here>");
+
+			this.enemy.kill();
+		}
+	},
+
 	update: function () 
 	{	
 		if (this.enemy.alive) this.game.physics.arcade.collide(this.player, this.enemy, this.centipedeKillPlayer, null, this); // Disabled rn.  Player dies repeatedly in same spot.
