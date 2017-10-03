@@ -151,6 +151,7 @@ Centipede.Player.prototype =
 		if (Centipede.playerLives > 1)
 		{
 			Centipede.playerLives--;
+			Centipede.playerUpdate = true;
 			this.game.paused = false;
 			this.reset();
 		}
