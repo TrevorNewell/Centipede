@@ -49,6 +49,11 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	}
 	
 	this.hasEntered = false;
+
+	this.disableTimer = null;
+	//this.enableTimer = null;
+
+	//this.weaponOn = false;
 	
 	return this;
 };
@@ -95,7 +100,7 @@ Centipede.Enemy.prototype =
 			this.turret.anchor.set(0.25, 0.5);
 			
 			//   Init weapon group and fill it with maxBullets
-		    this.weapon = this.game.add.weapon(2, 'bullet');
+		    this.weapon = this.game.add.weapon(1000, 'bullet');
 
 		     //  The bullet will be automatically killed when it leaves the world bounds
 	        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -108,16 +113,18 @@ Centipede.Enemy.prototype =
 			  bullet.body.updateBounds(); //To avoid scaling bug with physics
 			  }, this);
 
-			this.weapon.fireRate = 2000; // Measured in milliseconds.
+			this.weapon.fireRate = 10; // Measured in milliseconds.
 			
 	        //  The speed at which the bullet is fired
-	        this.weapon.bulletSpeed = 250;
+	        this.weapon.bulletSpeed = 200;
 
 	        //  Tell the Weapon to track the 'turret' Sprite
 	        this.weapon.trackSprite(this.turret, 15, 0, true);
 			
 			this.weapon.onFire = new Phaser.Signal();
 			this.weapon.onFire.add(Centipede.OurSound.playCentipedeShoot, Centipede.OurSound);
+
+			this.weapon.fireLimit = 1;
 
 		}
 		else
@@ -135,6 +142,18 @@ Centipede.Enemy.prototype =
     	this.game.physics.arcade.enable(this.enemy);
 
 		this.enemy.body.setSize(24, 24, 4, 4);
+		
+		// Create a custom timer
+		this.disableTimer = this.game.time.create(false);
+		this.enableTimer = this.game.time.create(false);
+			
+		var timerEvent;
+
+		// Create a delayed event 10s from now
+		timerEvent = this.disableTimer.add(Phaser.Timer.SECOND * 5, this.enableTurret, this);
+			
+		// Start the timer
+		this.disableTimer.start(false);
 
     	//this.enemy.body.collideWorldBounds = true;
 	},
@@ -207,6 +226,7 @@ Centipede.Enemy.prototype =
 			
 			// Doing it this way, allows us to kill just the bullet that collided with the player.  Which we need to be able to do if we decide to be able to shoot more than one bullet at a time.
 			//this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.turretKillPlayer)
+			this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);
 			
 			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
 			{
@@ -217,6 +237,53 @@ Centipede.Enemy.prototype =
 		
 		this.move();
 	},
+
+	damageObstacle : function (bullet, tile)
+    {
+
+        bullet.kill();
+
+        var posX = tile.x;
+        var posY = tile.y;
+        var index = tile.index
+        var layer = tile.layer
+
+        tile.destroy();
+
+		if (index == 4)
+		{	
+			return;
+		}
+
+		tile.destroy();
+
+		if (index <= 3)
+			this.map.putTile(5,posX,posY,this.layer);
+    },
+
+    enableTurret : function ()
+    {
+    	if(this.type != 2)
+    		return;
+
+    	console.log("\nturret enabled!")
+
+  		this.disableTimer.stop();
+
+		var timerEvent;	
+		// Create a custom timer
+			
+		// Create a delayed event 10s from now
+		timerEvent = this.disableTimer.add(Phaser.Timer.SECOND * 5, this.enableTurret, this);	
+
+		this.weapon.resetShots();
+	
+		// Start the timer
+		this.disableTimer.start();
+
+  //   	this.weaponOn = true;
+
+    },
 	
 	killSection : function(centipede, bullet)
 	{
