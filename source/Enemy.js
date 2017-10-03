@@ -242,16 +242,14 @@ Centipede.Enemy.prototype =
 		var x  = this.game.math.snapToFloor(Math.floor(centipede.x), this.gridsize) / this.gridsize;
         var y = this.game.math.snapToFloor(Math.floor(centipede.y), this.gridsize) / this.gridsize;
 		
-		this.level.placeAt(x, y);
+		
 		
 		if (this.type == 3)
-		{
-
 			this.homingSection.launchMissile(centipede.x, centipede.y);
-			//this.homingSection.launchMissile(x, y);
-
-		}
-
+		
+		else
+			this.level.placeAt(x, y);
+		
 		centipede.kill();
 		
 		//console.log(this.centipedes.length);

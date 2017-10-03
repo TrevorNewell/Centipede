@@ -1,27 +1,27 @@
-Centipede.HomingSection = function (game, playerObject, map, layout, bullets) {
+Centipede.HomingSection = function (game, playerObject, level, map, layout, bullets) {
 
 	this.game = game;
 	this.playerObject = playerObject;
+	this.level = level;
 	this.player = this.playerObject.returnPlayer();
 	this.layout = layout;
 	this.map = map;
 	this.bullets = bullets;
 
-	this.missileGroup = null;
 	this.missile = null;
-	this.explosionGroup = null;
 	this.explosion = null;
 
 	this.explosionTimer = null;
 	this.isAlive = false;
+	this.direction = null;
+
+	this.marker = new Phaser.Point();
+	this.directions = [ null, null, null, null, null ];
+
+	this.gridsize = 32;
 
 	// Define constants that affect motion
-    this.SPEED = 50; // missile speed pixels/second
-    this.TURN_RATE = 5; // turn rate in degrees/frame
-    this.WOBBLE_LIMIT = 15; // degrees
-    this.WOBBLE_SPEED = 250; // milliseconds
-
-    this.wobble = null;
+    this.SPEED = 150; // missile speed pixels/second
 }
 
 Centipede.HomingSection.prototype = 
@@ -40,54 +40,25 @@ Centipede.HomingSection.prototype =
 
 		if (this.isAlive) {
 
+			this.marker.x  = this.game.math.snapToFloor(Math.floor(this.missile.x), this.gridsize) / this.gridsize;
+	        this.marker.y = this.game.math.snapToFloor(Math.floor(this.missile.y), this.gridsize) / this.gridsize;
+
+	        this.directions[3] = this.map.getTileAbove(this.layout.index, this.marker.x, this.marker.y);
+	        this.directions[4] = this.map.getTileBelow(this.layout.index, this.marker.x, this.marker.y);
+
+	        if (this.direction == -1){
+	        	if (this.directions[4].index == -1 || this.directions[4].index == 5)
+	        		this.level.placeAt(this.marker.x, this.marker.y);
+	        }
+	        else {
+	        	if (this.directions[3].index == -1 || this.directions[3].index == 5)
+	        		this.level.placeAt(this.marker.x, this.marker.y);
+	        }
+
 			this.game.physics.arcade.collide(this.bullets, this.missile, this.killSection, null, this);
 
-			// If any missile is within a certain distance of the player, blow it up
-	        //this.startExplosionTimer();
+		    this.missile.body.velocity.y = this.direction*this.SPEED;
 
-	        var distance = this.game.math.distance(this.missile.x, this.missile.y, this.player.x, this.player.y);
-	    	if (distance < 50) {
-	    		//this.explosionTimer.stop(true);
-	        	this.missile.kill();
-	        	this.getExplosion(this.missile.x, this.missile.y);
-	    	}
-
-	    	// Calculate the angle from the missile to the player
-		    var targetAngle = this.game.math.angleBetween(
-		        this.missile.x, this.missile.y,
-		        this.player.x, this.player.y
-		    );
-
-		    // Add our "wobble" factor to the targetAngle to make the missile wobble
-		    // Remember that this.wobble is tweening (above)
-		    targetAngle += this.game.math.degToRad(this.wobble);
-
-		    // Gradually (this.TURN_RATE) aim the missile towards the target angle
-		    if (this.missile.rotation !== targetAngle) {
-		        // Calculate difference between the current angle and targetAngle
-		        var delta = targetAngle - this.missile.rotation;
-
-		        // Keep it in range from -180 to 180 to make the most efficient turns.
-		        if (delta > Math.PI) delta -= Math.PI * 2;
-		        if (delta < -Math.PI) delta += Math.PI * 2;
-
-		        if (delta > 0) {
-		            // Turn clockwise
-		            this.missile.angle += this.TURN_RATE;
-		        } else {
-		            // Turn counter-clockwise
-		            this.missile.angle -= this.TURN_RATE;
-		        }
-
-		        // Just set angle to target angle if they are close
-		        if (Math.abs(delta) < this.game.math.degToRad(this.TURN_RATE)) {
-		            this.missile.rotation = targetAngle;
-		        }
-		    }
-
-		    // Calculate velocity vector based on this.rotation and this.SPEED
-		    this.missile.body.velocity.x = Math.cos(this.missile.rotation) * this.SPEED;
-		    this.missile.body.velocity.y = Math.sin(this.missile.rotation) * this.SPEED;
 		}
 
 	},
@@ -162,7 +133,15 @@ Centipede.HomingSection.prototype =
 
 		this.missile = this.createMissile(x, y);
 
+		if (y > this.player.y)
+			this.direction = -1;
+
+		else
+			this.direction = 1; 
+
 	    this.missile.revive();
+
+	    this.startExplosionTimer();
 	    this.isAlive = true;
 
 	    this.missile.x = x;
@@ -179,14 +158,6 @@ Centipede.HomingSection.prototype =
 		missileSprite.anchor.setTo(0.5, 0.5);
 
 		this.game.physics.arcade.enable(missileSprite);
-
-		this.wobble = this.WOBBLE_LIMIT;
-		this.game.add.tween(missileSprite).to(
-
-				{ wobble: -this.WOBBLE_LIMIT },
-            	this.WOBBLE_SPEED, Phaser.Easing.Sinusoidal.InOut, true, 0,
-            	Number.POSITIVE_INFINITY, true
-			);
 
 		return missileSprite;
 	}

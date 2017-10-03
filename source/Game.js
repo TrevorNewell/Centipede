@@ -169,7 +169,7 @@ Centipede.Game.prototype =
 		this.bullets = new Centipede.Bullet(this.game, this.fire, this.level.returnLevel(), this.level.returnLevelLayout(), this.player.returnPlayer(), this.maxBullets, this.score);
 		this.bullets.initialize();
 		
-		this.homingSection = new Centipede.HomingSection(this.game, this.player, this.level.returnLevel(), this.level.returnLevelLayout(), this.bullets.returnBullets());
+		this.homingSection = new Centipede.HomingSection(this.game, this.player, this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.bullets.returnBullets());
 		this.homingSection.initialize();
 
 		this.centipedes = new Centipede.CentipedeGroup(704+48, 704-48, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, Phaser.UP, true, this.homingSection);
