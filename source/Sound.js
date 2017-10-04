@@ -65,8 +65,7 @@ Centipede.Sound.prototype =
 			this.centipedeShooting.allowMultiple = true;
 
 			this.playerKilled.allowMultiple = true;
-			//this.playerMove1.allowMultiple = true;
-			//this.playerMove2.allowMultiple = true;
+
 			this.playerShooting1.allowMultiple = true;
 			this.playerShooting2.allowMultiple = true;
 			this.playerShooting3.allowMultiple = true;

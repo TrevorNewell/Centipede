@@ -19,18 +19,19 @@ Centipede.Preloader.prototype =
 
 		this.load.image('enemyBlue', 'assets/enemyBlue.png');
 		this.load.image('enemyRed', 'assets/enemyRed.png');
+		
 		this.load.image('enemyTurretHull', 'assets/enemyTurretHull.png');
 		this.load.image('enemyTurret', 'assets/turret.png');
 
 		this.load.spritesheet('explosion', 'assets/obstacle.png', Centipede.spriteSize, Centipede.spriteSize);
 		
-		this.load.image('bullet', 'assets/bullet.png');
+		this.load.spritesheet('enemyBullet', 'assets/enemyBullet.png', Centipede.spriteSize/2, Centipede.spriteSize/2, 3);
+		this.load.spritesheet('playerBullet', 'assets/playerBullet.png', Centipede.spriteSize/2, Centipede.spriteSize/2, 3);
 
 		this.load.image("background", "assets/background.png");
 
 		this.load.image("splashscreen", "assets/splashscreen.png");
 		
-		//Sounds!
 		this.load.audio('hit', 'assets/Sounds/Old/hit.wav');
 		this.load.audio('hit1', 'assets/Sounds/Old/hit1.wav');
 		this.load.audio('hit2', 'assets/Sounds/Old/hit2.wav');
