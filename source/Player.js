@@ -38,7 +38,9 @@ Centipede.Player.prototype =
 		this.shoot = this.player.animations.add('shoot');
 
 		this.player.frame = 0;
-
+		
+		//this.player.onKilled = new Phaser.Signal();
+		//this.player.events.onKilled.add(this.playExplode, this);
 	},
 
 	update: function () 
@@ -107,15 +109,28 @@ Centipede.Player.prototype =
 	{
 		this.game.camera.shake(0.03, 500);
 		this.player.kill();
+		
 		if (this.player.alive == false) 
 		{
 			this.game.physics.arcade.isPaused = true;
+			this.playExplode();
 			this.startRespawnTimer();
 		}
 		
 		Centipede.OurSound.playPlayerDeath();
 	},
 
+	playExplode : function()
+	{
+		var explodeAnim = this.game.add.sprite(this.player.x, this.player.y, 'explosionBlue');
+		explodeAnim.anchor.set(0.5);
+		explodeAnim.scale.setTo(1.2,1.2);
+		explodeAnim.rotation = this.game.rnd.integerInRange(0,359);
+		explodeAnim.animations.add('explode');
+		explodeAnim.animations.play('explode', 20, false, true);
+		//explodeAnim.animations.paused = false;
+	},
+	
 	startRespawnTimer : function()
 	{
 

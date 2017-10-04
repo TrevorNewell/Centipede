@@ -23,10 +23,13 @@ Centipede.Preloader.prototype =
 		this.load.image('enemyTurretHull', 'assets/enemyTurretHull.png');
 		this.load.image('enemyTurret', 'assets/turret.png');
 
-		this.load.spritesheet('explosion', 'assets/obstacle.png', Centipede.spriteSize, Centipede.spriteSize);
-		
-		this.load.spritesheet('enemyBullet', 'assets/enemyBullet.png', Centipede.spriteSize/2, Centipede.spriteSize/2, 3);
-		this.load.spritesheet('playerBullet', 'assets/playerBullet.png', Centipede.spriteSize/2, Centipede.spriteSize/2, 3);
+		this.load.spritesheet('explosionRed', 'assets/ExplosionOrange.png', 64, 64);
+		this.load.spritesheet('explosionBlue', 'assets/ExplosionBlue.png', 64, 64);
+
+		this.load.spritesheet('poof', 'assets/Poof.png', 24, 24);
+	
+		this.load.image('bullet', 'assets/bullet.png'); //Projectile Class
+		this.load.image('bulletOrange', 'assets/bulletOrange.png'); //Projectile Class
 
 		this.load.image("background", "assets/background.png");
 
