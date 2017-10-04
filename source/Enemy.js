@@ -22,7 +22,6 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	
     this.speed = 250;
 
-
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
     this.directions = [ null, null, null, null, null ];
@@ -57,6 +56,8 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	//this.enableTimer = null;
 
 	//this.weaponOn = false;
+	
+	this.explosion = null;
 	
 	return this;
 };
@@ -127,6 +128,9 @@ Centipede.Enemy.prototype =
 			this.weapon.onFire = new Phaser.Signal();
 			this.weapon.onFire.add(Centipede.OurSound.playCentipedeShoot, Centipede.OurSound);
 
+			this.weapon.onKill = new Phaser.Signal();
+			this.weapon.onKill.add(this.playEnemyBulletExplode, this);
+		
 			this.weapon.fireLimit = 1;
 
 		}
@@ -165,6 +169,10 @@ Centipede.Enemy.prototype =
 		this.enemy.checkWorldBounds = true;
 		this.enemy.events.onOutOfBounds.add(this.centipedeOutOfBounds, this);
     	//this.enemy.body.collideWorldBounds = true;
+		
+		// Setup the explosion for this object.  If this object's a turret, we can also setup explosions for its' bullets.
+		this.enemy.onKilled = new Phaser.Signal();
+		this.enemy.events.onKilled.add(this.playExplode, this);
 	},
 	
 	centipedeOutOfBounds : function ()
@@ -258,6 +266,26 @@ Centipede.Enemy.prototype =
 		this.move();
 	},
 
+	playEnemyBulletExplode : function(bullet)
+	{
+		var explodeAnim = this.game.add.sprite(bullet.x, bullet.y, 'explosionRed');
+		explodeAnim.anchor.set(0.5);
+		explodeAnim.scale.setTo(0.4,0.4);
+		explodeAnim.rotation = this.game.rnd.integerInRange(0,359);
+		explodeAnim.animations.add('explode');
+		explodeAnim.animations.play('explode', 20, false, true);
+	},
+	
+	playExplode : function()
+	{
+		var explodeAnim = this.game.add.sprite(this.enemy.x, this.enemy.y, 'explosionRed');
+		explodeAnim.anchor.set(0.5);
+		explodeAnim.scale.setTo(1.2,1.2);
+		explodeAnim.rotation = this.game.rnd.integerInRange(0,359);
+		explodeAnim.animations.add('explode');
+		explodeAnim.animations.play('explode', 20, false, true);
+	},
+	
 	damageObstacle : function (bullet, tile)
     {
 

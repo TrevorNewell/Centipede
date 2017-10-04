@@ -50,6 +50,10 @@ Centipede.Bullet.prototype =
 		this.weapon.onFire = new Phaser.Signal();
 		this.weapon.onFire.add(Centipede.OurSound.playPlayerShoot, Centipede.OurSound);
 		
+		// Add our bullet explosion effect.
+		this.weapon.onKill = new Phaser.Signal();
+		this.weapon.onKill.add(this.playBulletExplode, this);
+		
         //  Tell the Weapon to track the 'player' Sprite
         this.weapon.trackSprite(this.player, 10, 0, true);
 
@@ -71,6 +75,16 @@ Centipede.Bullet.prototype =
 		this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);
 	},
 
+	playBulletExplode : function(bullet)
+	{
+		var explodeAnim = this.game.add.sprite(bullet.x, bullet.y, 'explosionBlue');
+		explodeAnim.anchor.set(0.5);
+		explodeAnim.scale.setTo(0.4,0.4);
+		explodeAnim.rotation = this.game.rnd.integerInRange(0,359);
+		explodeAnim.animations.add('explode');
+		explodeAnim.animations.play('explode', 20, false, true);
+	},
+	
 	playFireSound: function()
 	{
 		this.sound.playPlayerShoot();
@@ -103,6 +117,7 @@ Centipede.Bullet.prototype =
 		if(index == 3) 
 			this.score.createScoreAnimation(bullet.x, bullet.y, "+10", 10);
 	},
+	
 	
 	returnBullets : function ()
 	{
