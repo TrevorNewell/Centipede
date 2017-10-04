@@ -60,10 +60,10 @@ Centipede.Score.prototype =
 
 	createScore : function() {
 
-		var scoreFont = "30px Racer";
+		var scoreFont = "30px Onky";
 
 		//Create the score label
-		this.scoreLabel = this.game.add.text(this.game.world.width - 70, 20, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
+		this.scoreLabel = this.game.add.text(this.game.world.width/2-12, 10, "0", {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5});
 		this.scoreLabel.anchor.setTo(0.5, 0);
 		this.scoreLabel.align = 'center';
 
@@ -82,15 +82,15 @@ Centipede.Score.prototype =
 
 	createScoreAnimation: function(x, y, message, score){
 	 
-	    var scoreFont = "15px Racer";
+	    var scoreFont = "15px Onky";
 	 
 	    //Create a new label for the score
-	    var scoreAnimation = this.game.add.text(x, y, message, {font: scoreFont, fill: "#39d179", stroke: "#ffffff", strokeThickness: 5}); 
+	    var scoreAnimation = this.game.add.text(x, y, message, {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5}); 
 	    scoreAnimation.anchor.setTo(0.5, 0);
 	    scoreAnimation.align = 'center';
 	 
 	    //Tween this score label to the total score label
-	    var scoreTween = this.game.add.tween(scoreAnimation).to({x:this.game.world.width - 70, y: 20}, 800, Phaser.Easing.Exponential.In, true);
+	    var scoreTween = this.game.add.tween(scoreAnimation).to({x:(this.game.world.width/2)-12, y: 5}, 800, Phaser.Easing.Exponential.In, true);
 	 
 	    //When the animation finishes, destroy this score label, trigger the total score labels animation and add the score
 	    scoreTween.onComplete.add(function(){
