@@ -2,7 +2,6 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 {
 	this.x = x;
 	this.y = y;
-	//this.sprite = sprite;
 		
 	this.type = type;
 	this.playerObject = playerObject;
@@ -30,7 +29,7 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
     this.gridsize = 32;
     this.threshold = 5;
 
-    this.walk = null; //stores animation
+    this.walk = null; 
 
     this.score = score;
 
@@ -54,9 +53,8 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	this.hasEntered = false;
 
 	this.disableTimer = null;
-	//this.enableTimer = null;
 
-	//this.weaponOn = false;
+	this.aggresive = false;
 	
 	return this;
 };
@@ -140,7 +138,6 @@ Centipede.Enemy.prototype =
 		}
 		
 		// The player and its settings
-    	//this.enemy = this.game.add.sprite(this.x, this.y, this.sprite);
     	this.enemy.anchor.set(0.5,0.5);
 
 		this.enemy.scale.setTo(1,1);
@@ -182,51 +179,84 @@ Centipede.Enemy.prototype =
 	{	
 		if (this.enemy.alive) this.game.physics.arcade.collide(this.player, this.enemy, this.centipedeKillPlayer, null, this); // Disabled rn.  Player dies repeatedly in same spot.
 		if (this.enemy.alive) this.game.physics.arcade.collide(this.bullets, this.enemy, this.killSection, null, this);
-
-		//console.log(this.enemy.body.touching.left);
         
         //  Update our grid sensors
         this.directions[1] = this.map.getTileLeft(this.layout.index, this.marker.x, this.marker.y);
         this.directions[2] = this.map.getTileRight(this.layout.index, this.marker.x, this.marker.y);
         this.directions[3] = this.map.getTileAbove(this.layout.index, this.marker.x, this.marker.y);
         this.directions[4] = this.map.getTileBelow(this.layout.index, this.marker.x, this.marker.y);
-
-		//console.log(this.hasEntered);
 		
 		if (this.hasEntered)
 		{
+			this.marker.x = this.game.math.snapToFloor(Math.floor(this.enemy.x), this.gridsize) / this.gridsize;
+        	this.marker.y = this.game.math.snapToFloor(Math.floor(this.enemy.y), this.gridsize) / this.gridsize;
+
 			if (this.goalDirection == Phaser.DOWN)
 			{
-				this.marker.x = this.game.math.snapToFloor(Math.floor(this.enemy.x), this.gridsize) / this.gridsize;
-        		this.marker.y = this.game.math.snapToFloor(Math.floor(this.enemy.y), this.gridsize) / this.gridsize;
+        		if (this.marker.y == 11)
+        			this.aggresive = true;
 
+        		else 
+        			this.aggresive = false;
+				
 				if(this.direction != Phaser.DOWN)	
 				{
-					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLane, null, this);
-					//this.game.physics.arcade.collide(this.enemy, this.enemy, this.flipDirection, null, this);
+					if (this.marker.y > this.game.rnd.integerInRange(22,25))
+        				this.goalDirection = Phaser.UP;
+
+					if(this.goalDirection == Phaser.DOWN)
+					{
+						if(this.aggresive)
+						{
+							this.game.physics.arcade.overlap(this.enemy, this.layout, this.changeLaneAggresively, null, this);
+						}
+						else
+						{	
+							this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLane, null, this);
+						}
+					}
 				}
-				else if (this.goalDirection == Phaser.DOWN)
-				{		
-					this.game.physics.arcade.overlap(this.enemy, this.layout, this.turn, null, this);
+				else 
+				{
+					if(this.goalDirection == Phaser.DOWN)
+					{		
+						this.game.physics.arcade.overlap(this.enemy, this.layout, this.turn, null, this);
+					}
 				}
 			}
 			else if (this.goalDirection == Phaser.UP)
-			{
-				this.marker.x = this.game.math.snapToFloor(Math.floor(this.enemy.x), this.gridsize) / this.gridsize;
-        		this.marker.y = this.game.math.snapToFloor(Math.floor(this.enemy.y), this.gridsize) / this.gridsize;
-				
+			{				
+        		if (this.marker.y == 17)
+        			this.aggresive = true;
+
+        		else
+        			this.aggresive = false;
+
 				if(this.direction != Phaser.UP)	
 				{
-					//console.log("Debug!");
-					this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLaneUp, null, this);
-					//this.game.physics.arcade.collide(this.enemy, this.enemy, this.flipDirection, null, this);
+					if (this.marker.y < this.game.rnd.integerInRange(3,6))
+        				this.goalDirection = Phaser.DOWN;
+
+					if(this.goalDirection == Phaser.UP)
+					{
+						if(this.aggresive)
+						{
+							this.game.physics.arcade.overlap(this.enemy, this.layout, this.changeLaneUpAggresively, null, this);
+						}
+						else
+						{
+							this.game.physics.arcade.collide(this.enemy, this.layout, this.changeLaneUp, null, this);
+						}
+					}
 				}
-				else if(this.goalDirection == Phaser.UP)
-				{			
-					this.game.physics.arcade.overlap(this.enemy, this.layout, this.turnUp, null, this);
+				else 
+				{	
+					if(this.goalDirection == Phaser.UP)
+					{	
+						this.game.physics.arcade.overlap(this.enemy, this.layout, this.turnUp, null, this);
+					}
 				}
 			}
-			//console.log(this.marker.y);
 		}
 
 		//Code for turret to track player
@@ -245,7 +275,6 @@ Centipede.Enemy.prototype =
 				this.weapon.fireAtSprite(this.player);
 			
 			// Doing it this way, allows us to kill just the bullet that collided with the player.  Which we need to be able to do if we decide to be able to shoot more than one bullet at a time.
-			//this.game.physics.arcade.collide(this.weapon.bullets, this.player, this.turretKillPlayer)
 			this.game.physics.arcade.collide(this.weapon.bullets, this.layout, this.damageObstacle, null, this);
 			
 			if (this.game.physics.arcade.collide(this.weapon.bullets, this.player))
@@ -286,22 +315,16 @@ Centipede.Enemy.prototype =
     	if(this.type != 2)
     		return;
 
-    	console.log("\nturret enabled!")
-
   		this.disableTimer.stop();
 
 		var timerEvent;	
-		// Create a custom timer
 			
 		// Create a delayed event 10s from now
 		timerEvent = this.disableTimer.add(Phaser.Timer.SECOND * 5, this.enableTurret, this);	
 
 		this.weapon.resetShots();
 	
-		// Start the timer
 		this.disableTimer.start();
-
-  //   	this.weaponOn = true;
 
     },
 
@@ -310,7 +333,6 @@ Centipede.Enemy.prototype =
 		Centipede.OurSound.playCentipedeDeath();
 		
 		Centipede.count--;
-		console.log("Killing that <insert politically correct term here>");
 
 		this.score.createScoreAnimation(bullet.x, bullet.y, "+50", 50);
 		
@@ -327,23 +349,18 @@ Centipede.Enemy.prototype =
 			this.level.placeAt(x, y);
 		
 		centipede.kill();
-		
-		//console.log(this.centipedes.length);
 	},
 
 	killSectionManually : function() //This is called from Game to Kill a Centipede
 	{	
 		Centipede.count--;
 		this.enemy.kill();
-		//console.log(this.centipedes.length);
 	},
 	
 	centipedeKillPlayer : function (player, enemy)
 	{
 		Centipede.count--;
-		
-		console.log("CENTIPEDE DIE");
-		
+				
 		enemy.kill();
 		
 		if (enemy.type == 2) this.turret.alive = false;
@@ -354,7 +371,6 @@ Centipede.Enemy.prototype =
 	
 	turretKillPlayer : function (bullet, player)
 	{
-		console.log("HELK");
 		bullet.kill();
 		this.playerObject.killPlayer();
 	},
@@ -371,7 +387,6 @@ Centipede.Enemy.prototype =
 			if(this.directions[3].index >= 0 && this.directions[3].index != 5)
 			{
 				this.direction = Phaser.LEFT;
-				this.goalDirection = Phaser.DOWN;
 				return;
 			}
 
@@ -380,12 +395,6 @@ Centipede.Enemy.prototype =
 
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = ((this.marker.y) * this.gridsize) - (this.gridsize / 2);
-
-			/*
-			console.log("Supposed to Turn at:");
-			console.log(this.turnPoint.x);
-			console.log(this.turnPoint.y);
-			*/
 		}
 
 		else if (this.directions[1].index >= 0 && this.direction === Phaser.LEFT)
@@ -393,7 +402,6 @@ Centipede.Enemy.prototype =
 			if(this.directions[3].index >= 0 && this.directions[3].index != 5)
 			{
 				this.direction = Phaser.RIGHT;
-				this.goalDirection = Phaser.DOWN;
 				return;
 			}
 
@@ -402,13 +410,31 @@ Centipede.Enemy.prototype =
 
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = ((this.marker.y) * this.gridsize) - (this.gridsize / 2);
-
-			/*
-			console.log("Supposed to Turn at:");
-			console.log(this.turnPoint.x);
-			console.log(this.turnPoint.y);
-			*/
 		}
+	},
+
+	changeLaneUpAggresively : function()
+	{
+		if(this.directions[2].index >= 0 && this.directions[2].index != 5 && this.direction === Phaser.RIGHT)
+		{
+			this.direction = Phaser.LEFT;
+			return;
+		}
+
+		if(this.directions[1].index >= 0 && this.directions[1].index != 5 && this.direction === Phaser.LEFT)
+		{
+			this.direction = Phaser.RIGHT;
+			return;
+		}
+
+		if(this.directions[3].index == -1 || this.directions[3].index == 5)
+		{
+			this.prevDirection = Phaser.LEFT;
+			this.direction = Phaser.UP;
+
+			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
+       		this.turnPoint.y = ((this.marker.y) * this.gridsize) - (this.gridsize / 2) - 32;
+		}		
 	},
 	
 	changeLane : function()
@@ -418,7 +444,6 @@ Centipede.Enemy.prototype =
 			if(this.directions[4].index >= 0 && this.directions[4].index != 5)
 			{
 				this.direction = Phaser.LEFT;
-				this.goalDirection = Phaser.UP;
 				return;
 			}
 
@@ -427,12 +452,6 @@ Centipede.Enemy.prototype =
 
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = (this.marker.y * this.gridsize) + (this.gridsize / 2) + 32;
-
-			/*
-       		console.log("Supposed to Turn at:");
-			console.log(this.turnPoint.x);
-			console.log(this.turnPoint.y);
-			*/
 		}
 
 		else if (this.directions[1].index >= 0 && this.direction === Phaser.LEFT)
@@ -440,7 +459,6 @@ Centipede.Enemy.prototype =
 			if(this.directions[4].index >= 0 && this.directions[4].index != 5)
 			{
 				this.direction = Phaser.RIGHT;
-				this.goalDirection = Phaser.UP;
 				return;
 			}
 
@@ -449,27 +467,52 @@ Centipede.Enemy.prototype =
 
 			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
        		this.turnPoint.y = (this.marker.y * this.gridsize) + (this.gridsize / 2) + 32;
-
-			/*
-       		console.log("Supposed to Turn at:");
-			console.log(this.turnPoint.x);
-			console.log(this.turnPoint.y);
-			*/
 		}
+	},
+
+	changeLaneAggresively : function()
+	{
+		console.log(this.aggresive);
+
+		if(this.directions[2].index >= 0 && this.directions[2].index != 5 && this.direction === Phaser.RIGHT)
+		{
+			this.direction = Phaser.LEFT;
+			return;
+		}
+
+		if(this.directions[1].index >= 0 && this.directions[1].index != 5 && this.direction === Phaser.LEFT)
+		{
+			this.direction = Phaser.RIGHT;
+			return;
+		}
+
+		if(this.directions[4].index == -1 || this.directions[4].index == 5)
+		{
+			this.prevDirection = Phaser.RIGHT;
+			this.direction = Phaser.DOWN;
+
+			this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
+       		this.turnPoint.y = ((this.marker.y) * this.gridsize) + (this.gridsize / 2) + 64;
+		}		
 	},
 
 	turnUp : function()
 	{
 		var cx = Math.floor(this.enemy.x);
         var cy = Math.floor(this.enemy.y);
-		
-		//console.log(this.prevDirection);
-      
+
+        this.enemy.position.x = this.turnPoint.x;
+
+        console.log("Turning Up!")
+		      
         if (this.game.math.fuzzyEqual(cx, this.turnPoint.x, this.threshold) && this.game.math.fuzzyEqual(cy, this.turnPoint.y, this.threshold))
         {
+	        console.log("Really Turning Up!")
+	        console.log(this.prevDirection);
+	        console.log(this.direction);
 	        this.enemy.body.velocity.y = 0;
-	       	this.enemy.body.velocity.x = 0;
 	       	this.enemy.body.reset(this.enemy.position.x, this.enemy.position.y);
+	       	this.enemy.position.y = this.turnPoint.y;
 
 	        if (this.prevDirection === Phaser.LEFT && this.direction === Phaser.UP)
 			{
@@ -481,15 +524,6 @@ Centipede.Enemy.prototype =
 				this.direction = Phaser.LEFT;
 			}
 			
-			this.enemy.position.x = this.turnPoint.x;
-			this.enemy.position.y = this.turnPoint.y;
-
-			/*
-			console.log("Actually Turned at:");
-	    	console.log(this.enemy.x);
-	    	console.log(this.enemy.y);
-	    	console.log("**************");
-			*/
         }
 	},
 	
@@ -497,14 +531,14 @@ Centipede.Enemy.prototype =
 	{
 		var cx = Math.floor(this.enemy.x);
         var cy = Math.floor(this.enemy.y);
-		
-		//console.log(this.prevDirection);
-      
+
+       	this.enemy.position.x = this.turnPoint.x;
+		      
         if (this.game.math.fuzzyEqual(cx, this.turnPoint.x, this.threshold) && this.game.math.fuzzyEqual(cy, this.turnPoint.y, this.threshold))
         {
 	       	this.enemy.body.velocity.y = 0;
-	       	this.enemy.body.velocity.x = 0;
 	       	this.enemy.body.reset(this.enemy.position.x, this.enemy.position.y);
+	       	this.enemy.position.y = this.turnPoint.y;	
 
 	        if (this.prevDirection === Phaser.LEFT && this.direction === Phaser.DOWN)
 			{
@@ -515,16 +549,6 @@ Centipede.Enemy.prototype =
 			{
 				this.direction = Phaser.LEFT;
 			}
-
-			this.enemy.position.x = this.turnPoint.x;
-			this.enemy.position.y = this.turnPoint.y;	
-
-			/*
-			console.log("Actually Turned at:");
-	    	console.log(this.enemy.x);
-	    	console.log(this.enemy.y);
-	    	console.log("**************");
-			*/
         }
 	},
 
@@ -556,9 +580,6 @@ Centipede.Enemy.prototype =
         {
             this.enemy.body.velocity.y = speed;
         }
-		
-        //  Reset the scale and angle (Pacman is facing to the right in the sprite sheet)
-        //this.enemy.scale.x = 1;
        
         if (this.direction === Phaser.RIGHT)
         {
@@ -571,12 +592,10 @@ Centipede.Enemy.prototype =
         else if (this.direction === Phaser.UP)
         {
             this.enemy.angle = -90;
-			//this.enemy.body.angle = 270;
         }
         else if (this.direction === Phaser.DOWN)
         {
             this.enemy.angle = 90;
-			//this.enemy.body.angle = 90;
         }
 	},
 

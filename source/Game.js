@@ -39,7 +39,6 @@ Centipede.CentipedeGroup = function (x, y, game, bullets, t, level, levelLayout,
 	{
 		if (i == 0)
 		{
-			//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
 			var b = new Centipede.Enemy(x, y, game, bullets, t, level, levelLayout, player, 0, score, goalDirection, homingSection);
 			b.initialize();
 			
@@ -103,13 +102,10 @@ Centipede.Game.prototype =
 		{
 			if (i == 0)
 			{
-				//this.enemyHead = new Centipede.Enemy(48+32+32+32+32, 48, this.game, this.level.returnLevel(), this.level.returnLevelLayout(), 0);
 				var b = new Centipede.Enemy(x, y, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), player, 0, this.score, goalDirection, homingSection);
 
 				b.initialize();
-				
-				//this.enemyHead = b;
-				
+								
 				this.centipedes.add(b);
 			}
 			else if (i >= numSections - 1 && spawn)
@@ -167,14 +163,12 @@ Centipede.Game.prototype =
 		this.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		this.restart = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
 
-	    //Initializes a Phaser Physics World with Arcade Physics
 	    this.physics.startSystem(Phaser.Physics.ARCADE);
 		
 		this.level = new Centipede.Level(this.game, this.numObstacles);
 		this.level.initialize();
 		this.level.randomizeMap();
 
-		// Creates the "Boundary"
 		this.boundary = new Centipede.Boundary(this.game);
 		this.boundary.initialize();
 		
@@ -190,8 +184,8 @@ Centipede.Game.prototype =
 		this.homingSection = new Centipede.HomingSection(this.game, this.player, this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.bullets.returnBullets());
 		this.homingSection.initialize();
 
-		this.centipedes = new Centipede.CentipedeGroup(704+48, 768-48+32, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, this.score, Phaser.UP, true, this.homingSection);
-		this.spawnNewCentipede(-48, 80+32, this.player, 8, Phaser.DOWN, true, this.homingSection);
+		this.centipedes = new Centipede.CentipedeGroup(704+48, 768-48+32, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 1, this.score, Phaser.UP, true, this.homingSection);
+		this.spawnNewCentipede(-48, 80+32, this.player, 0, Phaser.DOWN, true, this.homingSection);
 	},
 
 	update: function () 
@@ -224,8 +218,6 @@ Centipede.Game.prototype =
 
 		if(this.restart.isDown)
 			this.state.start('Game');
-		
-		//console.log(Centipede.count);
 	},
 	
 	// render: function ()

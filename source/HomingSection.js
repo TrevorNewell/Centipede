@@ -55,9 +55,7 @@ Centipede.HomingSection.prototype =
 	        	this.explosionTimer.stop(true);
 	        	this.missile.kill();
 				this.getExplosion(this.missile.x, this.missile.y);
-
 	        }
-
 
 	        if (this.direction == -1){
 	        	if (this.directions[4].index == -1 || this.directions[4].index == 5)

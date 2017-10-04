@@ -9,9 +9,7 @@ Centipede.Bullet = function (game, fire, map, layout, player, maxBullets, score)
 	this.layout = layout;
     this.maxBullets = maxBullets;
     this.score = score;
-	
-	//this.sound = sound;
-	
+		
     this.bulletSpeed = 600;
 	this.bulletTime = 0; // Keep 0, this tracks the time since we fired our last bullet.
 	this.fireRate = 50;

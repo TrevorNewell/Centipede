@@ -4,8 +4,7 @@ Centipede.Boundary = function (game)
 	this.game = game;
 
 	this.boundary = null;
-	//this.leftBorder = null;
-	//this.rightBorder = null;
+
 	this.bottomBorder = null;
 	this.topBorder = null;
 

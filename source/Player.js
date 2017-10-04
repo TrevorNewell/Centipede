@@ -54,12 +54,10 @@ Centipede.Player.prototype =
 			if (this.movement.left.isDown)
 			{
 				this.player.body.velocity.x = -Centipede.playerMoveSpeed;
-				//this.player.angle = 180;
 			}
 			else if (this.movement.right.isDown)
 			{
 				this.player.body.velocity.x = Centipede.playerMoveSpeed;
-				//this.player.angle = 0;
 			}
 			
 			if (this.movement.up.isDown)
@@ -82,12 +80,10 @@ Centipede.Player.prototype =
 			if (this.movement.left.isDown)
 			{
 				this.player.body.velocity.x = -Centipede.playerMoveSpeed;
-				//this.player.angle = 180;
 			}
 			else if (this.movement.right.isDown)
 			{
 				this.player.body.velocity.x = Centipede.playerMoveSpeed;
-				//this.player.angle = 0;
 			}
 			if (this.movement.up.isDown)
 			{
@@ -115,7 +111,6 @@ Centipede.Player.prototype =
 		{
 			this.game.physics.arcade.isPaused = true;
 			this.startRespawnTimer();
-			console.log("PLAYER IS DEAD");
 		}
 		
 		Centipede.OurSound.playPlayerDeath();
@@ -146,7 +141,6 @@ Centipede.Player.prototype =
 		this.respawn = 0;
 		
 		this.timer.stop();
-		console.log("TIMER CHECK");
 		if (Centipede.playerLives > 1)
 		{
 			Centipede.playerLives--;
