@@ -12,13 +12,13 @@ Centipede.GameOver.prototype =
 {		
 	create: function () 
 	{
-		this.background = this.add.tileSprite(0, 0, 704, 704, "background");
+		this.background = this.add.tileSprite(0, 0, 704, 894, "background");
 		
 		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
 		var scoreFont = "30px Racer";
 
-		this.scoreLabel = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 100, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
+		this.scoreLabel = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 200, "0", {font: scoreFont, fill: "#ffffff", stroke: "#535353", strokeThickness: 15});
 		this.scoreLabel.anchor.setTo(0.5, 0.5);
 		this.scoreLabel.align = 'center';
 

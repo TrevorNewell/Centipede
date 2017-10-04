@@ -51,7 +51,7 @@ Centipede.HomingSection.prototype =
 	        this.directions[3] = this.map.getTileAbove(this.layout.index, this.marker.x, this.marker.y);
 	        this.directions[4] = this.map.getTileBelow(this.layout.index, this.marker.x, this.marker.y);
 
-	        if (this.marker.x <= 1 || this.marker.y >= 20 || this.marker.y <= 1 || this.marker.y >= 20){
+	        if (this.marker.x <= 1 || this.marker.y >= 20 || this.marker.y <= 1 || this.marker.y >= 26){
 	        	this.explosionTimer.stop(true);
 	        	this.missile.kill();
 				this.getExplosion(this.missile.x, this.missile.y);

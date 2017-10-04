@@ -9,7 +9,7 @@ Centipede.Splashscreen.prototype =
 {		
 	create: function () 
 	{
-		this.background = this.add.tileSprite(0, 0, 704, 704, "splashscreen");
+		this.background = this.add.tileSprite(0, 0, 704, 894, "splashscreen");
 		
 		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 	},

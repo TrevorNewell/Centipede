@@ -23,7 +23,7 @@ Centipede.Player.prototype =
 	initialize: function () {
 
 		// The player and its settings
-    	this.player = this.game.add.sprite(this.game.width/2, (this.game.width/Centipede.gridsizeY) * 10 + 16, 'player');
+    	this.player = this.game.add.sprite(this.game.width/2, this.game.height/2, 'player');
 
     	this.player.anchor.set(0.5);
 
@@ -33,7 +33,6 @@ Centipede.Player.prototype =
 
     	this.player.body.collideWorldBounds = true;
 		
-		this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
 		this.player.angle = 270;
 
 		this.shoot = this.player.animations.add('shoot');
@@ -167,7 +166,7 @@ Centipede.Player.prototype =
 	{
 		this.player.revive();
 		this.player.body.x = this.game.width/2;
-		this.player.body.y = (this.game.width/Centipede.gridsizeY) * 10;
+		this.player.body.y = (this.game.height/2);
 		this.game.physics.arcade.isPaused = false;
 	},
 

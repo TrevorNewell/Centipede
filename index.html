@@ -32,9 +32,9 @@
 (function () {
 
 	var windowWidth = 704;
-	var windowHeight = 704;
+	var windowHeight = 894;
 
-    var game = new Phaser.Game(windowHeight, windowWidth, Phaser.CANVAS, 'game');
+    var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'game');
 
     game.state.add('Boot', Centipede.Boot);
     game.state.add('Preloader', Centipede.Preloader);

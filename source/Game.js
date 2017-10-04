@@ -156,7 +156,7 @@ Centipede.Game.prototype =
 	
 	create: function () 
 	{
-		this.background = this.add.tileSprite(0, 0, 704, 704, "background");
+		this.background = this.add.tileSprite(0, 0, 704, 894, "background");
 
 		this.sound = new Centipede.Sound(this.game);
 		this.sound.initialize();
@@ -190,8 +190,8 @@ Centipede.Game.prototype =
 		this.homingSection = new Centipede.HomingSection(this.game, this.player, this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.bullets.returnBullets());
 		this.homingSection.initialize();
 
-		this.centipedes = new Centipede.CentipedeGroup(704+48, 672-48, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, this.score, Phaser.UP, true, this.homingSection);
-		this.spawnNewCentipede(-48, 80, this.player, 8, Phaser.DOWN, true, this.homingSection);
+		this.centipedes = new Centipede.CentipedeGroup(704+48, 768-48+32, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, this.score, Phaser.UP, true, this.homingSection);
+		this.spawnNewCentipede(-48, 80+32, this.player, 8, Phaser.DOWN, true, this.homingSection);
 	},
 
 	update: function () 
@@ -218,8 +218,8 @@ Centipede.Game.prototype =
 		
 		if (Centipede.count <= 0)
 		{
-			this.spawnNewCentipede(704+48, 672-48, this.player, 8, Phaser.UP, true, this.homingSection);
-			this.spawnNewCentipede(-48, 80, this.player, 8, Phaser.DOWN, true, this.homingSection);
+			this.spawnNewCentipede(704+48, 768-48+32, this.player, 8, Phaser.UP, true, this.homingSection);
+			this.spawnNewCentipede(-48, 80+32, this.player, 8, Phaser.DOWN, true, this.homingSection);
 		}
 
 		if(this.restart.isDown)

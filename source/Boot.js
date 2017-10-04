@@ -2,7 +2,7 @@ Centipede = {};
 
 /* Here we've just got some global level vars that persist regardless of State swaps */
 Centipede.gridsizeX = 22;
-Centipede.gridsizeY = 22;
+Centipede.gridsizeY = 28;
 
 Centipede.count = 0;
 
