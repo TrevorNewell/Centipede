@@ -123,7 +123,7 @@ Centipede.HomingSection.prototype =
 		this.isAlive = false;
 
 		
-        this.explosion = this.game.add.sprite(0, 0, 'explosion');
+        this.explosion = this.game.add.sprite(0, 0, 'explosionRed');
         this.explosion.anchor.setTo(0.5, 0.5);
         
         this.game.physics.arcade.enable(this.explosion);

@@ -100,7 +100,7 @@ Centipede.Bullet.prototype =
 		var posY = tile.y;
 		var index = tile.index
 		var layer = tile.layer
-
+		
 		if (index == 4)
 		{	
 			return;
@@ -115,9 +115,28 @@ Centipede.Bullet.prototype =
 			this.map.putTile(5,posX,posY,this.layer);
 
 		if(index == 3) 
+		{
 			this.score.createScoreAnimation(bullet.x, bullet.y, "+10", 10);
+			this.playPoof(tile, index);
+		}
 	},
 	
+	playPoof: function(tile, index)
+	{
+		var poofScale = 2;
+		
+		var gridsize = 32;
+		
+		var markerX = tile.x * gridsize + gridsize/2;
+        var markerY = tile.y * gridsize + gridsize/2;
+				
+		var poofAnim = this.game.add.sprite(markerX, markerY, 'poof');
+		poofAnim.anchor.set(0.5);
+		poofAnim.scale.setTo(poofScale);
+		poofAnim.rotation = this.game.rnd.integerInRange(0,359);
+		poofAnim.animations.add('poof');
+		poofAnim.animations.play('poof', 30, false, true);
+	},
 	
 	returnBullets : function ()
 	{
