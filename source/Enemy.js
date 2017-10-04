@@ -292,6 +292,12 @@ Centipede.Enemy.prototype =
 			}	
 		}
 		
+		//Code for collison between Homing section and centipede section
+		if(this.homingSection.isAlive == true){
+
+			this.game.physics.arcade.collide(this.homingSection.missile, this.enemy, this.enemyCollision, null, this);
+		}
+
 		this.move();
 	},
 
@@ -320,6 +326,30 @@ Centipede.Enemy.prototype =
 		this.hasBeenKilled = true;
 	},
 	
+	enemyCollision : function (missile, centipede)
+	{
+
+		this.homingSection.explosionTimer.stop(true);
+
+		Centipede.OurSound.playCentipedeDeath();
+		
+		Centipede.count--;
+		console.log("Killing that <insert politically correct term here>");
+
+		this.score.createScoreAnimation(missile.x, missile.y, "+50", 50);
+
+		// Spawn Wreckage at the centipedes current tile.
+		var x  = this.game.math.snapToFloor(Math.floor(centipede.x), this.gridsize) / this.gridsize;
+        var y = this.game.math.snapToFloor(Math.floor(centipede.y), this.gridsize) / this.gridsize;
+		this.level.placeAt(x, y);
+
+		centipede.kill();
+		missile.kill();
+		this.homingSection.isAlive = false;
+        this.homingSection.getExplosion(missile.x, missile.y);
+
+	},
+
 	damageObstacle : function (bullet, tile)
     {
 
