@@ -169,7 +169,6 @@ Centipede.Enemy.prototype =
 		if (this.hasEntered)
 		{
 			Centipede.count--;
-			console.log("Killing that <insert politically correct term here>");
 
 			this.enemy.kill();
 		}
@@ -472,8 +471,6 @@ Centipede.Enemy.prototype =
 
 	changeLaneAggresively : function()
 	{
-		console.log(this.aggresive);
-
 		if(this.directions[2].index >= 0 && this.directions[2].index != 5 && this.direction === Phaser.RIGHT)
 		{
 			this.direction = Phaser.LEFT;
@@ -502,14 +499,9 @@ Centipede.Enemy.prototype =
         var cy = Math.floor(this.enemy.y);
 
         this.enemy.position.x = this.turnPoint.x;
-
-        console.log("Turning Up!")
 		      
         if (this.game.math.fuzzyEqual(cx, this.turnPoint.x, this.threshold) && this.game.math.fuzzyEqual(cy, this.turnPoint.y, this.threshold))
         {
-	        console.log("Really Turning Up!")
-	        console.log(this.prevDirection);
-	        console.log(this.direction);
 	        this.enemy.body.velocity.y = 0;
 	       	this.enemy.body.reset(this.enemy.position.x, this.enemy.position.y);
 	       	this.enemy.position.y = this.turnPoint.y;
@@ -522,8 +514,7 @@ Centipede.Enemy.prototype =
 			else if (this.prevDirection === Phaser.RIGHT && this.direction === Phaser.UP)
 			{
 				this.direction = Phaser.LEFT;
-			}
-			
+			}	
         }
 	},
 	

@@ -35,12 +35,12 @@ Centipede.Level.prototype =
 
     			if (i==1 || i==20)
 				{
-    				var t = this.map.putTile(0,i,j,this.obstacleLayer);
+    				var t = this.map.putTile(4,i,j,this.obstacleLayer);
 					t.rotation = this.game.rnd.integerInRange(0,359);
     			}
     			if (j==1 || j==26)
 				{
-    				var t = this.map.putTile(0,i,j,this.obstacleLayer);
+    				var t = this.map.putTile(4,i,j,this.obstacleLayer);
 					t.rotation = this.game.rnd.integerInRange(0,359);
 				}
     		}
