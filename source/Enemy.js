@@ -38,12 +38,12 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	
 	if (this.goalDirection == Phaser.DOWN)
 	{
-		this.direction = Phaser.RIGHT;
+		this.direction = Phaser.LEFT;
 		this.prevDirection = this.direction;
 	}
 	else if (this.goalDirection == Phaser.UP)
 	{
-		this.direction = Phaser.LEFT;
+		this.direction = Phaser.RIGHT;
 		this.prevDirection = this.direction;
 	}
 	else
@@ -54,10 +54,9 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 	this.hasEntered = false;
 
 	this.disableTimer = null;
-	//this.enableTimer = null;
 
-	//this.weaponOn = false;
-	
+	this.bulletAnimation = null;
+
 	return this;
 };
 
@@ -98,12 +97,12 @@ Centipede.Enemy.prototype =
 			this.enemy = this.game.add.sprite(this.x, this.y, 'enemyTurretHull');
 			
 			this.turret = this.enemy.addChild(this.game.make.sprite(8, 0, 'enemyTurret'));
-			
+
 			this.turret.scale.setTo(0.9,0.9);
 			this.turret.anchor.set(0.25, 0.5);
 			
 			//   Init weapon group and fill it with maxBullets
-		    this.weapon = this.game.add.weapon(1, 'bullet');
+		    this.weapon = this.game.add.weapon(1, 'enemyBullet');
 
 		     //  The bullet will be automatically killed when it leaves the world bounds
 	        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -128,7 +127,6 @@ Centipede.Enemy.prototype =
 			this.weapon.onFire.add(Centipede.OurSound.playCentipedeShoot, Centipede.OurSound);
 
 			this.weapon.fireLimit = 1;
-
 		}
 		else if (this.type == 3) // Homing section
 		{
@@ -530,12 +528,12 @@ Centipede.Enemy.prototype =
 
 	move : function()
 	{
-		if (this.enemy.body.position.x >= 48 && this.goalDirection == Phaser.DOWN && this.hasEntered == false)
+		if (this.enemy.body.position.x >= 48 && this.goalDirection == Phaser.UP && this.hasEntered == false)
 		{
 			this.hasEntered = true;
 		}
 		
-		if (this.enemy.body.position.x <= 704-48 && this.goalDirection == Phaser.UP && this.hasEntered == false)
+		if (this.enemy.body.position.x <= 704-48 && this.goalDirection == Phaser.DOWN && this.hasEntered == false)
 		{
 			this.hasEntered = true;
 		}
