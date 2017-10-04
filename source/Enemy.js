@@ -33,6 +33,8 @@ Centipede.Enemy = function (x, y, game, bullets, level, map, layout, playerObjec
 
     this.score = score;
 
+	this.hasBeenKilled = false;
+	
 	this.goalDirection = goalDirection;
 	
 	if (this.goalDirection == Phaser.DOWN)
@@ -278,12 +280,17 @@ Centipede.Enemy.prototype =
 	
 	playExplode : function()
 	{
-		var explodeAnim = this.game.add.sprite(this.enemy.x, this.enemy.y, 'explosionRed');
-		explodeAnim.anchor.set(0.5);
-		explodeAnim.scale.setTo(1.2,1.2);
-		explodeAnim.rotation = this.game.rnd.integerInRange(0,359);
-		explodeAnim.animations.add('explode');
-		explodeAnim.animations.play('explode', 20, false, true);
+		if (!this.hasBeenKilled)
+		{
+			var explodeAnim = this.game.add.sprite(this.enemy.x, this.enemy.y, 'explosionRed');
+			explodeAnim.anchor.set(0.5);
+			explodeAnim.scale.setTo(1.2,1.2);
+			explodeAnim.rotation = this.game.rnd.integerInRange(0,359);
+			explodeAnim.animations.add('explode');
+			explodeAnim.animations.play('explode', 20, false, true);
+		}
+		
+		this.hasBeenKilled = true;
 	},
 	
 	damageObstacle : function (bullet, tile)
