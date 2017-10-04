@@ -26,6 +26,7 @@ Centipede.Preloader.prototype =
 		this.load.spritesheet('explosionBlue', 'assets/ExplosionBlue.png', 64, 64);
 
 		this.load.image('bullet', 'assets/bullet.png'); //Projectile Class
+		this.load.image('bulletOrange', 'assets/bulletOrange.png'); //Projectile Class
 
 		this.load.image("background", "assets/background.png");
 

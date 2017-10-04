@@ -104,7 +104,7 @@ Centipede.Enemy.prototype =
 			this.turret.anchor.set(0.25, 0.5);
 			
 			//   Init weapon group and fill it with maxBullets
-		    this.weapon = this.game.add.weapon(1, 'bullet');
+		    this.weapon = this.game.add.weapon(1, 'bulletOrange');
 
 		     //  The bullet will be automatically killed when it leaves the world bounds
 	        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -170,7 +170,7 @@ Centipede.Enemy.prototype =
 		this.enemy.events.onOutOfBounds.add(this.centipedeOutOfBounds, this);
     	//this.enemy.body.collideWorldBounds = true;
 		
-		// Setup the explosion for this object.  If this object's a turret, we can also setup explosions for its' bullets.
+		// Setup the explosion for this object.
 		this.enemy.onKilled = new Phaser.Signal();
 		this.enemy.events.onKilled.add(this.playExplode, this);
 	},
