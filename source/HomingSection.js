@@ -39,9 +39,17 @@ Centipede.HomingSection.prototype =
 	update : function ()
 	{
 
-		if (this.animation != null && this.animat){
+		if (this.animation != null && this.animation.isFinished == false){
 
 			this.game.physics.arcade.overlap(this.explosion, this.layout, this.damageSurroundings, null, this);
+			if (this.game.physics.arcade.collide(this.explosion, this.player)) {
+
+				this.playerObject.killPlayer();
+				this.explosionTimer.stop(true);
+				this.getExplosion(this.missile.x, this.missile.y);
+				this.missile.kill();
+				this.isAlive = false;   
+			}
 		}
 
 		if (this.isAlive) {
@@ -70,12 +78,38 @@ Centipede.HomingSection.prototype =
 	        }
 
 			this.game.physics.arcade.collide(this.bullets, this.missile, this.killSection, null, this);
+			
+			if (this.game.physics.arcade.collide(this.missile, this.player)) {
+
+				this.playerObject.killPlayer();
+				this.explosionTimer.stop(true);
+				this.getExplosion(this.missile.x, this.missile.y);
+				this.missile.kill();
+				this.isAlive = false;
+			}
 
 		    this.missile.body.velocity.y = this.direction*this.SPEED;
 
 		}
 
 	},
+
+	playPoof: function(tile, index)
+    {
+        var poofScale = 2;
+        
+        var gridsize = 32;
+        
+        var markerX = tile.x * gridsize + gridsize/2;
+        var markerY = tile.y * gridsize + gridsize/2;
+                
+        var poofAnim = this.game.add.sprite(markerX, markerY, 'poof');
+        poofAnim.anchor.set(0.5);
+        poofAnim.scale.setTo(poofScale);
+        poofAnim.rotation = this.game.rnd.integerInRange(0,359);
+        poofAnim.animations.add('poof');
+        poofAnim.animations.play('poof', 30, false, true);
+    },
 
 	damageSurroundings : function(explosion, tile)
 	{
@@ -92,11 +126,7 @@ Centipede.HomingSection.prototype =
 
 		tile.destroy();
 
-		if (index <= 2)
-			this.map.putTile(index+1,posX,posY,this.layer);
-
-		else
-			this.map.putTile(5,posX,posY,this.layer);
+		this.map.putTile(5,posX,posY,this.layer);
 
 	},
 
@@ -118,8 +148,9 @@ Centipede.HomingSection.prototype =
 		// Create a custom timer
 		this.explosionTimer = this.game.time.create();
 		
-		// Create a delayed event 3s from now
-		timerEvent = this.explosionTimer.add(Phaser.Timer.SECOND * 3, this.endExplosionTimer, this);
+		// Create a delayed event 1-3s from now
+		var time = this.game.rnd.integerInRange(1,3);
+		timerEvent = this.explosionTimer.add(Phaser.Timer.SECOND * time, this.endExplosionTimer, this);
 		
 		// Start the timer
 		this.explosionTimer.start();
@@ -164,6 +195,9 @@ Centipede.HomingSection.prototype =
 	    // Play the animation
 	    this.explosion.animations.play('boom');
 
+	    //Shake the screen
+	    this.game.camera.shake(0.03, 500);
+
 	    // Return the explosion itself in case we want to do anything else with it
 	    return this.explosion;
 
@@ -197,6 +231,7 @@ Centipede.HomingSection.prototype =
 
 		var missileSprite = this.game.add.sprite(0, 0, 'enemyRed'); 
 		missileSprite.anchor.setTo(0.5, 0.5);
+		missileSprite.angle = -90;
 
 		this.game.physics.arcade.enable(missileSprite);
 
