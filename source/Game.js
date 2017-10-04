@@ -184,8 +184,8 @@ Centipede.Game.prototype =
 		this.homingSection = new Centipede.HomingSection(this.game, this.player, this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.bullets.returnBullets());
 		this.homingSection.initialize();
 
-		this.centipedes = new Centipede.CentipedeGroup(704+48, 768-48+32, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 1, this.score, Phaser.UP, true, this.homingSection);
-		this.spawnNewCentipede(-48, 80+32, this.player, 0, Phaser.DOWN, true, this.homingSection);
+		this.centipedes = new Centipede.CentipedeGroup(704+48, 768-48+32, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), this.player, 8, this.score, Phaser.UP, true, this.homingSection);
+		this.spawnNewCentipede(-48, 80+32, this.player, 8, Phaser.DOWN, true, this.homingSection);
 	},
 
 	update: function () 
