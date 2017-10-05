@@ -9,6 +9,9 @@ Centipede.Splashscreen.prototype =
 {		
 	create: function () 
 	{
+		this.scale.pageAlignHorizontally = true;
+		this.scale.pageAlignVertically = true;
+
 		this.background = this.add.tileSprite(0, 0, 704, 894, "splashscreen");
 		
 		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);

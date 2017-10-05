@@ -152,6 +152,9 @@ Centipede.Game.prototype =
 	
 	create: function () 
 	{
+		this.scale.pageAlignHorizontally = true;
+		this.scale.pageAlignVertically = true;
+
 		this.background = this.add.tileSprite(0, 0, 704, 894, "background");
 
 		this.sound = new Centipede.Sound(this.game);

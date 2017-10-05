@@ -33,7 +33,7 @@ Centipede.Preloader.prototype =
 
 		this.load.image("background", "assets/background.png");
 
-		this.load.image("splashscreen", "assets/splashscreen.png");
+		this.load.image("playerLife", "assets/playerLife.png");
 		
 		this.load.audio('hit', 'assets/Sounds/Old/hit.wav');
 		this.load.audio('hit1', 'assets/Sounds/Old/hit1.wav');

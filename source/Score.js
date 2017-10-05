@@ -43,7 +43,7 @@ Centipede.Score.prototype =
 
 		for (var i = 0; i < Centipede.playerLives - 1; i++) {
 
-			this.liveGroup.add(this.game.add.sprite(30 + 40*i, 30, 'player'));
+			this.liveGroup.add(this.game.add.sprite(560 + 14*i, 843, 'playerLife'));
 		}
 	},
 
@@ -54,7 +54,7 @@ Centipede.Score.prototype =
 
 		for (var i = 0; i < Centipede.playerLives - 1; i++) {
 
-			this.liveGroup.add(this.game.add.sprite(30 + 40*i, 30, 'player'));
+			this.liveGroup.add(this.game.add.sprite(560 + 14*i, 843, 'playerLife'));
 		}
 	},
 
@@ -63,7 +63,7 @@ Centipede.Score.prototype =
 		var scoreFont = "30px Onky";
 
 		//Create the score label
-		this.scoreLabel = this.game.add.text(this.game.world.width/2-12, 12, "0", {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5});
+		this.scoreLabel = this.game.add.text(this.game.world.width/2, 0, "0", {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5});
 		this.scoreLabel.anchor.setTo(0.5, 0);
 		this.scoreLabel.align = 'center';
 
@@ -90,7 +90,7 @@ Centipede.Score.prototype =
 	    scoreAnimation.align = 'center';
 	 
 	    //Tween this score label to the total score label
-	    var scoreTween = this.game.add.tween(scoreAnimation).to({x:(this.game.world.width/2)-12, y: 5}, 800, Phaser.Easing.Exponential.In, true);
+	    var scoreTween = this.game.add.tween(scoreAnimation).to({x:(this.game.world.width/2), y: 0}, 800, Phaser.Easing.Exponential.In, true);
 	 
 	    //When the animation finishes, destroy this score label, trigger the total score labels animation and add the score
 	    scoreTween.onComplete.add(function(){

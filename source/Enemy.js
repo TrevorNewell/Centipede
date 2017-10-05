@@ -201,7 +201,7 @@ Centipede.Enemy.prototype =
 
 			if (this.goalDirection == Phaser.DOWN)
 			{
-        		if (this.marker.y == 11)
+        		if (this.marker.y == 11 || this.marker.y == 15)
         			this.aggresive = true;
 
         		else 
@@ -234,7 +234,7 @@ Centipede.Enemy.prototype =
 			}
 			else if (this.goalDirection == Phaser.UP)
 			{				
-        		if (this.marker.y == 17)
+        		if (this.marker.y == 17 || this.marker.y == 13)
         			this.aggresive = true;
 
         		else

@@ -8,7 +8,7 @@ Centipede.count = 0;
 
 Centipede.score = 0;
 
-Centipede.playerLives = 3;
+Centipede.playerLives = 5;
 Centipede.playerUpdate = false;
 
 Centipede.spriteSize = 32;
