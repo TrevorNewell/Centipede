@@ -18,7 +18,7 @@ Centipede.GameOver.prototype =
 
 		var scoreFont = "25px Onky";
 
-		this.scoreLabel = this.game.add.text(this.game.world.width/2, game.world.height/2, "0", {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5});
+		this.scoreLabel = this.game.add.text(this.game.world.width/2, this.game.world.height/2, "0", {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5});
 		this.scoreLabel.anchor.setTo(0.5, 0.5);
 		this.scoreLabel.align = 'center';
 
