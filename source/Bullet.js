@@ -10,7 +10,7 @@ Centipede.Bullet = function (game, fire, map, layout, player, maxBullets, score)
     this.maxBullets = maxBullets;
     this.score = score;
 		
-    this.bulletSpeed = 600;
+    this.bulletSpeed = 1000;
 
 	this.bulletTime = 0; // Keep 0, this tracks the time since we fired our last bullet.
 	this.fireRate = 50;
@@ -30,7 +30,7 @@ Centipede.Bullet.prototype =
 	initialize : function () 
 	{
 	    //   Init weapon group and fill it with maxBullets
-	    this.weapon = this.game.add.weapon(this.maxBullets, 'bullet');
+	    this.weapon = this.game.add.weapon(1, 'bullet');
 
 	     //  The bullet will be automatically killed when it leaves the world bounds
         this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -46,7 +46,6 @@ Centipede.Bullet.prototype =
         //  The speed at which the bullet is fired
         this.weapon.bulletSpeed = this.bulletSpeed;
         this.weapon.fireRate = 100;
-
 		// Only play a sound when we successfully fire.
 		this.weapon.onFire = new Phaser.Signal();
 		this.weapon.onFire.add(Centipede.OurSound.playPlayerShoot, Centipede.OurSound);
@@ -56,7 +55,7 @@ Centipede.Bullet.prototype =
 		this.weapon.onKill.add(this.playBulletExplode, this);
 		
         //  Tell the Weapon to track the 'player' Sprite
-        this.weapon.trackSprite(this.player, 10, 0, true);
+        this.weapon.trackSprite(this.player, 0, 0, true);
 	},
 
 	update : function () 
