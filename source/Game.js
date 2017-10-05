@@ -56,7 +56,7 @@ Centipede.CentipedeGroup = function (x, y, game, bullets, t, level, levelLayout,
 			}				
 			else if (goalDirection == Phaser.UP)
 			{
-				var b = new Centipede.Enemy(x-(32*i), y, game, bullets, t, level, levelLayout, player, 2, score, goalDirection, homingSection);
+				var b = new Centipede.Enemy(x-(32*i), y, game, bullets, t, level, levelLayout, player, 3, score, goalDirection, homingSection);
 
 				b.initialize();
 			
@@ -67,7 +67,7 @@ Centipede.CentipedeGroup = function (x, y, game, bullets, t, level, levelLayout,
 		{
 			if (goalDirection == Phaser.DOWN)
 			{
-				var b = new Centipede.Enemy(x-(32*i), y, game, bullets, t, level, levelLayout, player, 3, score, goalDirection, homingSection);
+				var b = new Centipede.Enemy(x-(32*i), y, game, bullets, t, level, levelLayout, player, 2, score, goalDirection, homingSection);
 
 				b.initialize();
 
@@ -75,7 +75,7 @@ Centipede.CentipedeGroup = function (x, y, game, bullets, t, level, levelLayout,
 			}				
 			else if (goalDirection == Phaser.UP)
 			{
-				var b = new Centipede.Enemy(x-(32*i), y, game, bullets, t, level, levelLayout, player, 3, score, goalDirection, homingSection);
+				var b = new Centipede.Enemy(x-(32*i), y, game, bullets, t, level, levelLayout, player, 2, score, goalDirection, homingSection);
 
 				b.initialize();
 			
@@ -139,7 +139,7 @@ Centipede.Game.prototype =
 				}				
 				else if (goalDirection == Phaser.UP)
 				{
-					var b = new Centipede.Enemy(x-(32*i), y, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), player, 2, this.score, goalDirection, homingSection);
+					var b = new Centipede.Enemy(x-(32*i), y, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), player, 3, this.score, goalDirection, homingSection);
 
 					b.initialize();
 				
@@ -150,7 +150,7 @@ Centipede.Game.prototype =
 			{
 				if (goalDirection == Phaser.DOWN)
 				{
-					var b = new Centipede.Enemy(x+(32*i), y, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), player, 3, this.score, goalDirection, homingSection);
+					var b = new Centipede.Enemy(x+(32*i), y, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), player, 2, this.score, goalDirection, homingSection);
 
 					b.initialize();
 
@@ -158,7 +158,7 @@ Centipede.Game.prototype =
 				}				
 				else if (goalDirection == Phaser.UP)
 				{
-					var b = new Centipede.Enemy(x-(32*i), y, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), player, 3, this.score, goalDirection, homingSection);
+					var b = new Centipede.Enemy(x-(32*i), y, this.game, this.bullets.returnBullets(), this.level, this.level.returnLevel(), this.level.returnLevelLayout(), player, 2, this.score, goalDirection, homingSection);
 
 					b.initialize();
 				
