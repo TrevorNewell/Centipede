@@ -2,7 +2,7 @@ Centipede.Game = function (game)
 {
 	this.player = null;
 
-	this.numObstacles = 10;
+	this.numObstacles = 20;
 
     this.movement = null;       
     this.fire = null;
