@@ -92,7 +92,7 @@ Centipede.HomingSection.prototype =
 
 	},
 
-	playPoof: function(tile, index)
+	playPoof : function(tile, index)
     {
         var poofScale = 2;
         
@@ -121,6 +121,9 @@ Centipede.HomingSection.prototype =
 		{	
 			return;
 		}
+
+		if (index <= 3 && index != -1)
+			this.playPoof(tile, index);
 
 		tile.destroy();
 
