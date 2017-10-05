@@ -16,6 +16,8 @@ Centipede.Sound = function (game) {
 	this.centipedeShooting3 = null;
 	this.centipedeShooting4 = null;
 	
+	this.homingSection = null;
+	
 	this.playerKilled = null;
 	this.playerMove1 = null;
 	this.playerMove2 = null;
@@ -38,8 +40,11 @@ Centipede.Sound.prototype =
 			this.backgroundMusic = this.game.add.audio("background");
 			
 			this.obstacleShot = this.game.add.audio("obstacleShot");
+			
 			this.centipedeDie = this.game.add.audio("centipedeDie");
 			this.centipedeHitsWall = this.game.add.audio("centipedeHitsWall");
+			
+			this.homingSection = this.game.add.audio("centipedeDie");
 
 			this.centipedeSpawn = this.game.add.audio("centipedeSpawn");
 			this.centipedeShooting = this.game.add.audio("centipedeShooting");
@@ -58,8 +63,11 @@ Centipede.Sound.prototype =
 			this.backgroundMusic.allowMultiple = true;
 				
 			this.obstacleShot.allowMultiple = true;
+			
 			this.centipedeDie.allowMultiple = true;
 			this.centipedeHitsWall.allowMultiple = true;
+			
+			this.homingSection.allowMultiple = true;
 
 			this.centipedeSpawn.allowMultiple = true;
 			this.centipedeShooting.allowMultiple = true;
@@ -80,6 +88,8 @@ Centipede.Sound.prototype =
 			this.centipedeDie.volume = 0.2;
 			this.centipedeHitsWall.volume = 0.6;
 			
+			this.homingSection.volume = 0.8;
+
 			this.centipedeSpawn.volume = 0.5;
 			this.centipedeShooting.volume = 0.5;
 
@@ -89,7 +99,6 @@ Centipede.Sound.prototype =
 			this.playerShooting2.volume = 0.5;
 			this.playerShooting3.volume = 0.5;
 			this.playerShooting4.volume = 0.5;
-	
 		}
 		
 		if (this.backgroundMusic.isPlaying == false) this.backgroundMusic.play();
@@ -99,7 +108,6 @@ Centipede.Sound.prototype =
 	{
 			this.playerShooting1.play();
 	},
-	
 	
 	playPlayerDeath : function()
 	{
@@ -121,6 +129,12 @@ Centipede.Sound.prototype =
 	{
 		this.centipedeDie.play();
 		this.game.camera.shake(0.00025, 200);
+	},
+	
+	playHomingDeath : function()
+	{
+		this.homingSection.play();
+		this.game.camera.shake(0.0004, 200);
 	},
 	
 	playObstacleShot : function()

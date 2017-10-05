@@ -168,10 +168,8 @@ Centipede.HomingSection.prototype =
 
 	getExplosion : function(x, y)
 	{
-
 		//kill the homing section
 		this.isAlive = false;
-
 		
         this.explosion = this.game.add.sprite(0, 0, 'explosionRed');
         this.explosion.anchor.setTo(0.5, 0.5);
@@ -196,6 +194,7 @@ Centipede.HomingSection.prototype =
 	    // Play the animation
 	    this.explosion.animations.play('boom');
 
+		Centipede.OurSound.playHomingDeath();
 	    //Shake the screen
 	    this.game.camera.shake(0.03, 500);
 
@@ -206,7 +205,6 @@ Centipede.HomingSection.prototype =
 
 	launchMissile : function (x, y)
 	{
-
 		this.missile = this.createMissile(x, y);
 
 		if (y > this.player.y)
@@ -224,12 +222,10 @@ Centipede.HomingSection.prototype =
 	    this.missile.y = y;
 
 	    return this.missile;
-
 	},
 
 	createMissile : function () 
 	{
-
 		var missileSprite = this.game.add.sprite(0, 0, 'enemyRed'); 
 		missileSprite.anchor.setTo(0.5, 0.5);
 		missileSprite.angle = -90;

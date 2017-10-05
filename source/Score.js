@@ -63,7 +63,7 @@ Centipede.Score.prototype =
 		var scoreFont = "30px Onky";
 
 		//Create the score label
-		this.scoreLabel = this.game.add.text(this.game.world.width/2, 0, "0", {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5});
+		this.scoreLabel = this.game.add.text(this.game.world.width/2, -6, "0", {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5});
 		this.scoreLabel.anchor.setTo(0.5, 0);
 		this.scoreLabel.align = 'center';
 
@@ -82,10 +82,10 @@ Centipede.Score.prototype =
 
 	createScoreAnimation: function(x, y, message, score){
 	 
-	    var scoreFont = "15px Onky";
+	    var scoreFont = "20px Onky";
 	 
 	    //Create a new label for the score
-	    var scoreAnimation = this.game.add.text(x, y, message, {font: scoreFont, fill: "#BB1BD3", stroke: "#3E20A2", strokeThickness: 5}); 
+	    var scoreAnimation = this.game.add.text(x, y, message, {font: scoreFont, fill: "#BB1BD3", stroke: "#ffffff", strokeThickness: 5}); 
 	    scoreAnimation.anchor.setTo(0.5, 0);
 	    scoreAnimation.align = 'center';
 	 

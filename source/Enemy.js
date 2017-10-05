@@ -169,8 +169,11 @@ Centipede.Enemy.prototype =
     	//this.enemy.body.collideWorldBounds = true;
 		
 		// Setup the explosion for this object.
-		this.enemy.onKilled = new Phaser.Signal();
-		this.enemy.events.onKilled.add(this.playExplode, this);
+		if (this.type != 3)
+		{	
+			this.enemy.onKilled = new Phaser.Signal();
+			this.enemy.events.onKilled.add(this.playExplode, this);
+		}
 	},
 	
 	centipedeOutOfBounds : function ()
@@ -328,10 +331,7 @@ Centipede.Enemy.prototype =
 	
 	enemyCollision : function (missile, centipede)
 	{
-
 		this.homingSection.explosionTimer.stop(true);
-
-		Centipede.OurSound.playCentipedeDeath();
 		
 		Centipede.count--;
 		console.log("Killing that <insert politically correct term here>");
