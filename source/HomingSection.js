@@ -75,7 +75,7 @@ Centipede.HomingSection.prototype =
 	        		this.level.placeAt(this.marker.x, this.marker.y);
 	        }
 
-			this.game.physics.arcade.collide(this.bullets, this.missile, this.killSection, null, this);
+			//this.game.physics.arcade.collide(this.bullets, this.missile, this.killSection, null, this);
 			
 			if (this.game.physics.arcade.collide(this.missile, this.player)) {
 
