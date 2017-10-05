@@ -9,7 +9,7 @@ Centipede.Preloader.prototype =
 	preload: function () 
 	{
 		// Sprites
-		this.load.spritesheet('player', 'assets/playerShooting.png', Centipede.spriteSize, Centipede.spriteSize, 4); //Player object
+		this.load.spritesheet('player', 'assets/Player_Shooting.png', Centipede.spriteSize, Centipede.spriteSize, 4); //Player object
 		this.load.spritesheet('obstacle', 'assets/obstacle.png', Centipede.spriteSize, Centipede.spriteSize); //Obstacle Class
 		
 		this.load.spritesheet('enemy1', 'assets/enemy01AnimationSpreadsheet.png', Centipede.spriteSize, Centipede.spriteSize, 4);
@@ -22,6 +22,8 @@ Centipede.Preloader.prototype =
 		
 		this.load.image('enemyTurretHull', 'assets/enemyTurretHull.png');
 		this.load.image('enemyTurret', 'assets/turret.png');
+
+		this.load.spritesheet('logo', 'assets/LogoAnimation2.png', 1820, 354, 7);
 
 		this.load.spritesheet('explosionRed', 'assets/ExplosionOrange.png', 64, 64);
 		this.load.spritesheet('explosionBlue', 'assets/ExplosionBlue.png', 64, 64);
