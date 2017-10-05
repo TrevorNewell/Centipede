@@ -104,9 +104,14 @@ Centipede.Sound.prototype =
 		if (this.backgroundMusic.isPlaying == false) this.backgroundMusic.play();
 	},
 	
+	stopBackground: function ()
+	{
+		this.backgroundMusic.stop();
+	},
+	
 	playPlayerShoot: function ()
 	{
-			this.playerShooting1.play();
+		this.playerShooting1.play();
 	},
 	
 	playPlayerDeath : function()

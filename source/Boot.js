@@ -29,6 +29,7 @@ Centipede.Boot.prototype = {
 
     create: function () {
         this.state.start('Preloader');
+		Centipede.playerLives = 5;
     }
 
 };

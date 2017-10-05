@@ -33,6 +33,8 @@ Centipede.GameOver.prototype =
 	{    
 		if(this.enterKey.isDown)
 		{
+			this.game.sound.stopAll();
+			Centipede.playerLives = 5;
 			this.state.start('Game');
 		}
 	}

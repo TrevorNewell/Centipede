@@ -27,7 +27,6 @@ Centipede.Bullet = function (game, fire, map, layout, player, maxBullets, score)
 
 Centipede.Bullet.prototype = 
 {
-
 	initialize : function () 
 	{
 	    //   Init weapon group and fill it with maxBullets

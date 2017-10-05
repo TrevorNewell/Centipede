@@ -14,10 +14,8 @@ Centipede.Boundary = function (game)
 
 Centipede.Boundary.prototype = 
 {
-
 	initialize: function () 
 	{
-
 		this.boundary = this.game.add.group();
 		this.boundary.enableBody = true;
 		this.game.physics.arcade.enable(this.boundary);
@@ -29,7 +27,6 @@ Centipede.Boundary.prototype =
 		this.topBorder = this.boundary.create(0, (this.game.height/Centipede.gridsizeY)*12, null);
 		this.topBorder.body.immovable = true;
 		this.topBorder.body.setSize(this.game.width, 1);
-
 	},
 
 	returnBoundary : function () 
