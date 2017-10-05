@@ -15,6 +15,8 @@ Centipede.Player = function (game, movement, map, layout, boundary)
 
 	this.respawn = 0; //This is retuned by update, to determine when the game needs to kill and respawn all Centipedes
 
+	this.lastKeyPressed = 0;
+	
 	return this;
 };
 
@@ -53,6 +55,66 @@ Centipede.Player.prototype =
 			this.player.body.velocity.x = 0; // We only have velocity if we are still pressing one of the keys
 			this.player.body.velocity.y = 0;
 			
+			var moveUp = false;
+			var moveDown = false;
+			var stayUpPointDown = false;
+			var stayDownPointUp = false;
+			var both = false;
+			
+			//  Determine if we're moving just moving up or down
+			if (this.movement.up.isDown && !this.movement.down.isDown)
+			{
+				moveUp = true;
+				
+				this.lastKeyPressed = 1;
+			}
+			else if (this.movement.down.isDown && !this.movement.up.isDown)
+			{
+				moveDown = true;
+				
+				this.lastKeyPressed = -1;
+			}
+			else if (!this.movement.down.isDown && !this.movement.up.isDown)
+			{
+				this.lastKeyPressed = 0;
+			}
+			else
+			{
+				both = true;
+			}
+			
+			console.log("here we are: " + both);
+
+			// If we're moving up or moving down, determine if we need to turn the player around and maintain his X position
+			if (both)
+			{
+
+				if (this.lastKeyPressed == -1)
+				{				
+					//this.player.body.velocity.y -= moveSpeed;
+					this.player.angle = 270;
+				}
+				else if (this.lastKeyPressed == 1)
+				{				
+					//this.player.body.velocity.y += moveSpeed;
+					this.player.angle = 90;
+				}
+			}
+			// Otherwise just treat it normally
+			else
+			{
+				if (moveUp)
+				{				
+					this.player.body.velocity.y -= moveSpeed;
+					this.player.angle = 270;
+				}
+				else if (moveDown)
+				{				
+					this.player.body.velocity.y += moveSpeed;
+					this.player.angle = 90;
+				}
+			}
+			
 			if (this.movement.left.isDown)
 			{
 				this.player.body.velocity.x = -Centipede.playerMoveSpeed;
@@ -62,16 +124,7 @@ Centipede.Player.prototype =
 				this.player.body.velocity.x = Centipede.playerMoveSpeed;
 			}
 			
-			if (this.movement.up.isDown)
-			{
-				this.player.body.velocity.y -= moveSpeed;
-				this.player.angle = 270;
-			}
-			else if (this.movement.down.isDown)
-			{
-				this.player.body.velocity.y += moveSpeed;
-				this.player.angle = 90;
-			}
+			console.log(this.lastKeyPressed);
 		}
 		else
 		{
