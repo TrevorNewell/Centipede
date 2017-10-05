@@ -17,7 +17,7 @@ Centipede.GameOver.prototype =
 
 		this.background = this.add.tileSprite(0, 0, 704, 894, "background");
 		
-		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		var scoreFont = "25px Onky";
 
@@ -25,7 +25,7 @@ Centipede.GameOver.prototype =
 		this.scoreLabel.anchor.setTo(0.5, 0.5);
 		this.scoreLabel.align = 'center';
 
-		this.scoreLabel.text = "GAME OVER!\nYou scored: " + Centipede.score + "\nPress Enter to Play Again";      
+		this.scoreLabel.text = "GAME OVER!\nYou scored: " + Centipede.score + "\nPress Spacebar to Play Again";      
 
 	},
 
