@@ -19,7 +19,7 @@ Centipede.Splashscreen.prototype =
 
 		this.background.animations.play('tween', 10, true);
 
-		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+		this.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	},
 
 	update: function ()
