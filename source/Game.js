@@ -8,7 +8,7 @@ Centipede.Game = function (game)
     this.fire = null;
     this.restart = null;
     
-    this.maxBullets = 5;
+    this.maxBullets = 3;
 
     this.level = null;
     this.boundary = null;

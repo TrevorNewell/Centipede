@@ -46,6 +46,7 @@ Centipede.Bullet.prototype =
 
         //  The speed at which the bullet is fired
         this.weapon.bulletSpeed = this.bulletSpeed;
+        this.weapon.fireRate = 100;
 
 		// Only play a sound when we successfully fire.
 		this.weapon.onFire = new Phaser.Signal();
