@@ -44,7 +44,7 @@ Centipede.HomingSection.prototype =
 			this.game.physics.arcade.overlap(this.explosion, this.layout, this.damageSurroundings, null, this);
 			if (this.game.physics.arcade.collide(this.explosion, this.player)) {
 
-				this.playerObject.killPlayer();
+				//this.playerObject.killPlayer();
 				this.explosionTimer.stop(true);
 				this.getExplosion(this.missile.x, this.missile.y);
 				this.missile.kill();
@@ -111,7 +111,7 @@ Centipede.HomingSection.prototype =
 
 	damageSurroundings : function(explosion, tile)
 	{
-
+		/* NO EXPLOSION DAMAGE....FOR NOW...
 		var posX = tile.x;
 		var posY = tile.y;
 		var index = tile.index
@@ -128,7 +128,8 @@ Centipede.HomingSection.prototype =
 		tile.destroy();
 
 		this.map.putTile(5,posX,posY,this.layer);
-
+		*/
+		return;
 	},
 
 	killSection : function (bullet, missile)
@@ -196,7 +197,7 @@ Centipede.HomingSection.prototype =
 
 		Centipede.OurSound.playHomingDeath();
 	    //Shake the screen
-	    this.game.camera.shake(0.03, 500);
+	    //this.game.camera.shake(0.03, 500);
 
 	    // Return the explosion itself in case we want to do anything else with it
 	    return this.explosion;
