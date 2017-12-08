@@ -46,7 +46,7 @@ Centipede.Preloader.prototype =
 		this.load.audio('shoot2', 'assets/Sounds/Old/shoot2.wav');
 		this.load.audio('shoot3', 'assets/Sounds/Old/shoot3.wav');
 		
-		this.load.audio('background', 'assets/Sounds/New/BackgroundMusic.mp3');
+		this.load.audio('background', 'assets/Sounds/New/BackgroundMusic.wav');
 		
 		this.load.audio('obstacleShot', 'assets/Sounds/New/ObstacleShooted.wav');
 
